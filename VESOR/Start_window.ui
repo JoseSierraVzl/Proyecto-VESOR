@@ -76,7 +76,7 @@ font-size: 12px;
     </property>
    </widget>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -105,13 +105,13 @@ font-size: 12px;
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>100</x>
      <y>90</y>
      <width>197</width>
-     <height>216</height>
+     <height>222</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -135,12 +135,12 @@ font-size: 12px;
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit"/>
+       <widget class="QLineEdit" name="line_user"/>
       </item>
       <item>
        <widget class="QLabel" name="label_status_user">
         <property name="text">
-         <string>STATUS</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -152,7 +152,7 @@ font-size: 12px;
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_2"/>
+       <widget class="QLineEdit" name="line_password"/>
       </item>
       <item>
        <widget class="QLabel" name="label_status_password">
@@ -169,7 +169,7 @@ font-size: 12px;
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_3"/>
+       <widget class="QLineEdit" name="line_password2"/>
       </item>
       <item>
        <widget class="QLabel" name="label_password2_status">
