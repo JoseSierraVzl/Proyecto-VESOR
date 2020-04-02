@@ -1,3 +1,5 @@
+##VESOR##
+
 import sys, re
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox, QLineEdit
 from PyQt5 import uic
@@ -35,7 +37,7 @@ class Start_window(QDialog):
 
 	def Validate_Password(self):
 		line_password = self.line_password.text()
-		validate = re.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$', line_password, re.I)
+		validate = re.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$', line_password, re.I) 
 		if line_password == "":
 			self.line_password.setStyleSheet("border: 1px solid yellow;")
 			return False
