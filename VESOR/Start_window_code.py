@@ -13,11 +13,10 @@ class Start_window(QDialog):
 ##############################################################################################
 		self.line_user.textChanged.connect(self.Validate_user)
 		self.line_password.textChanged.connect(self.Validate_Password)
-		self.line_password.setEchoMode(QLineEdit.Password)   #Cambia los caracteres a puntos
-		self.line_password2.textChanged.connect(self.Validate_password2)
-		self.line_password2.setEchoMode(QLineEdit.Password)  #Cambia los caracteres a puntos 
+		self.line_password2.textChanged.connect(self.Validate_password2) 
+		self.Button_Cancel.clicked.connect(exit) #conecta con el boton para cerrar la aplicacion
 ##############################################################################################
-
+		
 ##########################Declarando funciones para los lineEdit##############################
 	def Validate_user(self):
 		line_user = self.line_user.text()
@@ -52,7 +51,8 @@ class Start_window(QDialog):
 			return True
 
 	def Validate_password2(self):
-
+		# Puedes quitar el "pass" cuando quieras
+		pass 
 ################################################################################################
 
 
