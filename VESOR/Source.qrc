@@ -1,0 +1,11 @@
+<RCC>
+  <qresource prefix="Icono_window">
+    <file>Icono_window.png</file>
+  </qresource>
+  <qresource prefix="FONDO">
+    <file>Fondo.jpg</file>
+  </qresource>
+  <qresource prefix="Icono_user">
+    <file>Icon_user.png</file>
+  </qresource>
+</RCC>
