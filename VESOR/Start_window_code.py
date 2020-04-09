@@ -3,14 +3,11 @@ import sqlite3
 from Source_rc import *
 from PyQt5.QtWidgets import (QApplication, QDialog, QMessageBox, QLineEdit,
 QMainWindow, QAction, QLabel, QFrame,)
-from PyQt5 import  uic
+from PyQt5 import  uic, QtCore, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon,QImage, QColor, QPixmap
 
-
-
  
-
 class Start_window(QDialog):
     def __init__(self):
         QDialog.__init__(self)
@@ -21,6 +18,7 @@ class Start_window(QDialog):
         self.line_password.textChanged.connect(self.Data_password)
         self.line_password2.textChanged.connect(self.Validate_password)
         self.Button_register.clicked.connect(self.Login)
+        self.Button_cancelar.clicked.connect(self.Exit)
      
         
 #============================== #Def. Funciones# ===========================================================================
@@ -73,7 +71,6 @@ class Start_window(QDialog):
 
 
     def Validate_password(self):
-        
         Password2 = self.line_password2.text()
 
         if Password2 == self.Data_password():
@@ -99,6 +96,14 @@ class Start_window(QDialog):
             QMessageBox.warning(self, "Error", "Datos incorrecto", QMessageBox.Discard)
 
 
+    def Exit(self):
+        Question = QMessageBox.question(self, "¡¡Advertencia!!", "¿Seguro que desea salir?",
+         QMessageBox.Yes | QMessageBox.No)
+        if Question == QMessageBox.Yes:
+            exit()
+        else: pass 
+
+
 #===========================================================================================================================
 
 
@@ -106,18 +111,4 @@ app = QApplication(sys.argv)
 startwindow = Start_window()
 startwindow.show()
 app.exec_()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
