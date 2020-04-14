@@ -36,8 +36,6 @@ border-image: url(:/FONDO/Fondo.jpg);
 
 }
 
-QLabel{
-}
 </string>
   </property>
   <widget class="QFrame" name="Frame_start_window">
@@ -56,7 +54,7 @@ QLabel{
     </size>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color:qlineargradient(spread:pad, x1:1, y1:0, x2:0.971591, y2:1, stop:0.306818 rgba(96, 49, 174, 221), stop:1 rgba(55, 60, 198, 5))</string>
+    <string notr="true">background-color:qlineargradient(spread:pad, x1:0.505682, y1:0.011, x2:0.494, y2:0.994318, stop:0.3125 rgba(96, 49, 174, 189), stop:1 rgba(71, 77, 255, 0))</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -103,7 +101,7 @@ color:qlineargradient(spread:pad, x1:0.075, y1:0.977, x2:0.835, y2:0.170455, sto
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>130</x>
       <y>40</y>
       <width>181</width>
       <height>41</height>
@@ -112,7 +110,7 @@ color:qlineargradient(spread:pad, x1:0.075, y1:0.977, x2:0.835, y2:0.170455, sto
     <property name="font">
      <font>
       <family>MS Shell Dlg 2</family>
-      <pointsize>12</pointsize>
+      <pointsize>10</pointsize>
       <weight>9</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -120,6 +118,7 @@ color:qlineargradient(spread:pad, x1:0.075, y1:0.977, x2:0.835, y2:0.170455, sto
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
 color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
@@ -136,16 +135,15 @@ color: rgb(255, 255, 255);</string>
      <height>291</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Museo Sans 500</family>
-    </font>
-   </property>
    <property name="styleSheet">
     <string notr="true">QFrame{
 background-color:qlineargradient(spread:pad, x1:0.068, y1:0.0854091, x2:0.915, y2:0.931818, stop:0.170455 rgba(0, 0, 0, 183), stop:0.596591 rgba(0, 0, 0, 183));
-border-radius: 30px;
-}</string>
+border-radius: 30px
+}
+QFrame:hover{
+border: 1px solid rgb(255, 255, 255)
+}
+</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -156,29 +154,23 @@ border-radius: 30px;
    <widget class="QLabel" name="label_subtitle">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>40</x>
       <y>20</y>
       <width>201</width>
       <height>31</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>Museo Sans 500</family>
-      <pointsize>12</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
 background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
 border-radius: 5px;
-color:rgb(255, 255, 255)
+font-size: 14px;
+color:rgb(255, 255, 255);
+border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0))
 }</string>
     </property>
     <property name="text">
-     <string>Registra un Usuario</string>
+     <string>Registra un usuario</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -193,17 +185,11 @@ color:rgb(255, 255, 255)
       <height>16</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>Museo Sans 500</family>
-      <pointsize>12</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
     <property name="styleSheet">
      <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+font-size: 14px;
+border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0))</string>
     </property>
     <property name="text">
      <string>Usuario:</string>
@@ -229,10 +215,7 @@ color:rgb(255, 255, 255);</string>
     </property>
     <property name="font">
      <font>
-      <family>Museo Sans 700</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <stylestrategy>PreferDefault</stylestrategy>
      </font>
     </property>
     <property name="autoFillBackground">
@@ -242,8 +225,6 @@ color:rgb(255, 255, 255);</string>
      <string notr="true">QLineEdit{
 border-radius: 5px;
 color: rgb(2, 2, 2);
-
-
 
 }
 
@@ -264,7 +245,7 @@ border: 1px solid rgb(85, 0, 127);
      <number>0</number>
     </property>
     <property name="placeholderText">
-     <string>Ingrese un Usuario</string>
+     <string>Ingrese un usuario</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_password">
@@ -276,17 +257,12 @@ border: 1px solid rgb(85, 0, 127);
       <height>16</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>Museo Sans 500</family>
-      <pointsize>12</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
     <property name="styleSheet">
      <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+font-size: 14px;
+border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0))
+</string>
     </property>
     <property name="text">
      <string>Contraseña:</string>
@@ -300,14 +276,6 @@ color:rgb(255, 255, 255);</string>
       <width>261</width>
       <height>21</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Museo Sans 700</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit{
@@ -323,7 +291,7 @@ border: 1px solid rgb(85, 0, 127);
      <bool>true</bool>
     </property>
     <property name="placeholderText">
-     <string>Ingrese una Contreseña</string>
+     <string>Ingrese una contraseña</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_password2">
@@ -331,21 +299,15 @@ border: 1px solid rgb(85, 0, 127);
      <rect>
       <x>20</x>
       <y>190</y>
-      <width>271</width>
+      <width>231</width>
       <height>16</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>Museo Sans 500</family>
-      <pointsize>12</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
     <property name="styleSheet">
      <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+font-size: 14px;
+border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0))</string>
     </property>
     <property name="text">
      <string>Ingresa la contraseña nuevamente:</string>
@@ -360,14 +322,6 @@ color:rgb(255, 255, 255);</string>
       <height>21</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>Museo Sans 700</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit{
 border-radius: 5px;
@@ -378,8 +332,11 @@ QLineEdit:hover{
 border: 1px solid rgb(85, 0, 127);
 }</string>
     </property>
+    <property name="text">
+     <string/>
+    </property>
     <property name="placeholderText">
-     <string>Ingrese nuevamente la Contraseña</string>
+     <string>Ingrese nuevamente la contraseña</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_register_status">
@@ -395,7 +352,8 @@ border: 1px solid rgb(85, 0, 127);
      <string notr="true">QLabel{
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
 color:rgb(255, 255, 255);
-font-size: 12px
+font-size: 12px;
+border: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0))
 }</string>
     </property>
     <property name="text">
@@ -448,7 +406,7 @@ border-radius: 5px;
   <widget class="QPushButton" name="Button_cancelar">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>230</x>
      <y>430</y>
      <width>81</width>
      <height>21</height>
