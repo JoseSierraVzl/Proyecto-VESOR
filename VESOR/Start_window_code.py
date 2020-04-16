@@ -21,7 +21,7 @@ class Start_window(QDialog):
         self.line_password.textChanged.connect(self.Data_password)
         self.line_password2.textChanged.connect(self.Validate_password)
         self.Button_register.clicked.connect(self.Database_users_create)
-        
+        self.Button_cancelar.clicked.connect(self.Exit)
      
         
 #============================================ #Def. Funciones# =========================================================================
@@ -81,7 +81,7 @@ class Start_window(QDialog):
 
         else:
 
-            QMessageBox.warning(self, "Error", "Datos incorrecto", QMessageBox.Discard)
+            QMessageBox.warning(self, "Error", "Datos incorrectos", QMessageBox.Discard)
 
 
 
@@ -147,6 +147,13 @@ class Start_window(QDialog):
             self.line_password2.setStyleSheet("border: 1px solid red;")
             self.label_register_status.setText("¡Contraseña no coincide!")
             return False
+
+    def Exit(self):
+        Question = QMessageBox.question(self, "¡¡Advertencia!!", "¿Seguro que desea salir?",
+         QMessageBox.Yes | QMessageBox.No)
+        if Question == QMessageBox.Yes:
+            exit()
+        else: pass    
 
 
 #===========================================================================================================================
