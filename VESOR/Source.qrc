@@ -1,11 +1,33 @@
 <RCC>
-  <qresource prefix="Icono_window">
-    <file>Icono_window.png</file>
+  <qresource prefix="Icono_usuario">
+    <file>Imagenes-iconos/Usuario_blanco.png</file>
+    <file>Imagenes-iconos/Usuario_negro.png</file>
   </qresource>
   <qresource prefix="FONDO">
-    <file>Fondo.jpg</file>
+    <file>Imagenes-iconos/Fondo.jpg</file>
   </qresource>
-  <qresource prefix="Icono_user">
-    <file>Icon_user.png</file>
+  <qresource prefix="Icono_password">
+    <file>Imagenes-iconos/Candado_blanco.png</file>
+    <file>Imagenes-iconos/Candado_negro.png</file>
+  </qresource>
+  <qresource prefix="Icono_lapiz">
+    <file>Imagenes-iconos/Lapiz_blanco.png</file>
+    <file>Imagenes-iconos/Lapiz_negro.png</file>
+  </qresource>
+  <qresource prefix="Icono_papelera">
+    <file>Imagenes-iconos/Papelera_blanca.png</file>
+    <file>Imagenes-iconos/Papelera_negro.png</file>
+  </qresource>
+  <qresource prefix="Icono_lupa">
+    <file>Imagenes-iconos/Lupa_blanca.png</file>
+    <file>Imagenes-iconos/Lupa_negra.png</file>
+  </qresource>
+  <qresource prefix="Icono_vocero">
+    <file>Imagenes-iconos/Vocero_blanco.png</file>
+    <file>Imagenes-iconos/Vocero_negro.png</file>
+  </qresource>
+  <qresource prefix="Icono_engranaje">
+    <file>Imagenes-iconos/Engranaje_blanco.png</file>
+    <file>Imagenes-iconos/Engranaje_negro.png</file>
   </qresource>
 </RCC>
