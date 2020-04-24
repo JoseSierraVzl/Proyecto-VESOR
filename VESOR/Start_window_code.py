@@ -2,6 +2,7 @@ import sys, re
 import sqlite3
 import os
 from Source_rc import *
+from Interface import *
 from Login_window import *
 from PyQt5.QtWidgets import (QApplication, QDialog, QMessageBox, QLineEdit,
 QMainWindow, QAction, QLabel, QFrame,)
@@ -67,12 +68,10 @@ class Start_window(QDialog):
             QMessageBox.information(self, "Registro", "Registro exitoso", QMessageBox.Yes)
 
 #============================================== ###Llamando a la ventana Login### =====================================================
-            
-            self.window = QtWidgets.QDialog()
-            self.ui = Ui_Window_login()
-            self.ui.setupUi(self.window)
-            startwindow.hide()
-            self.window.show()
+
+            self.interface = Interface()
+            self.interface.show()
+            self.destroy()
 
 #===================================================== #Def. Funciones# ========================================================
             
@@ -161,10 +160,11 @@ class Start_window(QDialog):
  
 
 #===========================================================================================================================
-app = QApplication(sys.argv)
-startwindow = Start_window()
-startwindow.show()
-app.exec_()
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    startwindow = Start_window()
+    startwindow.show()
+    app.exec_()
 
 
 

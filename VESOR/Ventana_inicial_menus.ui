@@ -51,7 +51,7 @@ border-radius: 15px
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="buttonNewUser">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -79,8 +79,8 @@ font-size: 12px;
       <string>Nuevo usuario</string>
      </property>
      <property name="icon">
-      <iconset resource="Source.qrc">
-       <normaloff>:/Icono_usuario/Imagenes-iconos/Usuario_blanco.png</normaloff>:/Icono_usuario/Imagenes-iconos/Usuario_blanco.png</iconset>
+      <iconset>
+       <normaloff>Imagenes-iconos/Usuario_blanco.png</normaloff>Imagenes-iconos/Usuario_blanco.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -89,7 +89,7 @@ font-size: 12px;
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_4">
+    <widget class="QPushButton" name="buttonVoceroNew">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -110,15 +110,14 @@ QPushButton:hover{
 background-color:rgb(0, 170, 255);
 color:rgb(255, 255, 255);
 font-size: 12px;
-
 }</string>
      </property>
      <property name="text">
       <string>Nuevo vocero</string>
      </property>
      <property name="icon">
-      <iconset resource="Source.qrc">
-       <normaloff>:/Icono_vocero/Imagenes-iconos/Vocero_blanco.png</normaloff>:/Icono_vocero/Imagenes-iconos/Vocero_blanco.png</iconset>
+      <iconset>
+       <normaloff>Imagenes-iconos/Vocero_blanco.png</normaloff>Imagenes-iconos/Vocero_blanco.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -146,7 +145,7 @@ font-size: 12px;
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_5">
+    <widget class="QPushButton" name="buttonVoceroEdit">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -174,8 +173,8 @@ font-size: 12px;
       <string> Editar vocero</string>
      </property>
      <property name="icon">
-      <iconset resource="Source.qrc">
-       <normaloff>:/Icono_lapiz/Imagenes-iconos/Lapiz_blanco.png</normaloff>:/Icono_lapiz/Imagenes-iconos/Lapiz_blanco.png</iconset>
+      <iconset>
+       <normaloff>Imagenes-iconos/Lapiz_blanco.png</normaloff>Imagenes-iconos/Lapiz_blanco.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -184,7 +183,7 @@ font-size: 12px;
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_6">
+    <widget class="QPushButton" name="buttonVoceroDelete">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -212,8 +211,8 @@ font-size: 12px;
       <string>  Eliminar vocero</string>
      </property>
      <property name="icon">
-      <iconset resource="Source.qrc">
-       <normaloff>:/Icono_papelera/Imagenes-iconos/Papelera_blanca.png</normaloff>:/Icono_papelera/Imagenes-iconos/Papelera_blanca.png</iconset>
+      <iconset>
+       <normaloff>Imagenes-iconos/Papelera_blanca.png</normaloff>Imagenes-iconos/Papelera_blanca.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -257,7 +256,7 @@ font-size: 12px;
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="buttonEditUser">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -285,8 +284,8 @@ font-size: 12px;
       <string>Editar usuario</string>
      </property>
      <property name="icon">
-      <iconset resource="Source.qrc">
-       <normaloff>:/Icono_lapiz/Imagenes-iconos/Lapiz_blanco.png</normaloff>:/Icono_lapiz/Imagenes-iconos/Lapiz_blanco.png</iconset>
+      <iconset>
+       <normaloff>Imagenes-iconos/Lapiz_blanco.png</normaloff>Imagenes-iconos/Lapiz_blanco.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -295,7 +294,7 @@ font-size: 12px;
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_7">
+    <widget class="QPushButton" name="buttonDeleteUser">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -323,8 +322,8 @@ font-size: 12px;
       <string>Eliminar usuario</string>
      </property>
      <property name="icon">
-      <iconset resource="Source.qrc">
-       <normaloff>:/Icono_papelera/Imagenes-iconos/Papelera_blanca.png</normaloff>:/Icono_papelera/Imagenes-iconos/Papelera_blanca.png</iconset>
+      <iconset>
+       <normaloff>Imagenes-iconos/Papelera_blanca.png</normaloff>Imagenes-iconos/Papelera_blanca.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -362,13 +361,13 @@ font-size: 12px;
       <string notr="true">color:rgb(255, 255, 255)</string>
      </property>
      <property name="text">
-      <string>Busqueda rapida</string>
+      <string>Busqueda rápida</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="lineEditSearch">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -381,7 +380,7 @@ font-size: 12px;
       <string notr="true">border-radius: 8px</string>
      </property>
      <property name="placeholderText">
-      <string>Ingrese cedula</string>
+      <string>Ingrese cédula</string>
      </property>
     </widget>
     <widget class="Line" name="line_6">
@@ -405,13 +404,13 @@ font-size: 12px;
       <rect>
        <x>70</x>
        <y>30</y>
-       <width>31</width>
-       <height>31</height>
+       <width>41</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-border-image: url(:/Icono_engranaje/Imagenes-iconos/Engranaje_blanco.png);
+border-image: url(Imagenes-iconos/Engranaje_blanco.png);
 </string>
      </property>
      <property name="frameShape">
@@ -452,31 +451,51 @@ border-image: url(:/Icono_engranaje/Imagenes-iconos/Engranaje_blanco.png);
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255)</string>
+    <string notr="true">QMenuBar{
+background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.176136 rgba(0, 0, 0, 90));
+color: rgb(255,255,255);
+}
+
+QMenu:hover{
+background:rgb(0, 170, 255);
+color:rgb(255, 255, 255);
+font-size: 12px;
+}</string>
    </property>
    <widget class="QMenu" name="menuArchivo">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="title">
      <string>Archivo</string>
     </property>
-    <addaction name="actionGuardar"/>
+    <addaction name="actionSave"/>
     <addaction name="separator"/>
     <addaction name="actionCerrar"/>
    </widget>
-   <widget class="QMenu" name="menuOpciones">
+   <widget class="QMenu" name="menuOptions">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="title">
      <string>Opciones</string>
     </property>
    </widget>
    <widget class="QMenu" name="menuAyuda">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="title">
      <string>Ayuda</string>
     </property>
+    <addaction name="separator"/>
+    <addaction name="actionAcerca_de"/>
    </widget>
    <addaction name="menuArchivo"/>
-   <addaction name="menuOpciones"/>
+   <addaction name="menuOptions"/>
    <addaction name="menuAyuda"/>
   </widget>
-  <action name="actionGuardar">
+  <action name="actionSave">
    <property name="text">
     <string>Guardar</string>
    </property>
@@ -484,6 +503,11 @@ border-image: url(:/Icono_engranaje/Imagenes-iconos/Engranaje_blanco.png);
   <action name="actionCerrar">
    <property name="text">
     <string>Cerrar</string>
+   </property>
+  </action>
+  <action name="actionAcerca_de">
+   <property name="text">
+    <string>Acerca de</string>
    </property>
   </action>
  </widget>
