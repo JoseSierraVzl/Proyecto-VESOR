@@ -16,8 +16,21 @@ class Start_window(QDialog):
     def __init__(self):
         QDialog.__init__(self)
         uic.loadUi("Start_window.ui", self)
-      
-       
+        self.setWindowTitle("Registro")
+        self.setWindowIcon(QtGui.QIcon('Imagenes-iconos/Icono_window.png'))
+        self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
+        self.shadow  = QGraphicsDropShadowEffect()        
+        self.shadow.setBlurRadius(16)
+        self.frame.setGraphicsEffect(self.shadow)
+
+        self.shadow  = QGraphicsDropShadowEffect()        
+        self.shadow.setBlurRadius(16)
+        self.Button_register.setGraphicsEffect(self.shadow)
+
+        self.shadow  = QGraphicsDropShadowEffect()        
+        self.shadow.setBlurRadius(16)
+        self.Button_cancelar.setGraphicsEffect(self.shadow)
+
         self.line_user.textChanged.connect(self.Data_user)
         self.line_password.textChanged.connect(self.Data_password)
         self.line_password2.textChanged.connect(self.Validate_password)
