@@ -25,7 +25,7 @@ class Login_window(QDialog):
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(16)
 		self.pushButton_2.setGraphicsEffect(self.shadow)
-
+		
 
 
 

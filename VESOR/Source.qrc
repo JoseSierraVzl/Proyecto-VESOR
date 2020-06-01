@@ -3,6 +3,23 @@
     <file>Imagenes-iconos/Usuario_blanco.png</file>
     <file>Imagenes-iconos/Usuario_negro.png</file>
   </qresource>
+  <qresource prefix="Menu_icono">
+    <file>Imagenes-iconos/Menu.png</file>
+  </qresource>
+  <qresource prefix="Icono_guardar">
+    <file>Imagenes-iconos/Guardar_blanco.png</file>
+  </qresource>
+  <qresource prefix="Icono_registrar">
+    <file>Imagenes-iconos/Registrar.png</file>
+  </qresource>
+  <qresource prefix="Icono_cancelar">
+    <file>Imagenes-iconos/Cancelar_blanco.png</file>
+    <file>Imagenes-iconos/Cancelar_negro.png</file>
+  </qresource>
+  <qresource prefix="Icono_aceptar">
+    <file>Imagenes-iconos/Check_blanco.png</file>
+    <file>Imagenes-iconos/Check_negro.png</file>
+  </qresource>
   <qresource prefix="FONDO">
     <file>Imagenes-iconos/Fondo.jpg</file>
   </qresource>

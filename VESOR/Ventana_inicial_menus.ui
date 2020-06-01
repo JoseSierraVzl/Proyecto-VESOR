@@ -63,7 +63,7 @@ border-radius: 45px
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
-border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
+border:0px;
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
 color:rgb(255, 255, 255);
 font-size: 12px
@@ -475,6 +475,35 @@ border-radius: 22px;
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Button_menu">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>0</y>
+      <width>61</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
+border-radIus: 3px
+}
+
+QPushButton:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(204, 204, 204, 129));
+border-radius: 3px;
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Menu</string>
+    </property>
+    <property name="icon">
+     <iconset resource="Source.qrc">
+      <normaloff>:/Menu_icono/Imagenes-iconos/Menu.png</normaloff>:/Menu_icono/Imagenes-iconos/Menu.png</iconset>
     </property>
    </widget>
   </widget>

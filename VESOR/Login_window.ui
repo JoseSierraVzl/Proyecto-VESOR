@@ -26,7 +26,7 @@
    <string>Dialog</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Source.qrc">
+   <iconset>
     <normaloff>:/Icono_window/Icono_window.png</normaloff>:/Icono_window/Icono_window.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -34,8 +34,8 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog{
-background-color: rgb(243,243,243);
-border-image: url(:/FONDO/Fondo.jpg);
+background-color: qlineargradient(spread:pad, x1:0.063, y1:0.346591, x2:0.982955, y2:0.477, stop:0 rgba(85, 85, 255, 255), stop:1 rgba(0, 170, 255, 255));
+
 
 }
 
@@ -141,10 +141,17 @@ border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 
       <height>20</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string/>
+    </property>
+    <property name="toolTipDuration">
+     <number>5</number>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit{
 border-radius: 5px;
-color: rgb(2, 2, 2);
+color:  #000000;
+background-color:#ffffff;
 
 }
 
@@ -168,13 +175,17 @@ border: 1px solid rgb(85, 0, 127);
     <property name="styleSheet">
      <string notr="true">QLineEdit{
 border-radius: 5px;
-color: rgb(2, 2, 2);
+color: #000000;
+background-color:#ffffff;
 
 }
 
 QLineEdit:hover{
 border: 1px solid rgb(85, 0, 127);
 }</string>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
     </property>
     <property name="placeholderText">
      <string>Ingresa tu contraseña</string>
@@ -205,8 +216,8 @@ border: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0,
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>10</y>
+     <x>100</x>
+     <y>9</y>
      <width>51</width>
      <height>51</height>
     </rect>
@@ -223,8 +234,8 @@ color:qlineargradient(spread:pad, x1:0.075, y1:0.977, x2:0.835, y2:0.170455, sto
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>20</y>
+     <x>130</x>
+     <y>19</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -241,9 +252,9 @@ color:qlineargradient(spread:pad, x1:0.671, y1:0.108, x2:0.255045, y2:0.801, sto
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>70</x>
      <y>50</y>
-     <width>161</width>
+     <width>171</width>
      <height>16</height>
     </rect>
    </property>
@@ -289,7 +300,8 @@ color: rgb(255, 255, 255);</string>
 background-color:rgb(255, 255, 255);
 border-radius: 5px;
 border: 1px solid rgb(85, 0, 255);
-font-size: 12px
+font-size: 12px;
+color: #000000
 }
 QPushButton:hover{
 background-color:qlineargradient(spread:pad, x1:0.068, y1:0.0854091, x2:0.915, y2:0.931818, stop:0.170455 rgba(0, 0, 0, 183), stop:0.596591 rgba(0, 0, 0, 183));
@@ -317,7 +329,8 @@ border-radius: 5px;
 background-color:rgb(255, 255, 255);
 border-radius: 5px;
 border: 1px solid rgb(85, 0, 255);
-font-size: 12px
+font-size: 12px;
+color: #000000
 }
 QPushButton:hover{
 background-color:qlineargradient(spread:pad, x1:0.068, y1:0.0854091, x2:0.915, y2:0.931818, stop:0.170455 rgba(0, 0, 0, 183), stop:0.596591 rgba(0, 0, 0, 183));
