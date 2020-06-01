@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>492</height>
+    <height>450</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -31,8 +31,8 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog{
-background-color: rgb(243,243,243);
-border-image: url(:/FONDO/Fondo.jpg);
+background-color: qlineargradient(spread:pad, x1:0.063, y1:0.346591, x2:0.982955, y2:0.477, stop:0 rgba(85, 85, 255, 255), stop:1 rgba(0, 170, 255, 255));
+
 
 }
 
@@ -65,15 +65,15 @@ border-image: url(:/FONDO/Fondo.jpg);
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>20</y>
-      <width>81</width>
+      <x>180</x>
+      <y>30</y>
+      <width>101</width>
       <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-font: 20pt &quot;Lucida Handwriting&quot;;
+font: 25pt &quot;Lucida Handwriting&quot;;
 color:qlineargradient(spread:pad, x1:0.671, y1:0.108, x2:0.255045, y2:0.801, stop:0.0852273 rgba(255, 57, 107, 255), stop:0.676136 rgba(255, 241, 131, 255))</string>
     </property>
     <property name="text">
@@ -83,15 +83,15 @@ color:qlineargradient(spread:pad, x1:0.671, y1:0.108, x2:0.255045, y2:0.801, sto
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>10</y>
+      <x>145</x>
+      <y>20</y>
       <width>81</width>
       <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-font: 35pt &quot;Lucida Handwriting&quot;;
+font: 40pt &quot;Lucida Handwriting&quot;;
 color:qlineargradient(spread:pad, x1:0.075, y1:0.977, x2:0.835, y2:0.170455, stop:0.0852273 rgba(255, 57, 107, 255), stop:0.676136 rgba(255, 241, 131, 255))</string>
     </property>
     <property name="text">
@@ -101,16 +101,16 @@ color:qlineargradient(spread:pad, x1:0.075, y1:0.977, x2:0.835, y2:0.170455, sto
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>40</y>
-      <width>181</width>
+      <x>110</x>
+      <y>55</y>
+      <width>191</width>
       <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>MS Shell Dlg 2</family>
-      <pointsize>10</pointsize>
+      <pointsize>11</pointsize>
       <weight>9</weight>
       <italic>false</italic>
       <bold>false</bold>
@@ -118,7 +118,7 @@ color:qlineargradient(spread:pad, x1:0.075, y1:0.977, x2:0.835, y2:0.170455, sto
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+font: 75 11pt &quot;MS Shell Dlg 2&quot;;
 color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
@@ -130,7 +130,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>120</y>
+     <y>100</y>
      <width>301</width>
      <height>291</height>
     </rect>
@@ -224,7 +224,8 @@ border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 
     <property name="styleSheet">
      <string notr="true">QLineEdit{
 border-radius: 5px;
-color: rgb(2, 2, 2);
+color:  #000000;
+background-color:#ffffff;
 
 }
 
@@ -280,15 +281,23 @@ border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 
     <property name="styleSheet">
      <string notr="true">QLineEdit{
 border-radius: 5px;
-color: rgb(2, 2, 2);
+color:  #000000;
+background-color:#ffffff;
+
 }
 
 QLineEdit:hover{
 border: 1px solid rgb(85, 0, 127);
 }</string>
     </property>
+    <property name="text">
+     <string/>
+    </property>
     <property name="frame">
      <bool>true</bool>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
     </property>
     <property name="placeholderText">
      <string>Ingrese una contraseña</string>
@@ -325,7 +334,9 @@ border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 
     <property name="styleSheet">
      <string notr="true">QLineEdit{
 border-radius: 5px;
-color: rgb(2, 2, 2);
+color:  #000000;
+background-color:#ffffff;
+
 }
 
 QLineEdit:hover{
@@ -334,6 +345,9 @@ border: 1px solid rgb(85, 0, 127);
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
     </property>
     <property name="placeholderText">
      <string>Ingrese nuevamente la contraseña</string>
@@ -379,7 +393,7 @@ border: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0,
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>430</y>
+     <y>410</y>
      <width>81</width>
      <height>21</height>
     </rect>
@@ -389,14 +403,14 @@ border: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0,
 background-color:rgb(255, 255, 255);
 border-radius: 5px;
 border: 1px solid rgb(85, 0, 255);
-font-size: 12px
+font-size: 12px;
+color: #000000
 }
-QPushButton#Button_register:hover{
+QPushButton:hover{
 background-color:qlineargradient(spread:pad, x1:0.068, y1:0.0854091, x2:0.915, y2:0.931818, stop:0.170455 rgba(0, 0, 0, 183), stop:0.596591 rgba(0, 0, 0, 183));
 color:rgb(255, 255, 255);
 font-size: 12px;
 border-radius: 5px;
-
 }</string>
    </property>
    <property name="text">
@@ -407,7 +421,7 @@ border-radius: 5px;
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>430</y>
+     <y>410</y>
      <width>81</width>
      <height>21</height>
     </rect>
@@ -417,14 +431,14 @@ border-radius: 5px;
 background-color:rgb(255, 255, 255);
 border-radius: 5px;
 border: 1px solid rgb(85, 0, 255);
-font-size: 12px
+font-size: 12px;
+color: #000000
 }
-QPushButton#Button_cancelar:hover{
+QPushButton:hover{
 background-color:qlineargradient(spread:pad, x1:0.068, y1:0.0854091, x2:0.915, y2:0.931818, stop:0.170455 rgba(0, 0, 0, 183), stop:0.596591 rgba(0, 0, 0, 183));
 color:rgb(255, 255, 255);
 font-size: 12px;
 border-radius: 5px;
-
 }</string>
    </property>
    <property name="text">
