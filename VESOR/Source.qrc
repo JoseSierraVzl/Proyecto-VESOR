@@ -3,6 +3,33 @@
     <file>Imagenes-iconos/Usuario_blanco.png</file>
     <file>Imagenes-iconos/Usuario_negro.png</file>
   </qresource>
+  <qresource prefix="Icono_recargar">
+    <file>Imagenes-iconos/Recargar.png</file>
+  </qresource>
+  <qresource prefix="Acercade_imagen">
+    <file>Imagenes-iconos/Acerca_de_imagen.png</file>
+  </qresource>
+  <qresource prefix="Icono_github">
+    <file>Imagenes-iconos/Githup.png</file>
+  </qresource>
+  <qresource prefix="Icono_instagram">
+    <file>Imagenes-iconos/Instagram.png</file>
+  </qresource>
+  <qresource prefix="Icono_facebook">
+    <file>Imagenes-iconos/Facebook.png</file>
+  </qresource>
+  <qresource prefix="Icono_gmail">
+    <file>Imagenes-iconos/gmail.png</file>
+  </qresource>
+  <qresource prefix="Acerca_de">
+    <file>Imagenes-iconos/Acerca de .png</file>
+  </qresource>
+  <qresource prefix="Logo_vesor">
+    <file>Imagenes-iconos/Icono_window.png</file>
+  </qresource>
+  <qresource prefix="Titulo_vesor">
+    <file>Imagenes-iconos/VESOR.png</file>
+  </qresource>
   <qresource prefix="Menu_icono">
     <file>Imagenes-iconos/Menu.png</file>
   </qresource>
@@ -13,10 +40,12 @@
     <file>Imagenes-iconos/Registrar.png</file>
   </qresource>
   <qresource prefix="Icono_cancelar">
+    <file>Imagenes-iconos/Cancelar_rojo.png</file>
     <file>Imagenes-iconos/Cancelar_blanco.png</file>
     <file>Imagenes-iconos/Cancelar_negro.png</file>
   </qresource>
   <qresource prefix="Icono_aceptar">
+    <file>Imagenes-iconos/Check_azul.png</file>
     <file>Imagenes-iconos/Check_blanco.png</file>
     <file>Imagenes-iconos/Check_negro.png</file>
   </qresource>

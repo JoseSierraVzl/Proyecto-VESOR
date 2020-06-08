@@ -6,6 +6,8 @@ from Source_rc import *
 #=============================== Ventans importadas =======================================================
 from Window_editar_eliminar_user import*
 
+
+
 from Window_visor_de_imagenes import *
 
 from Window_reparacion import *
@@ -15,6 +17,10 @@ from Window_enfermedad import *
 from Window_discapacidad import *
 
 from Window_nv_user import *
+
+from Window_acerda_de_vesor import *
+
+from Window_gas_bombona import *
 
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 import sys, os
@@ -52,25 +58,28 @@ class Interface(QMainWindow):
 
 		self.menuArchivo = QMenu()
 		self.menuArchivo.setStyleSheet("QMenu{background-color:#12191D;\n"
-		"color: #ffffff;\n"	
-		"}\n"
+		"color: #ffffff;\n"
+		"margin:0px;\n}"
+
+		"QMenu:separator{height:1px;"
+		"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0,\n"
+		"stop:0 rgba(173, 181, 189, 95));"
+		"margin-left:5px;"
+		"margin-right:5px;}"
+
 		"QMenu::item::selected{\n"
         "background-color:rgb(0, 170, 255);"
         "}")
 		
-		self.acercade = self.menuArchivo.addAction("Acerca de...")
+		self.acercade = self.menuArchivo.addAction("Acerca de VESOR", self.Abrir_window)
 		#abrir.setShortcutVisibleInContextMenu(True)
 		
 		self.ayuda = self.menuArchivo.addAction("Ayuda")
 		#guardar.setShortcutVisibleInContextMenu(True)
 		
-		self.menuArchivo.addSeparator()
+		#self.menuArchivo.addSeparator()
 		
-		self.salir = self.menuArchivo.addAction("Salir")
-
-
-		
-
+		#self.salir = self.menuArchivo.addAction("Salir")
 
 
 #========================================= #Eventos# ==================================================================
@@ -91,6 +100,10 @@ class Interface(QMainWindow):
 	
 	def Nuevo_user(self):
 		Window_nv_users(self).exec_()
+
+	def Abrir_window(self):
+		Acerca_de(self).exec_()
+
 		
 
 
