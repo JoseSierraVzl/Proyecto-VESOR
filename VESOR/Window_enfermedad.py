@@ -91,7 +91,7 @@ class Window_enfermedad(QDialog):
 		self.label_opciones_enfermedad.setObjectName("label_opciones_enfermedad")
 		self.label_opciones_enfermedad.setText("Posee alguna de estas enfermedades:")
 
-		self.checkBox_27 =QCheckBox(self.groupBox_datos_enfermedad)
+		self.checkBox_27 = QCheckBox(self.groupBox_datos_enfermedad)
 		self.checkBox_27.setGeometry(QRect(40, 120, 70, 17))
 		self.checkBox_27.setText("Cáncer")
 		self.checkBox_27.setObjectName("checkBox_27")
@@ -186,11 +186,15 @@ class Window_enfermedad(QDialog):
 		self.radioButton_si_medicamentos.setGeometry(QRect(280, 160, 41, 17))
 		self.radioButton_si_medicamentos.setObjectName("radioButton_si_medicamentos")
 		self.radioButton_si_medicamentos.setText("Si")
+		self.radioButton_si_medicamentos.setStyleSheet("QRadioButton{ background-color:#E5E7EE ;\n"
+		"color: #000000;}")
 
 		self.radioButton_no_medicamentos = QRadioButton(self.groupBox_datos_enfermedad)
 		self.radioButton_no_medicamentos.setGeometry(QRect(350, 160, 51, 17))
 		self.radioButton_no_medicamentos.setObjectName("radioButton_no_medicamentos")
 		self.radioButton_no_medicamentos.setText("No")
+		self.radioButton_no_medicamentos.setStyleSheet("QRadioButton{ background-color:#E5E7EE ;\n"
+		"color: #000000;}")
 
 		self.textEdit_medicamento = QTextEdit(self.groupBox_datos_enfermedad)
 		self.textEdit_medicamento.setGeometry(QRect(265, 180, 141, 61))
@@ -277,9 +281,217 @@ class Window_enfermedad(QDialog):
 		self.pushButton_cancelar.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ FIN DE BOTONES DE LA VENTANA DE ENFERMEDAD #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+		
+		#Eventos ==========================================================================================      			
 
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+# FIN DE VENTANA DE ENFERMEDAD #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+		
+		self.pushButton_cancelar.clicked.connect(self.close)
+
+		self.pushButton_aceptar.clicked.connect(self.Guardar_datos)
+
+		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
+
+
+
+	def Guardar_datos(self):
+
+			tipo_de_enfermedad = self.Tipo_de_enfermedad()
+			descripcion_enfermedad=  self.textEdit_dcrp_enfermedad.toPlainText()
+			necesita_algun_medicamento = self.necesita_medicamento()
+			descripcion_medicamento = self.textEdit_medicamento.toPlainText()
+
+
+			if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+				try:
+					with sqlite3.connect('Base de datos/DB_VESOR_USER_DATOSGENERALES.db') as db:
+						cursor = db.cursor()
+
+					datos_insertar_Gnr = [tipo_de_enfermedad, descripcion_enfermedad, necesita_algun_medicamento,
+										  descripcion_medicamento]
+
+
+					cursor.execute("INSERT INTO USUARIO_DT_GNR (POSEE_ENFERMEDAD, DESCRIBA_ENFERMEDAD, TOMA_MEDICAMENTO_ENF,"
+								   "DESCRIBA_MEDICAMENTO_ENF) VALUES(?,?,?,?)", datos_insertar_Gnr)
+
+					db.commit()
+					cursor.close()
+					db.close()
+
+					QMessageBox.information(self, "Enfermedad", "Datos guardados con exito.",
+											QMessageBox.Ok)
+				except Exception as e:
+					print(e)					
+					QMessageBox.critical(self, "Enfermedad", "Error desconocido.",
+										 QMessageBox.Ok)
+
+			else:
+				if not QFile.exists("Base de datos"):
+					makedirs("Base de datos")
+
+				if QFile.exists("Base de datos"):
+					
+					try:
+
+						datos_insertar_Gnr = [tipo_de_enfermedad, descripcion_enfermedad, necesita_algun_medicamento,
+										  descripcion_medicamento]
+
+
+						with sqlite3.connect('Base de datos/DB_VESOR_USER_DATOSGENERALES.db') as db:
+							cursor = db.cursor()
+					
+						cursor.execute("CREATE TABLE IF NOT EXISTS USUARIO_DT_GNR (ID INTEGER PRIMARY KEY,PRIMER_NOMBRE TEXT,"
+
+																			"SEGUNDO_NOMBRE TEXT, PRIMER_APELLIDO TEXT, SEGUNDO_APELLIDO TEXT,"
+
+																			"CEDULA TEXT, GENERO TEXT, TELEFONO_PRINCIPAL TEXT," 
+
+																			"TELEFONO_SECUNDARIO TEXT, FECHA_NACIMIENTO TEXT, EDAD TEXT,"
+
+																			"PROFESION_OFICIO TEXT, NIVEL_INSTRUCCION TEXT, PARENTESCO TEXT,"
+
+																			"ESTADO_CIVIL TEXT, INSCRITO_REP TEXT, CORREO_ELECTRONICO TEXT,"
+
+																			"PENSIONADO TEXT, POSEE_DISCAPACIDAD TEXT,NECESITA_INSUMO_MEDICO TEXT,"
+
+																			"DESCRIBA_DISCAPACIDAD TEXT, TOMA_MEDICAMENTO TEXT, DESCRIBA_MEDICAMENTO TEXT,"
+																			
+																			"POSEE_ENFERMEDAD TEXT, DESCRIBA_ENFERMEDAD TEXT,  EMBARAZADA TEXT, LACTANTE TEXT,"
+
+																			"TOMA_MEDICAMENTO_ENF TEXT, DESCRIBA_MEDICAMENTO_ENF TEXT)")
+
+
+						cursor.execute("INSERT INTO USUARIO_DT_GNR (POSEE_ENFERMEDAD, DESCRIBA_ENFERMEDAD, TOMA_MEDICAMENTO_ENF,"
+								   		"DESCRIBA_MEDICAMENTO_ENF) VALUES(?,?,?,?)", datos_insertar_Gnr)								  
+
+						db.commit()
+						cursor.close()
+						db.close()
+
+						QMessageBox.information(self, "Enfermedad", "Datos guardados con exito.",
+												QMessageBox.Ok)
+
+
+					except Exception as e:
+						print(e)					
+						QMessageBox.critical(self, "Enfermedad", "Error desconocido.",
+											 QMessageBox.Ok)
+
+
+
+			self.textEdit_dcrp_enfermedad.clear()
+			self.textEdit_medicamento.clear()
+			self.checkBox_27.setChecked(False)
+
+			self.checkBox_26.setChecked(False)
+			self.checkBox_25.setChecked(False)
+			self.checkBox_23.setChecked(False)
+			self.checkBox_24.setChecked(False)
+			self.checkBox_28.setChecked(False)		
+			self.checkBox_29.setChecked(False)
+			self.checkBox_30.setChecked(False)
+			self.checkBox_31.setChecked(False)
+			self.checkBox_32.setChecked(False)
+		
+
+
+
+
+
+
+
+
+
+	def Tipo_de_enfermedad(self):
+		
+		if self.checkBox_27.isChecked():
+			return "Cáncer"
+
+		elif self.checkBox_26.isChecked():
+			return "Diabetes" 
+
+		elif self.checkBox_25.isChecked():
+			return "Hipertensión arterial"
+
+		elif self.checkBox_23.isChecked():
+			return "Asma"
+
+		elif self.checkBox_24.isChecked():
+			return "Cardio Vascular"
+
+		elif self.checkBox_28.isChecked():
+			return "Gastritis"
+
+		elif self.checkBox_29.isChecked():
+			return "Bronquitis"
+
+		elif self.checkBox_30.isChecked():
+			return "Cálculos de riñón"
+
+		elif self.checkBox_31.isChecked():
+			return "Sinusitis"
+
+		elif self.checkBox_32.isChecked():
+			return "Otra..."
+
+		else:
+			None
+
+
+
+	def necesita_medicamento(self):
+
+			if self.radioButton_si_medicamentos.isChecked():
+				return "Si"
+
+			elif self.radioButton_no_medicamentos.isChecked():
+				return "No"
+
+			else:
+				None
+
+
+
+
+
+
+
+
+
+
+	def close(self):
+		
+		msg = QMessageBox()
+		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
+		msg.setText("Cancelar")
+		msg.setInformativeText("¿Estás seguro de que desea cancelar?")
+		msg.setWindowTitle("¡Advertencia!")
+		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+
+		button_si = msg.button(QMessageBox.Yes)
+		button_si.setText("Si")
+		button_si.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		button_si.setIconSize(QSize(13,13))
+		button_si.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
+		"QPushButton{background:#343a40;\n"
+		"}")
+
+
+		button_no = msg.button(QMessageBox.No)
+		button_no.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		button_no.setIconSize(QSize(13,13))
+		button_no.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
+		"QPushButton{background:#343a40;}")
+
+		msg.setStyleSheet("\n"
+			"color:#ffffff;\n"
+			"font-size:12px;\n"
+			"background-color:#12191D;")
+
+		if (msg.exec_() == QMessageBox.Yes):
+			self.destroy()
+		else:
+			pass
+
+
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)

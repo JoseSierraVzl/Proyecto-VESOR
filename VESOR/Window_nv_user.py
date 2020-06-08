@@ -14,6 +14,9 @@ from Window_enfermedad import *
 
 from Window_discapacidad import *
 
+from Window_gas_bombona import *
+
+
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 import sys, os
 from random import randint
@@ -80,7 +83,7 @@ class Window_nv_users(QDialog):
 
 		#1ºNombre =====================================================================================================	
 		self.label_1_nombre = QLabel(self.groupBox_datosGnr)
-		self.label_1_nombre.setGeometry(QRect(40, 20, 71, 16))
+		self.label_1_nombre.setGeometry(QRect(40, 20, 78, 16))
 		self.label_1_nombre.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px")
@@ -102,6 +105,7 @@ class Window_nv_users(QDialog):
 		self.lineEdit_1_nombre.setAlignment(Qt.AlignCenter)
 		self.lineEdit_1_nombre.setObjectName("lineEdit_1_nombre")
 		self.lineEdit_1_nombre.setPlaceholderText("Primer nombre")
+		self.lineEdit_1_nombre.setToolTip("Ingresa aquí el primer nombre")
 
 		self.lineEdit_1_nombre.setValidator(QRegExpValidator(QRegExp("[A-ZÑ][a-záéíóúüñ]+"),
 															self.lineEdit_1_nombre))
@@ -112,7 +116,7 @@ class Window_nv_users(QDialog):
 
 		#2ºNombre =====================================================================================================
 		self.label_2_nombre = QLabel(self.groupBox_datosGnr)
-		self.label_2_nombre.setGeometry(QRect(210, 20, 71, 16))
+		self.label_2_nombre.setGeometry(QRect(215, 20, 71, 16))
 		self.label_2_nombre.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px")
@@ -136,11 +140,12 @@ class Window_nv_users(QDialog):
 		self.lineEdit_2_nombre.setPlaceholderText("Segundo nombre")
 		self.lineEdit_2_nombre.setValidator(QRegExpValidator(QRegExp("[A-ZÑ][a-záéíóúüñ]+"),
 															self.lineEdit_2_nombre))
+		self.lineEdit_2_nombre.setToolTip("Ingresa aquí el segundo nombre")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 		#1º Apellido =====================================================================================================		
 		self.label_1_Apellido = QLabel(self.groupBox_datosGnr)
-		self.label_1_Apellido.setGeometry(QRect(40, 70, 71, 16))
+		self.label_1_Apellido.setGeometry(QRect(40, 70, 78, 16))
 		self.label_1_Apellido.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px")
@@ -165,6 +170,8 @@ class Window_nv_users(QDialog):
 		self.lineEdit_1_Apellido.setPlaceholderText("Primer apellido")
 		self.lineEdit_1_Apellido.setValidator(QRegExpValidator(QRegExp("[A-ZÑ][a-záéíóúüñ]+"),
 															self.lineEdit_1_Apellido))
+		self.lineEdit_1_Apellido.setToolTip("Ingresa aquí el primer apellido")
+
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 		#2º Apellido =====================================================================================================		
@@ -181,9 +188,11 @@ class Window_nv_users(QDialog):
 		self.lineEdit_2_Apellido.setText("")
 		self.lineEdit_2_Apellido.setAlignment(Qt.AlignCenter)
 		self.lineEdit_2_Apellido.setObjectName("lineEdit_2ºApellido")
+		self.lineEdit_2_Apellido.setToolTip("Ingresa aquí el segundo apellido")
+
 
 		self.label_2_Apellido = QLabel(self.groupBox_datosGnr)
-		self.label_2_Apellido.setGeometry(QRect(210, 70, 71, 16))
+		self.label_2_Apellido.setGeometry(QRect(215, 70, 71, 16))
 		self.label_2_Apellido.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px")
@@ -197,7 +206,7 @@ class Window_nv_users(QDialog):
 	   
 		#Cedula de identidad =====================================================================================================		
 		self.label_cedula = QLabel(self.groupBox_datosGnr)
-		self.label_cedula.setGeometry(QRect(20, 125, 121, 16))
+		self.label_cedula.setGeometry(QRect(10, 125, 140, 16))
 		self.label_cedula.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px")
@@ -220,11 +229,12 @@ class Window_nv_users(QDialog):
 		self.lineEdit_cedula.setObjectName("lineEdit_cedula")
 		self.lineEdit_cedula.setPlaceholderText("Ingresa la cedula")
 		self.lineEdit_cedula.setValidator(QRegExpValidator(QRegExp("[0-9]+"),self.lineEdit_cedula))
+		self.lineEdit_cedula.setToolTip("Ingresa aquí la cedula de identidad")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 		#Telefono =====================================================================================================		
 		self.label_tlf = QLabel(self.groupBox_datosGnr)
-		self.label_tlf.setGeometry(QRect(210, 125, 71, 16))
+		self.label_tlf.setGeometry(QRect(215, 125, 71, 16))
 		self.label_tlf.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px")
@@ -247,6 +257,7 @@ class Window_nv_users(QDialog):
 		self.lineEdit_1_tlf.setObjectName("lineEdit_1_tlf")
 		self.lineEdit_1_tlf.setPlaceholderText("Principal")
 		self.lineEdit_1_tlf.setValidator(QRegExpValidator(QRegExp("[0-9]+"),self.lineEdit_1_tlf))
+		self.lineEdit_1_tlf.setToolTip("Ingresa aquí el numero telefónico principal")
 
 
 		self.lineEdit_2_tlf = QLineEdit(self.groupBox_datosGnr)
@@ -264,7 +275,7 @@ class Window_nv_users(QDialog):
 		self.lineEdit_2_tlf.setObjectName("lineEdit_2_tlf")
 		self.lineEdit_2_tlf.setPlaceholderText("Secundario")
 		self.lineEdit_2_tlf.setValidator(QRegExpValidator(QRegExp("[0-9]+"),self.lineEdit_2_tlf))
-
+		self.lineEdit_2_tlf.setToolTip("Ingresa aquí el numero de telefónico secundario")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 		#Genero ========================================================================================================	      
@@ -272,7 +283,7 @@ class Window_nv_users(QDialog):
 		self.comboBox_genero.setGeometry(QRect(10, 200, 141, 21))
 		self.comboBox_genero.setStyleSheet("QComboBox{\n"
 		"border: 0px;\n"
-		"border-radius: 8px;\n"
+		"border-radius:3px;\n"
 		"background:#B7C0EE\n"
 		"color: #000000;\n"
 		"}\n"
@@ -283,9 +294,10 @@ class Window_nv_users(QDialog):
 
 		self.items_list_genero = ["Masculino", "Femenino"]
 		self.comboBox_genero.addItems(self.items_list_genero)
+		self.comboBox_genero.setToolTip("Selecciona el genero ")
 
 		self.label_genero = QLabel(self.groupBox_datosGnr)
-		self.label_genero.setGeometry(QRect(40, 180, 71, 16))
+		self.label_genero.setGeometry(QRect(45, 180, 71, 16))
 		self.label_genero.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px")
@@ -296,7 +308,7 @@ class Window_nv_users(QDialog):
 				
 		#Edad ========================================================================================================	      
 		self.label_edad = QLabel(self.groupBox_datosGnr)
-		self.label_edad.setGeometry(QRect(215, 205, 71, 16))
+		self.label_edad.setGeometry(QRect(225, 205, 51, 16))
 		self.label_edad.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px")
@@ -319,6 +331,7 @@ class Window_nv_users(QDialog):
 		self.lineEdit_edad.setObjectName("lineEdit_edad")
 		self.lineEdit_edad.setPlaceholderText("Ingresa la edad")
 		self.lineEdit_edad.setValidator(QRegExpValidator(QRegExp("[0-9]+"),self.lineEdit_edad))
+		self.lineEdit_edad.setToolTip("Ingresa aquí la edad")
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	  
@@ -338,9 +351,10 @@ class Window_nv_users(QDialog):
 		self.dateEdit_nacimiento.setDisplayFormat("dd/MM/yyyy")
 		self.dateEdit_nacimiento.setCalendarPopup(True)
 		self.dateEdit_nacimiento.setCursor(Qt.PointingHandCursor)
+		self.dateEdit_nacimiento.setToolTip("Selecciona la fecha de nacimiento")
 
 		self.label_fch_nacimiento = QLabel(self.groupBox_datosGnr)
-		self.label_fch_nacimiento.setGeometry(QRect(20, 235, 121, 16))
+		self.label_fch_nacimiento.setGeometry(QRect(20, 235, 131, 16))
 		self.label_fch_nacimiento.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px")
@@ -417,6 +431,7 @@ class Window_nv_users(QDialog):
 
 		self.comboBox_profesion = QComboBox(self.groupBox_datosGnr)
 		self.comboBox_profesion.setGeometry(QRect(10, 310, 141, 21))
+		self.comboBox_profesion.setToolTip("Selecciona la profesión")
 		self.comboBox_profesion.setStyleSheet("QComboBox{\n"
 		"border: 0px;\n"
 		"border-radius: 8px;\n"
@@ -441,7 +456,7 @@ class Window_nv_users(QDialog):
 
 		#Nivel de instruccion ========================================================================================================	      
 		self.label_nvl_instruccion = QLabel(self.groupBox_datosGnr)
-		self.label_nvl_instruccion.setGeometry(QRect(25, 345, 111, 16))
+		self.label_nvl_instruccion.setGeometry(QRect(20, 345, 121, 16))
 		self.label_nvl_instruccion.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px;\n"
@@ -460,17 +475,17 @@ class Window_nv_users(QDialog):
 		"}\n"
 		"")
 		self.comboBox_nvl_instruccion.setEditable(False)
+		self.comboBox_nvl_instruccion.setToolTip("Selecciona el nivel de instrucción")
 		self.comboBox_nvl_instruccion.setObjectName("comboBox_nvl_instruccion")
 
 		self.Items_list_instruccion = ['Primaria', 'Bachillerato', 'Técnico superior', 
 		'Universitario', 'Especialización', 'Postgrado', 'Doctorado']
-
 		self.comboBox_nvl_instruccion.addItems(self.Items_list_instruccion)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 		#Parentesco ========================================================================================================	      
 		self.label_parentesco = QLabel(self.groupBox_datosGnr)
-		self.label_parentesco.setGeometry(QRect(200, 390, 101, 16))
+		self.label_parentesco.setGeometry(QRect(210, 390, 81, 16))
 		self.label_parentesco.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px;\n"
@@ -491,6 +506,7 @@ class Window_nv_users(QDialog):
 
 		self.comboBox_parentesco.setEditable(False)
 		self.comboBox_parentesco.setObjectName("comboBox_parentesco")
+		self.comboBox_parentesco.setToolTip("Selecciona el parentesco")
 
 		self.items_list_parentesco = ['Jefe/a de familia', 'Padre', 'Madre', 'Hijo/a', 'Yerno', 'Nuera', 
 		'Abuelo/a', 'Nieto/a', 'Hermano/a', 'Cuñado/a', 'Bisabuelo/a', 'Biznieto/a', 'Tío/a', 'Sobrino/a']
@@ -502,7 +518,7 @@ class Window_nv_users(QDialog):
 		#Estado civil ========================================================================================================	      
 
 		self.label_estadocivil = QLabel(self.groupBox_datosGnr)
-		self.label_estadocivil.setGeometry(QRect(30, 400, 101, 16))
+		self.label_estadocivil.setGeometry(QRect(45, 400, 71, 16))
 		self.label_estadocivil.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px;\n"
@@ -522,6 +538,7 @@ class Window_nv_users(QDialog):
 		"")
 
 		self.comboBox_estadocivil.setEditable(False)
+		self.comboBox_estadocivil.setToolTip("Selecciona el estado civil actual")
 		self.comboBox_estadocivil.setObjectName("comboBox_estadocivil")
 		self.items_list_estadocivil = ['Soltero', 'Casado']
 		self.comboBox_estadocivil.addItems(self.items_list_estadocivil)
@@ -539,8 +556,12 @@ class Window_nv_users(QDialog):
 		self.label_inscritoREP.setObjectName("label_inscritoREP")
 		self.label_inscritoREP.setText("Esta inscrito en REP:")
 
+
 		self.radiobutton_si_inscrito = QRadioButton(self.groupBox_datosGnr)
 		self.radiobutton_si_inscrito.setGeometry(QRect(30, 471, 38, 17))
+		"color:#000000\n"
+		self.radiobutton_si_inscrito.setToolTip("Selecciona 'Si' si está inscrito\n"
+												"en el registro electoral permanente")
 		self.radiobutton_si_inscrito.setObjectName("radiobutton_si_inscrito")
 		self.radiobutton_si_inscrito.setStyleSheet("QRadioButton{ background-color:#E5E7EE;\n"
 		"color:#000000\n"
@@ -554,6 +575,8 @@ class Window_nv_users(QDialog):
 		"color:#000000\n"
 		"}")  
 		self.radiobutton_no_inscrito.setText("No")
+		self.radiobutton_no_inscrito.setToolTip("Selecciona 'No' si no está inscrito\n"
+												"en el registro electoral permanente")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 		#Ingresar el correo ========================================================================================================	      
@@ -582,6 +605,7 @@ class Window_nv_users(QDialog):
 		self.lineEdit_correo.setAlignment(Qt.AlignCenter)
 		self.lineEdit_correo.setObjectName("lineEdit_correo")
 		self.lineEdit_correo.setPlaceholderText("Ingresa el correo")
+		self.lineEdit_correo.setToolTip("Ingresa un correo electrónico vigente")
 		#self.lineEdit_correo.setValidator(QRegExpValidator(QRegExp('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,4}$+'),self.lineEdit_correo))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -607,7 +631,7 @@ class Window_nv_users(QDialog):
 		self.groupBox_datosUb.setGraphicsEffect(self.shadow)
 		#Estado ========================================================================================================	      
 		self.label_estado = QLabel(self.groupBox_datosUb)
-		self.label_estado.setGeometry(QRect(55, 20, 71, 16))
+		self.label_estado.setGeometry(QRect(60, 20, 61, 16))
 		self.label_estado.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px")
@@ -628,6 +652,7 @@ class Window_nv_users(QDialog):
 		self.lineEdit_estado.setText("")
 		self.lineEdit_estado.setAlignment(Qt.AlignCenter)
 		self.lineEdit_estado.setObjectName("lineEdit_estado")
+		self.lineEdit_estado.setToolTip("Ingresa el estado donde se residencia")
 		self.lineEdit_estado.setPlaceholderText("Ingresa el estado")
 		self.lineEdit_estado.setValidator(QRegExpValidator(QRegExp("[\sA-ZÑ][\sa-záéíóúüñ]+"),
 																	self.lineEdit_estado))
@@ -657,6 +682,7 @@ class Window_nv_users(QDialog):
 		self.lineEdit_municipio.setText("")
 		self.lineEdit_municipio.setAlignment(Qt.AlignCenter)
 		self.lineEdit_municipio.setObjectName("lineEdit_municipio")
+		self.lineEdit_municipio.setToolTip("Ingresa el municipio donde se residencia")
 		self.lineEdit_municipio.setPlaceholderText("Ingresa el municipio")
 		self.lineEdit_municipio.setValidator(QRegExpValidator(QRegExp("[\sA-ZÑ][\sa-záéíóúüñ]+"),
 																	self.lineEdit_municipio))
@@ -685,6 +711,7 @@ class Window_nv_users(QDialog):
 		self.lineEdit_parroquia.setText("")
 		self.lineEdit_parroquia.setAlignment(Qt.AlignCenter)
 		self.lineEdit_parroquia.setObjectName("lineEdit_parroquia")
+		self.lineEdit_parroquia.setToolTip("Ingresa la parroquia donde se residencia")
 		self.lineEdit_parroquia.setPlaceholderText("Ingresa la parroquia")
 		self.lineEdit_parroquia.setValidator(QRegExpValidator(QRegExp("[\sA-ZÑ][\sa-záéíóúüñ]+"),
 																	self.lineEdit_parroquia))
@@ -714,6 +741,7 @@ class Window_nv_users(QDialog):
 		self.lineEdit_N_vivienda.setText("")
 		self.lineEdit_N_vivienda.setAlignment(Qt.AlignCenter)
 		self.lineEdit_N_vivienda.setObjectName("lineEdit_N_vivienda")
+		self.lineEdit_N_vivienda.setToolTip("Ingresa el numero de la vivienda")
 		self.lineEdit_N_vivienda.setPlaceholderText("Numero de vivienda")
 		self.lineEdit_N_vivienda.setValidator(QRegExpValidator(QRegExp("[0-9]+"),self.lineEdit_N_vivienda))
 
@@ -736,6 +764,7 @@ class Window_nv_users(QDialog):
 		"")
 		self.textEdit_direccion.setObjectName("textEdit_direccion")
 		self.textEdit_direccion.setPlaceholderText("Ingresa la dirección...")
+		self.textEdit_direccion.setToolTip("Ingresa la dirección donde se residencia")
 
 
 
@@ -805,7 +834,9 @@ class Window_nv_users(QDialog):
 		self.radioButton_rp_si.setText("Si")
 		self.radioButton_rp_si.setStyleSheet("QRadioButton{ background-color:#E5E7EE;\n"
 		"color:#000000;\n"
-		"}")  
+		"}")
+		self.radioButton_rp_si.setToolTip("Seleccione 'Si' si la vivienda\n"
+											"necesita de alguna reparación")  
 
 		self.radioButton_rp_no = QRadioButton(self.groupBox_datos_Vv)
 		self.radioButton_rp_no.setGeometry(QRect(280, 150, 51, 17))
@@ -813,7 +844,9 @@ class Window_nv_users(QDialog):
 		self.radioButton_rp_no.setText("No")
 		self.radioButton_rp_no.setStyleSheet("QRadioButton{ background-color:#E5E7EE;\n"
 		"color:#000000;\n"
-		"}")  
+		"}") 
+		self.radioButton_rp_no.setToolTip("Seleccione 'No' si la vivienda\n"
+											"no necesita de alguna reparación")   
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
 		#Servivcios que posee ========================================================================================================	           
@@ -896,7 +929,7 @@ class Window_nv_users(QDialog):
 
 		#Descripcion de la vivienda ========================================================================================================	           
 		self.label_dcrp_vv = QLabel(self.groupBox_datos_Vv)
-		self.label_dcrp_vv.setGeometry(QRect(10, 70, 151, 16))
+		self.label_dcrp_vv.setGeometry(QRect(10, 80, 151, 16))
 		self.label_dcrp_vv.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px")
@@ -904,13 +937,15 @@ class Window_nv_users(QDialog):
 		self.label_dcrp_vv.setObjectName("label_dcrp_vv")
 		self.label_dcrp_vv.setText("Descripción de vivienda:")
 		self.textEdit_dcrp_vv = QTextEdit(self.groupBox_datos_Vv)
-		self.textEdit_dcrp_vv.setGeometry(QRect(10, 90, 151, 71))
+		self.textEdit_dcrp_vv.setGeometry(QRect(10, 100, 151, 51))
 		self.textEdit_dcrp_vv.setStyleSheet("QTextEdit{\n"
 		"border: 0px\n"
 		"}\n"
 		"")
 		self.textEdit_dcrp_vv.setObjectName("textEdit_dcrp_vv")
 		self.textEdit_dcrp_vv.setPlaceholderText("Describa la vivienda...")
+		self.textEdit_dcrp_vv.setToolTip("Describa la vivienda si es una casa de una planta o dos,\n"
+										"si es un apartamento o quinta, entre otras... ")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Proteccion Social #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
@@ -1127,7 +1162,7 @@ class Window_nv_users(QDialog):
 
 		#Line bajo metros cuadrados ==========================================================================================      
 		self.line_11 = QFrame(self.groupBox_datos_Vv)
-		self.line_11.setGeometry(QRect(15, 58, 141, 16))
+		self.line_11.setGeometry(QRect(15, 63, 141, 16))
 		self.line_11.setFrameShape(QFrame.HLine)
 		self.line_11.setFrameShadow(QFrame.Sunken)
 		self.line_11.setObjectName("line_11")
@@ -1228,30 +1263,56 @@ class Window_nv_users(QDialog):
 
 		self.checkBox_3.clicked.connect(self.Descripcion_enfermedad)
 
-		self.checkBox_gasbombona.clicked.connect(self.Menu_gasbombona)
+		self.checkBox_gasbombona.clicked.connect(self.Window_gas_bombona)
+
+		self.Button_cancel_user.clicked.connect(self.close)
+
 
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	
 #========================================= #Funciones# ==================================================================
 
-	def Menu_gasbombona(self):
-		self.menuArchivo = QMenu(self)		
+	#Abrir ventana de gas_bobombona ==========================================================================================      			
+
+	def Window_gas_bombona(self):
+
+		if self.checkBox_gasbombona.isChecked():
+
+			Window_gas_bombona(self).exec_()
+		else:
+			None
+
+	#Abrir ventana de Enfermedad ==========================================================================================      			
 
 	def Descripcion_enfermedad(self):
-		self.interface = Window_enfermedad()
-		Window_enfermedad(self).exec_()
+
+		if self.checkBox_3.isChecked():
+			self.interface = Window_enfermedad()
+			Window_enfermedad(self).exec_()
+		else:
+			None
 
 	#Funcion para abrir ventana de descripcion de reparacion de vivienda ==========================================================================================      			
 
 	def Descripcion_reparacion(self):
-		self.interface = Window_reparacionvivienda()
-		Window_reparacionvivienda(self).exec_()
+
+		if self.radioButton_rp_si.isChecked():
+			self.interface = Window_reparacionvivienda()
+			Window_reparacionvivienda(self).exec_()
+		else:
+			None
 
 	#Funcion para abrir ventan de descripcion de discapacidad ==========================================================================================      			
 	
 	def Descripcion_discapacidad(self):
-		self.interface = Window_discapacidad()		
-		Window_discapacidad(self).exec_()
+
+		if self.checkBox_2.isChecked():
+
+			self.interface = Window_discapacidad()		
+			Window_discapacidad(self).exec_()
+
+		else:
+			None
 
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -1283,7 +1344,14 @@ class Window_nv_users(QDialog):
 
 																			"ESTADO_CIVIL TEXT, INSCRITO_REP TEXT, CORREO_ELECTRONICO TEXT,"
 
-																			"PENSIONADO TEXT, ENFERMEDAD TEXT, EMBARAZADA TEXT, LACTANTE TEXT)")
+																			"PENSIONADO TEXT, POSEE_DISCAPACIDAD TEXT,NECESITA_INSUMO_MEDICO TEXT,"
+
+																			"DESCRIBA_DISCAPACIDAD TEXT, TOMA_MEDICAMENTO TEXT, DESCRIBA_MEDICAMENTO TEXT,"
+																			
+																			"POSEE_ENFERMEDAD TEXT, DESCRIBA_ENFERMEDAD TEXT,  EMBARAZADA TEXT, LACTANTE TEXT,"
+
+																			"TOMA_MEDICAMENTO_ENF TEXT, DESCRIBA_MEDICAMENTO_ENF TEXT)")
+
 
 						db.commit()		
 						cursor.close()
@@ -1319,10 +1387,10 @@ class Window_nv_users(QDialog):
 					with sqlite3.connect('Base de datos/DB_VESOR_USER_DATOS_VV.db') as db:
 						cursor = db.cursor()
 
-					cursor.execute("CREATE TABLE IF NOT EXISTS USUARIO_DT_VV(ID INTEGER PRIMARY KEY,METROS_CUADRADOS TEXT, DESCRIPCION TEXT, NECESITA_REPARACION TEXT,"
+						cursor.execute("CREATE TABLE IF NOT EXISTS USUARIO_DT_VV(ID INTEGER PRIMARY KEY,METROS_CUADRADOS TEXT, DESCRIPCION TEXT, NECESITA_REPARACION TEXT,"
 									"AGUA_POTABLE TEXT, AGUA_SERVIDAS TEXT, GAS_DIRECTO TEXT, GAS_BOMBONA TEXT, INTERNET TEXT, ElECTRICIDAD TEXT,"
-									"TELEFONO_FIJO TEXT)")
-
+									"TELEFONO_FIJO TEXT, DESCRIPCION_REPARACION TEXT, NECESITA_LINEBLANCA TEXT,"
+									"FOTO_ANEXADA1 BLOB, FOTO_ANEXADA2 BLOB, FOTO_ANEXADA3 BLOB, FOTO_ANEXADA4 BLOB, FOTO_ANEXADA5,FOTO_ANEXADA6 BLOB)")
 
 
 					db.commit()		
@@ -1461,6 +1529,8 @@ class Window_nv_users(QDialog):
 					
 
 					idusuario = cursor.lastrowid
+					print(idusuario)
+
 					conexion.commit()		
 					cursor.close()
 					conexion.close()
@@ -1553,13 +1623,13 @@ class Window_nv_users(QDialog):
 			self.comboBox_profesion.setCurrentIndex(-1)
 			self.comboBox_nvl_instruccion.setCurrentIndex(-1)
 			self.comboBox_parentesco.setCurrentIndex(-1)
-			#self.checkBox_1.clear()
-			#self.checkBox_2.clear()
-			#self.checkBox_3.clear()
-			#self.checkBox_4.clear()
-			#self.checkBox_5.clear()
+			self.checkBox_1.setChecked(False)
+			self.checkBox_2.setChecked(False)
+			self.checkBox_3.setChecked(False)
+			self.checkBox_4.setChecked(False)
+			self.checkBox_5.setChecked(False)
 			self.comboBox_estadocivil.setCurrentIndex(-1)
-			#self.RadioButton_rep.clear()
+			#self.RadioButton_rep.setChecked(False)
 			self.lineEdit_correo.clear()
 
 					#Ubicacion geografica			
@@ -1573,25 +1643,25 @@ class Window_nv_users(QDialog):
 			#Datos de la vivienda
 			self.lineEdit_M2.clear()
 			self.textEdit_dcrp_vv.clear()
-			#self.RadioButton_reparacion.clear()
-			#self.CheckBox_aguapotable.clear()
-			#self.CheckBox_aguaservidas.clear()
-			#self.CheckBox_gasdirecto.clear()
-			#self.CheckBox_gasbombona.clear()
-			#self.CheckBox_internet.clear()
-			#self.CheckBox_electricidad.clear()
-			#self.CheckBox_telefonofijo.clear()
+			#self.RadioButton_reparacion.setChecked(False)
+			#self.CheckBox_aguapotable.setChecked(False)
+			self.CheckBox_aguaservidas.setChecked(False)
+			self.CheckBox_gasdirecto.setChecked(False)
+			self.CheckBox_gasbombona.setChecked(False)
+			self.CheckBox_internet.setChecked(False)
+			self.CheckBox_electricidad.setChecked(False)
+			self.CheckBox_telefonofijo.setChecked(False)
 
 			#Proteccion Social
-			#self.CheckBox_hogaresdelapatria.clear()
-			#self.CheckBox_amormayor.clear()
-			#self.CheckBox_josegregorio.clear()
-			#self.CheckBox_partohumanizado.clear()
+			self.CheckBox_hogaresdelapatria.setChecked(False)
+			self.CheckBox_amormayor.setChecked(False)
+			self.CheckBox_josegregorio.setChecked(False)
+			self.CheckBox_partohumanizado.setChecked(False)
 			#=============
-			#self.CheckBox_chambajuvenil.clear()
-			#self.CheckBox_somosvenezuela.clear()
-			#self.CheckBox_frentemiranda.clear()
-			#self.CheckBox_jpsuv.clear()
+			self.CheckBox_chambajuvenil.setChecked(False)
+			self.CheckBox_somosvenezuela.setChecked(False)
+			self.CheckBox_frentemiranda.setChecked(False)
+			self.CheckBox_jpsuv.setChecked(False)
 						
 
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
@@ -1717,7 +1787,39 @@ class Window_nv_users(QDialog):
 
 
 
+	def close(self):
+		
+		msg = QMessageBox()
+		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
+		msg.setText("Cancelar")
+		msg.setInformativeText("¿Estás seguro de que desea cancelar?")
+		msg.setWindowTitle("¡Advertencia!")
+		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
+		button_si = msg.button(QMessageBox.Yes)
+		button_si.setText("Si")
+		button_si.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		button_si.setIconSize(QSize(13,13))
+		button_si.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
+		"QPushButton{background:#343a40;\n"
+		"}")
+
+
+		button_no = msg.button(QMessageBox.No)
+		button_no.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		button_no.setIconSize(QSize(13,13))
+		button_no.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
+		"QPushButton{background:#343a40;}")
+
+		msg.setStyleSheet("\n"
+			"color:#ffffff;\n"
+			"font-size:12px;\n"
+			"background-color:#12191D;")
+
+		if (msg.exec_() == QMessageBox.Yes):
+			self.destroy()
+		else:
+			pass
 
 
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#

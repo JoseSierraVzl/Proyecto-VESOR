@@ -9,7 +9,8 @@ from PyQt5 import  uic
 from PyQt5.QtGui import (QFont, QIcon, QPalette, QBrush, QColor, QPixmap, QRegion, QClipboard,
 						 QRegExpValidator, QImage)
 from PyQt5.QtCore import (Qt, QDir, pyqtSignal, QFile, QDate, QTime, QSize, QTimer, QRect, QRegExp, QTranslator,QLocale,
-						  QLocale, QLibraryInfo, QFileInfo, QDir,QPropertyAnimation,QTranslator,QAbstractAnimation, QLocale)
+						  QLocale, QLibraryInfo, QFileInfo, QDir,QPropertyAnimation,QTranslator,QAbstractAnimation, QLocale,
+						   pyqtSignal, QByteArray, QIODevice, QBuffer)
 
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QTableWidget, QMenu, 
 							 QTableWidgetItem, QAbstractItemView, QLineEdit, QPushButton,
@@ -474,6 +475,11 @@ class Visor_de_imagenes(QDialog):
 		self.pushButton_eliminar_5.clicked.connect(self.Eliminar_4)
 		self.pushButton_eliminar_6.clicked.connect(self.Eliminar_5)
 
+		self.pushButton_8.clicked.connect(self.close)
+
+		self.pushButton_5.clicked.connect(self.Guardar_datos)
+		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
+
 
 	def Eliminar(self):
 		def establecerValores():
@@ -576,6 +582,7 @@ class Visor_de_imagenes(QDialog):
 													  QDir.currentPath(),
 													   "Archivos de imagen (*.jpg *.png *.ico *.bmp)")
 
+
 		if nombreImagen:
 			imagen = QImage(nombreImagen)
 			if imagen.isNull():
@@ -586,11 +593,17 @@ class Visor_de_imagenes(QDialog):
 											"No se puede cargar %s." % nombreImagen)
 					return
 
-			else:				
+			else:	
+				#imagen_6 = QPixmap(nombreImagen)				
+			
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_5(self.label_miniatura_6, imagen, nombre)
 				self.foto_1(imagen)
+				#self.imagen_6 = imagen
+				#self.Guardar_datos(imagen_6)
+				#self.Guardar_datos(imagen_6)
+
 
 		else:
 			None
@@ -622,6 +635,7 @@ class Visor_de_imagenes(QDialog):
 		nombreImagen, _ = QFileDialog.getOpenFileName(self, "Seleccionar imagen",
 													  QDir.currentPath(),
 													   "Archivos de imagen (*.jpg *.png *.ico *.bmp)")
+
 		if nombreImagen:
 			imagen = QImage(nombreImagen)
 			if imagen.isNull():
@@ -632,11 +646,17 @@ class Visor_de_imagenes(QDialog):
 											"No se puede cargar %s." % nombreImagen)
 					return
 
-			else:				
+			else:	
+				##imagen_5 = QPixmap(nombreImagen)				
+			
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_4(self.label_miniatura_5, imagen, nombre)
 				self.foto_1(imagen)
+				#self.imagen_5 = imagen
+				#self.Guardar_datos(imagen_5)
+				##self.Guardar_datos(imagen_5)
+
 
 		else:
 			None
@@ -677,11 +697,17 @@ class Visor_de_imagenes(QDialog):
 											"No se puede cargar %s." % nombreImagen)
 					return
 
-			else:				
+			else:	
+				#imagen_4 = QPixmap(nombreImagen)				
+			
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_3(self.label_miniatura_4, imagen, nombre)
 				self.foto_1(imagen)
+				#self.imagen_4 = imagen
+				#self.Guardar_datos(imagen_4)
+				#self.Guardar_datos(imagen_4)
+
 
 		else:
 			None
@@ -717,6 +743,7 @@ class Visor_de_imagenes(QDialog):
 													   "Archivos de imagen (*.jpg *.png *.ico *.bmp)")
 
 
+
 		if nombreImagen:
 			imagen = QImage(nombreImagen)
 			if imagen.isNull():
@@ -727,11 +754,17 @@ class Visor_de_imagenes(QDialog):
 											"No se puede cargar %s." % nombreImagen)
 					return
 
-			else:				
+			else:	
+				##imagen_3 = QPixmap(nombreImagen)				
+			
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_2(self.label_miniatura_3, imagen, nombre)
 				self.foto_1(imagen)
+				#self.imagen_3 = imagen
+				#self.Guardar_datos(imagen_3)
+				##self.Guardar_datos(imagen_3)
+
 
 		else:
 			None
@@ -763,6 +796,7 @@ class Visor_de_imagenes(QDialog):
 													  QDir.currentPath(),
 													   "Archivos de imagen (*.jpg *.png *.ico *.bmp)")
 
+
 		if nombreImagen:
 			imagen = QImage(nombreImagen)
 			if imagen.isNull():
@@ -774,10 +808,15 @@ class Visor_de_imagenes(QDialog):
 					return
 
 			else:				
+				#imagen_2 = QPixmap(nombreImagen)				
+
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_1(self.label_miniatura_2, imagen, nombre)
 				self.foto_1(imagen)
+				self.imagen_2 = imagen
+				#self.Guardar_datos(imagen_2)
+
 
 		else:
 			None
@@ -807,8 +846,11 @@ class Visor_de_imagenes(QDialog):
 	def Cargar(self):
 
 		nombreImagen, _ = QFileDialog.getOpenFileName(self, "Seleccionar imagen",
-													  QDir.currentPath(),
-													   "Archivos de imagen (*.jpg *.png *.ico *.bmp)")
+													  getcwd(),
+													   "Archivos de imagen (*.jpg *.png *.ico *.bmp)",
+													   options = QFileDialog.Options())
+
+
 
 		if nombreImagen:
 			imagen = QImage(nombreImagen)
@@ -820,11 +862,15 @@ class Visor_de_imagenes(QDialog):
 											"No se puede cargar %s." % nombreImagen)
 					return
 
-			else:				
+			else:
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar(self.label_miniatura_1, imagen, nombre)
 				self.foto_1(imagen)
+
+				
+				#self.Guardar_datos(imagen_1)
+
 
 		else:
 			None
@@ -842,6 +888,8 @@ class Visor_de_imagenes(QDialog):
 
 		# Mostrar imagen
 		label.setPixmap(imagen)
+
+
 	
 
 		# Animación (al finalizar la animación se muestra en la barra de estado el nombre y la extensión de la imagen
@@ -855,6 +903,184 @@ class Visor_de_imagenes(QDialog):
 		self.animacionMostar.start(QAbstractAnimation.DeleteWhenStopped)
 
 
+
+
+	def Guardar_datos(self):
+
+
+			foto_1 = self.label_miniatura_1.pixmap()
+			foto_2 = self.label_miniatura_2.pixmap()
+			foto_3 = self.label_miniatura_3.pixmap()
+			foto_4 = self.label_miniatura_4.pixmap()
+			foto_5 = self.label_miniatura_5.pixmap()
+			foto_6 = self.label_miniatura_6.pixmap()
+
+			if foto_1:
+				bArray_1 = QByteArray()
+				bufer = QBuffer(bArray_1)
+				bufer.open(QIODevice.WriteOnly)
+				bufer.close()
+				foto_1.save(bufer,"PNG")
+			else:
+				bArray_1 = ""
+
+			if foto_2:
+				bArray_2 = QByteArray()
+				bufer = QBuffer(bArray_2)
+				bufer.open(QIODevice.WriteOnly)
+				bufer.close()
+				foto_2.save(bufer,"PNG")
+			else:
+				bArray_2 = ""
+
+			if foto_3:
+				bArray_3 = QByteArray()
+				bufer = QBuffer(bArray_3)
+				bufer.open(QIODevice.WriteOnly)
+				bufer.close()
+				foto_3.save(bufer,"PNG")
+			else:
+				bArray_3 = ""
+
+			if foto_4:
+				bArray_4 = QByteArray()
+				bufer = QBuffer(bArray_4)
+				bufer.open(QIODevice.WriteOnly)
+				bufer.close()
+				foto_4.save(bufer,"PNG")
+			else:
+				bArray_4 = ""
+
+			if foto_5:
+				bArray_5 = QByteArray()
+				bufer = QBuffer(bArray_5)
+				bufer.open(QIODevice.WriteOnly)
+				bufer.close()
+				foto_5.save(bufer,"PNG")
+			else:
+				bArray_5 = ""
+
+
+			if foto_6:
+				bArray_6 = QByteArray()
+				bufer = QBuffer(bArray_6)
+				bufer.open(QIODevice.WriteOnly)
+				bufer.close()
+				foto_6.save(bufer,"PNG")
+			else:
+				bArray_6 = ""
+
+
+			if QFile.exists("Base de datos/DB_VESOR_USER_DATOS_VV.db"):
+
+				
+
+				try:
+					with sqlite3.connect('Base de datos/DB_VESOR_USER_DATOS_VV.db') as db:
+						cursor = db.cursor()
+
+					datos_insertar_Gnr = [bArray_1, bArray_2, bArray_3, bArray_4, bArray_5, bArray_6]
+
+					cursor.execute("INSERT INTO USUARIO_DT_VV(FOTO_ANEXADA1, FOTO_ANEXADA2, FOTO_ANEXADA3, FOTO_ANEXADA4,"
+						"FOTO_ANEXADA5, FOTO_ANEXADA6) VALUES(?,?,?,?,?,?)", datos_insertar_Gnr)
+
+					db.commit()
+					cursor.close()
+					db.close()
+
+					QMessageBox.information(self, "Reparación de Vivienda", "Datos guardados con exito.",
+											QMessageBox.Ok)
+				except Exception as e:
+					print(e)					
+					QMessageBox.critical(self, "Reparación de Vivienda", "Error desconocido.",
+										 QMessageBox.Ok)
+
+			else:
+				if not QFile.exists("Base de datos"):
+					makedirs("Base de datos")
+
+				if QFile.exists("Base de datos"):
+					try:
+
+						with sqlite3.connect('Base de datos/DB_VESOR_USER_DATOS_VV.db') as db:
+							cursor = db.cursor()
+						datos_insertar_Gnr = [bArray_1, bArray_2, bArray_3, bArray_4, bArray_5, bArray_6]
+
+					
+						cursor.execute("CREATE TABLE IF NOT EXISTS USUARIO_DT_VV(ID INTEGER PRIMARY KEY,METROS_CUADRADOS TEXT, DESCRIPCION TEXT, NECESITA_REPARACION TEXT,"
+									"AGUA_POTABLE TEXT, AGUA_SERVIDAS TEXT, GAS_DIRECTO TEXT, GAS_BOMBONA TEXT, INTERNET TEXT, ElECTRICIDAD TEXT,"
+									"TELEFONO_FIJO TEXT, DESCRIPCION_REPARACION TEXT, NECESITA_LINEBLANCA TEXT,"
+									"FOTO_ANEXADA1 BLOB, FOTO_ANEXADA2 BLOB, FOTO_ANEXADA3 BLOB, FOTO_ANEXADA4 BLOB, FOTO_ANEXADA5,FOTO_ANEXADA6 BLOB)")
+
+
+						cursor.execute("INSERT INTO USUARIO_DT_VV(FOTO_ANEXADA1, FOTO_ANEXADA2, FOTO_ANEXADA3, FOTO_ANEXADA4,"
+						"FOTO_ANEXADA5, FOTO_ANEXADA6) VALUES(?,?,?,?,?,?)", datos_insertar_Gnr)
+
+						db.commit()
+						cursor.close()
+						db.close()
+
+						QMessageBox.information(self, "Reparación de Vivienda", "Datos guardados con exito.",
+												QMessageBox.Ok)
+
+
+					except Exception as e:
+						print(e)					
+						QMessageBox.critical(self, "Reparación de Vivienda", "Error desconocido.",
+											 QMessageBox.Ok)
+
+
+
+			
+
+
+
+
+
+
+
+
+
+
+	#FUNCIONES =========================================================================================           
+
+
+	def close(self):
+		
+		msg = QMessageBox()
+		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
+		msg.setText("Cancelar")
+		msg.setInformativeText("¿Estás seguro de que desea cancelar?")
+		msg.setWindowTitle("¡Advertencia!")
+		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+
+		button_si = msg.button(QMessageBox.Yes)
+		button_si.setText("Si")
+		button_si.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		button_si.setIconSize(QSize(13,13))
+		button_si.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
+		"QPushButton{background:#343a40;\n"
+		"}")
+
+
+		button_no = msg.button(QMessageBox.No)
+		button_no.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		button_no.setIconSize(QSize(13,13))
+		button_no.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
+		"QPushButton{background:#343a40;}")
+
+		msg.setStyleSheet("\n"
+			"color:#ffffff;\n"
+			"font-size:12px;\n"
+			"background-color:#12191D;")
+
+		if (msg.exec_() == QMessageBox.Yes):
+			self.destroy()
+		else:
+			pass
+
+			
+	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 
 
@@ -904,8 +1130,6 @@ class Ver_fotos(QDialog):
 		self.labelimagen.setPixmap(pixmap)
 
 #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ FIN DE VENTANA DE VISUALIZADOR DE IMAGENES #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+   
-
-
 
 
 

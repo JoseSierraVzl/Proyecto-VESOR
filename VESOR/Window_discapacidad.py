@@ -307,10 +307,11 @@ class Window_discapacidad(QDialog):
 		###################################### Eventos #########################################################
 		self.pushButton_aceptar.clicked.connect(self.Guardar_datos)
 
+		self.pushButton_cancelar.clicked.connect(self.close)
 
 
+	#Funcion para guardar los datos de discapacidad==========================================================================		
 
-		#Funcion para guardar los datos de discapacidad==========================================================================
 	def Guardar_datos(self):
 
 			descripcion_discapacidad = self.textEdit_dcrp_discapacidad.toPlainText()
@@ -321,16 +322,18 @@ class Window_discapacidad(QDialog):
 
 
 			if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
-				conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_DATOSGENERALES.db')
-				cursor = conexion.cursor()
+
 				
 
 				try:
+					with sqlite3.connect('Base de datos/DB_VESOR_USER_DATOSGENERALES.db') as conexion:
+						cursor = conexion.cursor()
+
 					datos_insertar_Gnr = [tipo_de_discapacidad, insumos_medicos,descripcion_discapacidad,
 										  necesita_algun_medicamento, descripcion_medicamento]
 
 
-					cursor.execute("INSERT INTO USUARIO_DT_GNR (POSEE_DISCAPACIDAD, NECESITA_INSUMO_MEDICO?, DESCRIBA_DISCAPACIDAD,"
+					cursor.execute("INSERT INTO USUARIO_DT_GNR (POSEE_DISCAPACIDAD, NECESITA_INSUMO_MEDICO, DESCRIBA_DISCAPACIDAD,"
 								   "TOMA_MEDICAMENTO, DESCRIBA_MEDICAMENTO) VALUES(?,?,?,?,?)", datos_insertar_Gnr)
 
 					conexion.commit()
@@ -372,7 +375,9 @@ class Window_discapacidad(QDialog):
 
 																			"DESCRIBA_DISCAPACIDAD TEXT, TOMA_MEDICAMENTO TEXT, DESCRIBA_MEDICAMENTO TEXT,"
 																			
-																			"ENFERMEDAD TEXT, EMBARAZADA TEXT, LACTANTE TEXT)")
+																			"POSEE_ENFERMEDAD TEXT, DESCRIBA_ENFERMEDAD TEXT,  EMBARAZADA TEXT, LACTANTE TEXT,"
+
+																			"TOMA_MEDICAMENTO_ENF TEXT, DESCRIBA_MEDICAMENTO_ENF TEXT)")
 
 
 						cursor.execute("INSERT INTO USUARIO_DT_GNR(POSEE_DISCAPACIDAD, NECESITA_INSUMO_MEDICO, DESCRIBA_DISCAPACIDAD,TOMA_MEDICAMENTO, DESCRIBA_MEDICAMENTO) VALUES (?,?,?,"
@@ -382,18 +387,34 @@ class Window_discapacidad(QDialog):
 						cursor.close()
 						db.close()
 
-						QMessageBox.information(self, "Discapacidad", "Datos guardados con exito."
-												"   ", QMessageBox.Ok)
-						self.close()
+						QMessageBox.information(self, "Discapacidad", "Datos guardados con exito.",
+												QMessageBox.Ok)
+
+
 					except Exception as e:
 						print(e)					
 						QMessageBox.critical(self, "Discapacidad", "Error desconocidoAA.",
 											 QMessageBox.Ok)
 
-					#QMessageBox.critical(self, "Discapacidad", "No se encontro la base de "
-										 #"datos.", QMessageBox.Ok)
 
-				
+
+			self.textEdit_dcrp_discapacidad.clear()
+
+			self.checkBox_27.setChecked(False)
+			self.checkBox_26.setChecked(False)
+			self.checkBox_25.setChecked(False)
+			self.checkBox_24.setChecked(False)
+			self.checkBox_23.setChecked(False)
+			self.checkBox_otras.setChecked(False)
+
+			self.textEdit_medicamento.clear()
+
+			self.checkBox_sillarueda.setChecked(False)
+			self.checkBox_muletas.setChecked(False)
+			self.checkBox_protesis.setChecked(False)
+			self.checkBox_otros.setChecked(False)
+
+
 
 
 	def insumomedico(self):
@@ -414,7 +435,7 @@ class Window_discapacidad(QDialog):
 				return "Si"
 
 			elif self.radioButton_no_medicamentos.isChecked():
-				return "None"
+				return "No"
 			else:
 				None
 
@@ -436,6 +457,41 @@ class Window_discapacidad(QDialog):
 				None
 
 
+
+
+	def close(self):
+		
+		msg = QMessageBox()
+		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
+		msg.setText("Cancelar")
+		msg.setInformativeText("¿Estás seguro de que desea cancelar?")
+		msg.setWindowTitle("¡Advertencia!")
+		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+
+		button_si = msg.button(QMessageBox.Yes)
+		button_si.setText("Si")
+		button_si.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		button_si.setIconSize(QSize(13,13))
+		button_si.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
+		"QPushButton{background:#343a40;\n"
+		"}")
+
+
+		button_no = msg.button(QMessageBox.No)
+		button_no.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		button_no.setIconSize(QSize(13,13))
+		button_no.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
+		"QPushButton{background:#343a40;}")
+
+		msg.setStyleSheet("\n"
+			"color:#ffffff;\n"
+			"font-size:12px;\n"
+			"background-color:#12191D;")
+
+		if (msg.exec_() == QMessageBox.Yes):
+			self.destroy()
+		else:
+			pass
 
 
 
