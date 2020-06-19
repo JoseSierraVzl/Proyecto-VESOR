@@ -60,16 +60,11 @@ class Acerca_de(QDialog):
 		self.frame_texto.setStyleSheet("QFrame{background-color: #12191D;\n"
 		"border-radius: 20px;\n"
 		"}")
-
-		self.texto_browser = QTextBrowser(self.frame_texto)
-		self.texto_browser.setGeometry(QRect(0,20,200,101))
-		self.texto_browser.setStyleSheet("QTextBrowser{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:1 rgba(255, 255, 255, 0));\n"
-		"font:10pt;\n"
-		"color: #ffffff;\n"	
+		self.label_descripcion = QLabel(self)
+		self.label_descripcion.setGeometry(QRect(305,-25,210,210))
+		self.label_descripcion.setStyleSheet("QLabel{\n"
+		"border-image: url(:/Icono_descipcion/Imagenes-iconos/descripcion.png);\n"
 		"}")
-		self.texto_browser.setText("      EL MEJOR PROGRAMA\n"
-									"DE GESTION COMUNITARIA Y\n"
-									"     CONTROL DE USUARIOS")
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 
 #====== Iamgen central ==========================================================================================
@@ -106,6 +101,7 @@ class Acerca_de(QDialog):
 		self.Button_facebook.setText("Jose Alejandro")
 		self.Button_facebook.setIcon(QIcon("Imagenes-iconos/Facebook.png"))
 		self.Button_facebook.setIconSize(QSize(30,30))
+		self.Button_facebook.setToolTip("Click para ir al perfil")
 
 
 		self.Button_gmail = QPushButton(self.frame_disenadores)
@@ -132,6 +128,7 @@ class Acerca_de(QDialog):
 		self.Button_github.setText("JoseSierraVzl")
 		self.Button_github.setIcon(QIcon("Imagenes-iconos/Githup.png"))
 		self.Button_github.setIconSize(QSize(30,30))
+		self.Button_github.setToolTip("Click para ir al perfil")
 
 		self.line = QFrame(self.frame_disenadores)
 		self.line.setGeometry(QRect(15, 85, 270, 1))
@@ -150,6 +147,7 @@ class Acerca_de(QDialog):
 		self.Button_facebook_2.setText("Cristian Cala")
 		self.Button_facebook_2.setIcon(QIcon("Imagenes-iconos/Facebook.png"))
 		self.Button_facebook_2.setIconSize(QSize(30,30))
+		self.Button_facebook_2.setToolTip("Click para ir al perfil")
 
 		self.Button_gmail_2 = QPushButton(self.frame_disenadores)
 		self.Button_gmail_2.setGeometry(QRect(-15,120,271,32))
@@ -176,9 +174,10 @@ class Acerca_de(QDialog):
 		self.Button_github_2.setText("CristianCala")
 		self.Button_github_2.setIcon(QIcon("Imagenes-iconos/Githup.png"))
 		self.Button_github_2.setIconSize(QSize(30,30))
+		self.Button_github_2.setToolTip("Click para ir al perfil")
 
 		self.texto_instagram = QTextBrowser(self.frame_disenadores)
-		self.texto_instagram.setGeometry(QRect(350,20,211,101))
+		self.texto_instagram.setGeometry(QRect(355,20,211,101))
 		self.texto_instagram.setText("   Síguenos\nen Instagram")
 		self.texto_instagram.setStyleSheet("QTextBrowser{font: 11pt;\n"
 		"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:1 rgba(255, 255, 255, 0));\n"	
@@ -186,17 +185,17 @@ class Acerca_de(QDialog):
 		"}")
 
 		self.Button_instagram = QPushButton(self.frame_disenadores)
-		self.Button_instagram.setGeometry(QRect(350,65,94,32))
+		self.Button_instagram.setGeometry(QRect(330,65,140,32))
 		self.Button_instagram.setStyleSheet("QPushButton{ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:1 rgba(255, 255, 255, 0));\n"
 		"border: 0px;\n"
 		"color: #ffffff;\n"
 		"}\n"
 		"QPushButton:hover{\n"
-		"font:14pt Arial;\n"
+		"font:11pt Arial;\n"
 		"}"	)
-		self.Button_instagram.setText("XXXXXXX")
+		self.Button_instagram.setText("@_codeloid")
 		self.Button_instagram.setIcon(QIcon("Imagenes-iconos/Instagram.png"))
-
+		self.Button_instagram.setToolTip("Click para ir al perfil")
 
 		self.texto_instagram_2 = QTextBrowser(self.frame_disenadores)
 		self.texto_instagram_2.setGeometry(QRect(330,95,211,101))
@@ -219,6 +218,7 @@ class Acerca_de(QDialog):
 
 		self.Button_github_2.clicked.connect(self.enlace_github_2)
 		
+		self.Button_instagram.clicked.connect(self.enlace_instagram)
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 	
 #== Funciones para abrir enlaces ============================================================================================	
@@ -244,6 +244,11 @@ class Acerca_de(QDialog):
 	def enlace_github_2(self):
 
 		url = "https://github.com/CristianCala"
+
+		webbrowser.open(url)
+
+	def enlace_instagram(self):
+		url = "https://www.instagram.com/_codeloid/"
 
 		webbrowser.open(url)
 
