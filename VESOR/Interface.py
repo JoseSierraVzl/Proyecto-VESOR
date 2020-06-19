@@ -8,19 +8,19 @@ from Window_editar_eliminar_user import*
 
 
 
-from Window_visor_de_imagenes import *
+#from Window_visor_de_imagenes import *
 
-from Window_reparacion import *
+#from Window_reparacion import *
 
-from Window_enfermedad import * 
+#from Window_enfermedad import * 
 
-from Window_discapacidad import *
+#rom Window_discapacidad import *
 
 from Window_nv_user import *
 
 from Window_acerda_de_vesor import *
 
-from Window_gas_bombona import *
+#rom Window_gas_bombona import *
 
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 import sys, os
@@ -72,14 +72,13 @@ class Interface(QMainWindow):
         "}")
 		
 		self.acercade = self.menuArchivo.addAction("Acerca de VESOR", self.Abrir_window)
-		#abrir.setShortcutVisibleInContextMenu(True)
 		
 		self.ayuda = self.menuArchivo.addAction("Ayuda")
-		#guardar.setShortcutVisibleInContextMenu(True)
-		
-		#self.menuArchivo.addSeparator()
-		
-		#self.salir = self.menuArchivo.addAction("Salir")
+
+
+
+
+
 
 
 #========================================= #Eventos# ==================================================================
@@ -103,8 +102,6 @@ class Interface(QMainWindow):
 
 	def Abrir_window(self):
 		Acerca_de(self).exec_()
-
-		
 
 
 #========================================== #Classes# ===================================================================

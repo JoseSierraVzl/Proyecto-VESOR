@@ -1,12 +1,10 @@
 import sqlite3
-
 from os import getcwd, makedirs
 from Source_rc import *
 
 import sys, os
 from random import randint
-from PyQt5 import  uic, QtWidgets, QtGui
-from PyQt5.QtSql import *
+from PyQt5 import  uic 
 
 from PyQt5.QtGui import (QFont, QIcon, QPalette, QBrush, QColor, QPixmap, QRegion, QClipboard,
 						 QRegExpValidator, QImage)
@@ -21,6 +19,8 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QTable
 							 QGraphicsDropShadowEffect, QGraphicsBlurEffect,)
 
 
+
+
 class Window_edit_elim_user(QDialog):
 	def __init__(self, parent=None):
 		QDialog.__init__(self)
@@ -28,222 +28,310 @@ class Window_edit_elim_user(QDialog):
 		self.setWindowTitle("Editar usuario")
 		self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
-		self.setFixedSize(755, 460)  
+		self.setFixedSize(783, 460)  
 		self.setStyleSheet("QDialog{\n"
 		"background-color: qlineargradient(spread:pad, x1:0.063, y1:0.346591, x2:0.982955, y2:0.477, stop:0 rgba(85, 85, 255, 255), stop:1 rgba(0, 170, 255, 255));\n"
 		"}\n"
 		"")
-		# estilos
-		botonStilo = ("QPushButton{\n"
-		"border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
-		"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
-		"color:rgb(255, 255, 255);\n"
-		"font-size: 12px\n"
-		"}\n"
-		"\n"
-		"QPushButton:hover{\n"
-		"background-color:rgb(0, 170, 255);\n"
-		"color:rgb(255, 255, 255);\n"
-		"font-size: 12px;\n"
-		"\n"
-		"}")
 
+		self.initUi()
 
-		self.frame = QFrame(self)
-		self.frame.setGeometry(QtCore.QRect(30, 20, 121, 420))
-		self.shadow = QGraphicsDropShadowEffect(self)
-		self.shadow.setBlurRadius(22)
-		self.frame.setGraphicsEffect(self.shadow)
-		self.frame.setStyleSheet("QFrame{\n"
-        "\n"
-        "background-color:#12191D;\n"
-        "border-radius: 45px\n"
-        "}")
+	def initUi(self):
+		#Stylos ==========================================================================================      		
 
+		#Style del frame principal
+		Style_frame_principal = ("QFrame#frame{\n"
+								"color:#1b231f;\n"
+								"background-color: #E5E7EE;\n"
+								"font: 75 10pt Comic Sans MS;\n"
+								"border-radius: 22px;\n"
+								"}")
+		###
 
-		self.label = QLabel(self)
-		self.label.setGeometry(QtCore.QRect(355, 30, 251, 21))
-		self.label.setText("Seleccione el usuario a editar")
-		font = QFont()
-		font.setPointSize(12)
-		self.label.setFont(font)
-		self.label.setStyleSheet("color: black;")
+		#Style de la QTable con el contenido
 
-		self.label_2 = QLabel(self)
-		self.label_2.setGeometry(QtCore.QRect(57, 50, 131, 31))
-		self.label_2.setText("VESOR")
-		self.label_2.setStyleSheet("QLabel{\n"
-		"color:rgb(255, 255, 255);\n"
-		"font: 14pt \"Comic Sans MS\";\n"
-		"border-radius: 6px;\n"
-		"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0));\n"
-		"\n"
-		"}")
+		Style_qtable_contenido = ("QTableWidget::item{\n"
+									"color:#000000;\n"
+									"}\n"
+									"QTableWidget::item:hover{\n"
+									"background-color: rgb(0, 170, 255);\n"
+									"color:#000000;\n"
+									"}\n"
+									"QTableWidget{\n"
+									"background-color:#ced4da;\n"
+									"border:5px solid #000000;\n"
+									"border-radius:10px;\n"
+									"color:#000000;\n"
+									"}\n"
+									"QHeaderView::section{\n"
+									"background-color:#12191D;\n"
+									"color:#ffffff;\n"
+									"border: 1px solid #000000;\n"
+									"}\n"
+									"QHeaderView::section:hover{\n"
+									"background-color: rgb(0, 170, 255);\n"
+									"color:#ffffff;\n"
+									"border: 1px solid #000000\n"									
+									"}\n"
+									"QHeaderView::section:checked{\n"
+									"background-color: rgb(0, 170, 255);\n"
+									"}")
+		###
 
-		self.groupBox = QGroupBox(self)
-		self.groupBox.setGeometry(QtCore.QRect(180, 60, 545, 373))
-		self.groupBox.setStyleSheet("QGroupBox{\n"
-		"color:#1b231f;\n"
-		"background-color: #E5E7EE;\n"
-		"font: 75 10pt Comic Sans MS;\n"
-		"border-radius: 22px;\n"
-		"\n"
-		"}")
+		#Style de frame menu
 
-		self.btnEditar = QPushButton(self.frame)
-		self.btnEditar.setText("Editar Usuario")
-		self.btnEditar.setGeometry(QtCore.QRect(-10, 90, 131, 31))
-		self.btnEditar.setStyleSheet(botonStilo)
+		Style_frame_menu = ("QFrame{\n"
+							
+							"background-color:#12191D;\n"
+							"border-radius: 45px\n"
+							"}")
+		###
 
-		self.btnMostrar = QPushButton(self.frame)
-		self.btnMostrar.setText("Mostrar/Ocultar")
-		self.btnMostrar.setGeometry(QtCore.QRect(-10, 125, 131, 31))
-		self.btnMostrar.setStyleSheet(botonStilo)
+		#Style buttons
+		Style_buttons = ("QPushButton{\n"
+						"border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
+						"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
+						"color:rgb(255, 255, 255);\n"
+						"font-size: 12px\n"
+						"}\n"
 
-		self.btnCancelar = QPushButton(self.frame)
-		self.btnCancelar.setText("Cancelar")
-		self.btnCancelar.setGeometry(QtCore.QRect(-10, 160, 131, 31))
-		self.btnCancelar.setStyleSheet(botonStilo)
+						"QPushButton:hover{\n"
+						"background-color:rgb(0, 170, 255);\n"
+						"color:rgb(255, 255, 255);\n"
+						"font-size: 12px;\n"
+						"}")
+		###
 
+		#Style actualizar 
 
-		self.tableWidget = QTableWidget(self.groupBox)
-		self.tableWidget.setGeometry(QtCore.QRect(20,20, 500, 340))
-		self.tableWidget.setStyleSheet("QFrame{\n"
-        "\n"
-        "background-color:#5555FF;\n"
-        "border-radius: 20px\n"
-        "}")
+		Style_actulizar_button =	("QPushButton{\n"
+									"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
+									"border-radIus: 3px\n"
+									"}\n"
+									"QPushButton:hover{\n"
+									"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(204, 204, 204, 129));\n"
+									"border-radius:10px;\n"
+									"}")
+		###
 
-		self.tableWidget.setColumnCount(6)
+		#Style de label titulo
 
-		item = QtWidgets.QTableWidgetItem()
-		self.tableWidget.setHorizontalHeaderItem(0, item)
-		item = QtWidgets.QTableWidgetItem()
-		self.tableWidget.setHorizontalHeaderItem(1, item)
-		item = QtWidgets.QTableWidgetItem()
-		self.tableWidget.setHorizontalHeaderItem(2, item)
-		item = QtWidgets.QTableWidgetItem()
-		self.tableWidget.setHorizontalHeaderItem(3, item)
-		item = QtWidgets.QTableWidgetItem()
-		self.tableWidget.setHorizontalHeaderItem(4, item)
-		item = QtWidgets.QTableWidgetItem()
-		self.tableWidget.setHorizontalHeaderItem(5, item)
+		Style_label_menu = ("QLabel{\n"
+							"color:rgb(255, 255, 255);\n"
+							"font: 10pt 'Comic Sans MS';\n"
+							"border-radius: 6px;\n"
+							"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0));\n"
 
-		item = self.tableWidget.horizontalHeaderItem(0)
-		item.setText("#")
-		item = self.tableWidget.horizontalHeaderItem(1)
-		item.setText("Nombre")
-		item = self.tableWidget.horizontalHeaderItem(2)
-		item.setText("Apellido")
-		item = self.tableWidget.horizontalHeaderItem(3)
-		item.setText("Cédula")
-		item = self.tableWidget.horizontalHeaderItem(4)
-		item.setText("Nro. Casa")
-		item = self.tableWidget.horizontalHeaderItem(5)
-		item.setText("Vocer@")
+							"}")
 
+		###
 
-		self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
-		self.tableWidget.setDragDropOverwriteMode(False)
-		self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
-		self.tableWidget.setTextElideMode(Qt.ElideRight)
-		self.tableWidget.setWordWrap(False)
-		self.tableWidget.setSortingEnabled(False)
-		self.tableWidget.setRowCount(0)
-		self.tableWidget.horizontalHeader().setDefaultAlignment(Qt.AlignHCenter|Qt.AlignVCenter|
-                                                          Qt.AlignCenter)
-		self.tableWidget.horizontalHeader().setHighlightSections(False)
-		self.tableWidget.horizontalHeader().setStretchLastSection(True)
-		self.tableWidget.verticalHeader().setVisible(False)
-		self.tableWidget.setAlternatingRowColors(True)
+		#Style de label busqueda
+		Style_label_busqueda = ("QLabel{\n"
+								"color:rgb(255, 255, 255);\n"
+								"font: 8pt 'Comic Sans MS';\n"
+								"background-color:#1C262D\n"
+								"}")
 
-		self.tableWidget.verticalHeader().setDefaultSectionSize(20)
-        # Menú contextual
-		self.tableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
+		###
 
-		# Lógica
-		self.btnMostrar.clicked.connect(self.datosTabla)
-		self.btnCancelar.clicked.connect(self.Salir)
+		#Style line Edit busqueda
+		Style_line_edit_busqueda = ("QLineEdit{\n"
+									"border-radius: 6px;\n"
+									"}\n"
+									"QLineEdit:hover{\n"
+									"border:1px solid rgb(0, 170, 255);\n"
+									"}")
+		###
+		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-	def datosTabla(self):
-		try:
-			self.con = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
-			self.con2 = sqlite3.connect("Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db")
+		#frames ==========================================================================================      				
+		#Frame principal contenido
+		self.frame_principal_contenido = QFrame(self)
+		self.frame_principal_contenido.setGeometry(QRect(180,20,581,411))
+		self.frame_principal_contenido.setObjectName("frame")
+		self.frame_principal_contenido.setStyleSheet(Style_frame_principal)
+		###
 
-		except Exception as e:
-			print(e)
-			QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
-										 QMessageBox.Ok)
-			self.cursor = self.con.cursor()
-			self.cursor2 = self.con2.cursor()
-			self.cursor.execute("SELECT ID,PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA FROM 'USUARIO_DT_GNR' WHERE ID = 1")
-			self.cursor2.execute("SELECT Nº_VIVIENDA FROM 'USUARIO_UBCGEOG' WHERE ID = 1" )
-
-			for i in self.cursor:
-				self.id = str(i[0])
-				self.primer_nombre = str(i[1])
-				self.primer_apellido = str(i[2])
-				self.cedula = str(i[3])
-				
-			for i in self.cursor2:
-				self.vivienda = str(i[0]) 
-
-			datos = [(self.id ,self.primer_nombre, self.primer_apellido, self.cedula, self.vivienda)]
-			
-			self.tableWidget.clearContents()
-
-			row = 0
-			for endian in datos:
-				self.tableWidget.setRowCount(row + 1)
-		            
-				idDato = QTableWidgetItem(endian[0])
-				idDato.setTextAlignment(4)
-		            
-				self.tableWidget.setItem(row, 0, idDato)
-				self.tableWidget.setItem(row, 1, QTableWidgetItem(endian[1]))
-				self.tableWidget.setItem(row, 2, QTableWidgetItem(endian[2]))
-				self.tableWidget.setItem(row, 3, QTableWidgetItem(endian[3]))
-				self.tableWidget.setItem(row, 4, QTableWidgetItem(endian[4]))
-				self.tableWidget.setItem(row, 5, QTableWidgetItem(endian[5]))
-
-			row += 1
-
-
-
-	def Salir(self):
+		#Frame menu
+		self.frame_menu = QFrame(self)
+		self.frame_menu.setGeometry(QRect(30,20,121,411))
+		self.frame_menu.setStyleSheet(Style_frame_menu)
+		###
+		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		msg = QMessageBox()
-		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
-		msg.setText("Cancelar")
-		msg.setInformativeText("¿Estás seguro de que desea cancelar?")
-		msg.setWindowTitle("¡Advertencia!")
-		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-		msg.setIcon(QMessageBox.Warning)
-		button_si = msg.button(QMessageBox.Yes)
-		button_si.setText("Si")
-		button_si.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
-		button_si.setIconSize(QSize(13,13))
-		button_si.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
-		"QPushButton{background:#343a40;\n"
-		"}")
-		button_no = msg.button(QMessageBox.No)
-		button_no.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
-		button_no.setIconSize(QSize(13,13))
-		button_no.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
-		"QPushButton{background:#343a40;}")
-		msg.setStyleSheet("\n"
-			"color:#ffffff;\n"
-			"font-size:12px;\n"
-			"background-color:#12191D;")
+		#Labels ==========================================================================================
+		#Labels de menu
+		self.Label_1 = QLabel(self.frame_menu)
+		self.Label_1.setGeometry(QRect(0,10,121,21))
+		self.Label_1.setText("ELIMINAR")
+		self.Label_1.setAlignment(Qt.AlignCenter)
+		self.Label_1.setStyleSheet(Style_label_menu)
 
-		if (msg.exec_() == QMessageBox.Yes):
-			self.destroy()
+		self.Label_2 = QLabel(self.frame_menu)
+		self.Label_2.setGeometry(QRect(0,30,121,21))
+		self.Label_2.setText("Y EDITAR")
+		self.Label_2.setAlignment(Qt.AlignCenter)
+		self.Label_2.setStyleSheet(Style_label_menu)
+
+		self.Label_3 = QLabel(self.frame_menu)
+		self.Label_3.setGeometry(QRect(0,50,121,21))
+		self.Label_3.setText("USUARIO")
+		self.Label_3.setAlignment(Qt.AlignCenter)
+		self.Label_3.setStyleSheet(Style_label_menu)
+
+		self.Label_4 = QLabel(self.frame_menu)
+		self.Label_4.setGeometry(QRect(0,310,121,21))
+		self.Label_4.setText("BÚSQUEDA")
+		self.Label_4.setAlignment(Qt.AlignCenter)
+		self.Label_4.setStyleSheet(Style_label_busqueda)	
+		###
+		
+		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
+
+		#Line Edit ==========================================================================================
+		self.line_edit_busqueda = QLineEdit(self.frame_menu)
+		self.line_edit_busqueda.setGeometry(QRect(5,340,111,21))
+		self.line_edit_busqueda.setToolTip("Ingresa la cedula de identidad\npara busqueda de usuario")
+		self.line_edit_busqueda.setPlaceholderText("Ingresa cedula")
+		self.line_edit_busqueda.setStyleSheet(Style_line_edit_busqueda)
+
+		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
+
+		#Buttons ==========================================================================================
+		#Buttons actualizar       		
+		self.actualizar = QPushButton(self.frame_menu)
+		self.actualizar.setText("")
+		self.actualizar.setGeometry(QRect(50, 120, 23, 21))
+		self.actualizar.setStyleSheet(Style_actulizar_button)
+		self.actualizar.setIcon(QIcon(":/Icono_recargar/Imagenes-iconos/Recargar.png"))
+		self.actualizar.setToolTip("Click para actualizar\nla lista de usuarios")
+		###
+
+		#Buttons aceptar
+		self.aceptar = QPushButton(self.frame_menu)
+		self.aceptar.setText("Aceptar")
+		self.aceptar.setGeometry(QRect(0, 150, 121, 31))
+		self.aceptar.setStyleSheet(Style_buttons)
+		self.aceptar.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
+		self.aceptar.setIconSize(QSize(15,15))
+		###
+
+		#Buttons eliminar
+		self.eliminar = QPushButton(self.frame_menu)
+		self.eliminar.setText("Eliminar")
+		self.eliminar.setGeometry(QRect(0, 180, 121, 31))
+		self.eliminar.setStyleSheet(Style_buttons)
+		self.eliminar.setIcon(QIcon(":/Icono_papelera/Imagenes-iconos/Papelera_blanca.png"))
+		self.eliminar.setIconSize(QSize(17,17))
+		###
+
+		#Buttons cancelar
+		self.cancelar = QPushButton(self.frame_menu)
+		self.cancelar.setText("Cancelar")
+		self.cancelar.setGeometry(QRect(0, 210, 121, 31))
+		self.cancelar.setStyleSheet(Style_buttons)
+		self.cancelar.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
+		self.cancelar.setIconSize(QSize(15,15))
+		###
+
+
+		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
+
+		#EVENTOS ==========================================================================================      		
+		self.actualizar.clicked.connect(self.mostrar_datos)
+
+		#QTableWidget ==========================================================================================      		
+		nombreColumnas = ("ID", "Primer nombre", "Primer apellido", "Cedula",
+		 "N°Vivienda", "Vocera")
+		self.QTableWidget_contenido = QTableWidget(self.frame_principal_contenido)
+		self.QTableWidget_contenido.setToolTip("Click para ver usuario")
+		self.QTableWidget_contenido.setGeometry(QRect(15,11,551,391))
+		self.QTableWidget_contenido.setStyleSheet(Style_qtable_contenido)
+		self.QTableWidget_contenido.setEditTriggers(QAbstractItemView.NoEditTriggers)
+		self.QTableWidget_contenido.setDragDropOverwriteMode(False)
+		self.QTableWidget_contenido.setSelectionBehavior(QAbstractItemView.SelectRows)
+		self.QTableWidget_contenido.setSelectionMode(QAbstractItemView.SingleSelection)
+		self.QTableWidget_contenido.setTextElideMode(Qt.ElideRight)
+		self.QTableWidget_contenido.setWordWrap(False)
+		self.QTableWidget_contenido.setSortingEnabled(False)
+		self.QTableWidget_contenido.setColumnCount(6)
+		self.QTableWidget_contenido.setRowCount(0)
+		self.QTableWidget_contenido.horizontalHeader().setDefaultAlignment(Qt.AlignHCenter|Qt.AlignVCenter|
+														  Qt.AlignCenter)
+		self.QTableWidget_contenido.horizontalHeader().setHighlightSections(False)
+		self.QTableWidget_contenido.horizontalHeader().setStretchLastSection(True)
+		self.QTableWidget_contenido.verticalHeader().setVisible(False)
+		self.QTableWidget_contenido.setAlternatingRowColors(False)
+		self.QTableWidget_contenido.verticalHeader().setDefaultSectionSize(20)
+		self.QTableWidget_contenido.setHorizontalHeaderLabels(nombreColumnas)
+		
+		for indice, ancho in enumerate((5, 150, 150, 150, 80, 150), start=0):
+			self.QTableWidget_contenido.setColumnWidth(indice, ancho)
+
+
+	def mostrar_datos(self):
+
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+			try: 
+				self.con = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+				self.con2 = sqlite3.connect("Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db")
+
+				self.cursor = self.con.cursor()
+				self.cursor2 = self.con2.cursor()
+
+				self.cursor.execute("SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA FROM USUARIO_DT_GNR")
+				self.cursor2.execute("SELECT N_VIVIENDA FROM 'USUARIO_UBCGEOG'")
+
+				datos_Devueltos = self.cursor.fetchall()
+				datos_Devueltos_2 = self.cursor2.fetchall()
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
+
+				if datos_Devueltos:
+					row = 0
+
+					for datos in datos_Devueltos:
+						self.QTableWidget_contenido.setRowCount(row + 1)
+						
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
+
+						self.QTableWidget_contenido.setItem(row, 0, idDato)
+						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[2]))
+						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[3]))
+						#self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[4]))
+						row +=1
+						
+				if datos_Devueltos_2:
+					row = 0
+					for  datos_2 in datos_Devueltos_2:
+						
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos_2[0]))
+						row += 1
+
+
+
+
+
+				else:   
+					QMessageBox.information(self, "Buscar usuaro", "No se encontraron usuarios"
+											"información.   ", QMessageBox.Ok)
+
+			except Exception as e:
+				print(e)
+				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
+											 QMessageBox.Ok)
 		else:
-			pass
+			QMessageBox.critical(self, "Buscar clientes", "No se encontro la base de datos.   ",
+								 QMessageBox.Ok)
 
 
+		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
+		
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
 	interface = Window_edit_elim_user()

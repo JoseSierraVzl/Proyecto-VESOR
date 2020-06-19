@@ -137,6 +137,8 @@ class Ui_Ventana_de_registro(object):
         self.label_user.setText(_translate("Ventana_de_registro", "Usuario:"))
         self.label_password.setText(_translate("Ventana_de_registro", "Contraseña:"))
         self.label_password2.setText(_translate("Ventana_de_registro", "Ingresa la contraseña nuevamente:"))
+
+
 from Source_rc import *
 
 

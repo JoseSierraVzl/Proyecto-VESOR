@@ -3,6 +3,24 @@
     <file>Imagenes-iconos/Usuario_blanco.png</file>
     <file>Imagenes-iconos/Usuario_negro.png</file>
   </qresource>
+  <qresource prefix="Icono_descipcion">
+    <file>Imagenes-iconos/descripcion.png</file>
+  </qresource>
+  <qresource prefix="Icono_flecha_izquierda">
+    <file>Imagenes-iconos/Flecha_izquierda.png</file>
+  </qresource>
+  <qresource prefix="Icono_enfermedad">
+    <file>Imagenes-iconos/Enfermedad.png</file>
+  </qresource>
+  <qresource prefix="Icono_Discapacidad">
+    <file>Imagenes-iconos/discapacidad_blanco.png</file>
+  </qresource>
+  <qresource prefix="Icono_ubicacion">
+    <file>Imagenes-iconos/ubicacion.png</file>
+  </qresource>
+  <qresource prefix="Icono_casa">
+    <file>Imagenes-iconos/casa_blanco.png</file>
+  </qresource>
   <qresource prefix="Icono_recargar">
     <file>Imagenes-iconos/Recargar.png</file>
   </qresource>

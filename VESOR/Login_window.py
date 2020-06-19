@@ -26,9 +26,6 @@ class Login_window(QDialog):
 		self.shadow.setBlurRadius(16)
 		self.pushButton_2.setGraphicsEffect(self.shadow)
 		
-
-
-
 		self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
 		self.Button_iniciar.clicked.connect(self.login_iniciar)
