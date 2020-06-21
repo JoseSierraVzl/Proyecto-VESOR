@@ -17,6 +17,7 @@ from Window_editar_eliminar_user import*
 #from Window_gas_bombona import *
 
 
+
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 import sys, os
 from random import randint
@@ -1222,6 +1223,7 @@ class Window_nv_users(QDialog):
 		#QTextEdit de carrera que estudia
 		self.texedit_carrera = QTextEdit(self.frame_contenido_estudiante)
 		self.texedit_carrera.setGeometry(QRect(250,30,161,81))
+		self.texedit_carrera.setPlaceholderText("Carrera que cursa...")
 		self.texedit_carrera.setStyleSheet("QTextEdit{background-color: #12191D;\n"
 		"border-radius:20px;\n"
 		"color:#ffffff\n"
@@ -1244,6 +1246,7 @@ class Window_nv_users(QDialog):
 		#QTextEdit de donde estudia
 		self.texedit_donde_estudia = QTextEdit(self.frame_contenido_estudiante)
 		self.texedit_donde_estudia.setGeometry(QRect(40,160,341,81))
+		self.texedit_donde_estudia.setPlaceholderText("Dirección y universidad donde estudia...")
 		self.texedit_donde_estudia.setStyleSheet("QTextEdit{background-color: #12191D;\n"
 		"border-radius:20px;\n"
 		"color:#ffffff\n"
@@ -4321,7 +4324,7 @@ class Window_nv_users(QDialog):
 			if i == 15:
 				self.Mostrar_estudiante()
 			else:
-				None
+				return "No esta estudiando"
 
 	#opcion de lactante =======================================================================================
 	
@@ -4330,7 +4333,7 @@ class Window_nv_users(QDialog):
 			return "Si"
 		else: 
 	
-			return "No"
+			return "No esta en estado de lactancia"
 	#opcion de embarazada =======================================================================================
 	def opcion_de_embarazada(self):
 
@@ -4338,7 +4341,7 @@ class Window_nv_users(QDialog):
 			return "Si"
 
 		else:
-			return "No"
+			return "No esta en estado de embarazo"
 
 
 	#opcion de servicio gas bombona =======================================================================================
@@ -4355,7 +4358,7 @@ class Window_nv_users(QDialog):
 		if self.checkBox_1_pensionado.isChecked():
 			return "Pensionado"
 		else:
-			return "No"
+			return "No esta pensionado"
 
 	#Ventana reparacion de vivienda  =======================================================================================
 
@@ -4371,7 +4374,7 @@ class Window_nv_users(QDialog):
 			return "Aire Acondicionado"
 
 		else:
-			return "No"
+			return "No necesita linea blanca"
 
 
 	def Opcion_reparacion_vivienda(self):
@@ -4397,7 +4400,7 @@ class Window_nv_users(QDialog):
 		elif self.checkBox_10_otras_rpr.isChecked():
 			return "Otras..."
 		else:
-			"No"
+			"No necesita reparacion"
 
 	#Ventana de Enfermedad =======================================================================================
 
@@ -4434,7 +4437,7 @@ class Window_nv_users(QDialog):
 			return "Otra..."
 
 		else:
-			None
+			"No posee enfermedad"
 
 
 
@@ -4447,7 +4450,7 @@ class Window_nv_users(QDialog):
 				return "No"
 
 			else:
-				None
+				return "No necesita medicamento"
 
 
 
@@ -4466,7 +4469,7 @@ class Window_nv_users(QDialog):
 			elif self.checkBox_otros.isChecked():
 				return "Otros..."
 			else:
-				None
+				return "No necesita insume medico"
 
 	def necesita_algun_medicamento_dscp(self):
 
@@ -4476,7 +4479,7 @@ class Window_nv_users(QDialog):
 			elif self.radioButton_no_medicamentos_dscp.isChecked():
 				return "No"
 			else:
-				None
+				return "No necesita medicamento"
 
 	def tipo_discapacidad(self):
 
@@ -4493,7 +4496,7 @@ class Window_nv_users(QDialog):
 			elif self.checkBox_otras.isChecked():
 				return "Otras..."
 			else:
-				None
+				return "No posee ninguna discapacidad"
 
 
 	###################################### Funciones para los radio button y Checkbox #########################################
@@ -4508,7 +4511,7 @@ class Window_nv_users(QDialog):
 			return "No"
 
 		else:
-			None
+			return "No necesita reparacion"
 
 	#Funcion de si esta inscrito en el REP =============================================================================================
 	def RadioButton_rep(self):
@@ -4517,10 +4520,10 @@ class Window_nv_users(QDialog):
 			return "Si"
 
 		elif self.radiobutton_no_inscrito.isChecked():
-			return "No"
+			return "No esta inscrito"
 
 		else:
-			None
+			return "No"
 
 	#CheckBox de servicios que posee ==================================================================================================
 	def CheckBox_aguapotable(self):

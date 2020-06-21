@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>548</width>
-    <height>425</height>
+    <width>714</width>
+    <height>452</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
      <x>20</x>
      <y>20</y>
      <width>121</width>
-     <height>381</height>
+     <height>411</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -264,8 +264,8 @@ font-size: 12px;
     <rect>
      <x>160</x>
      <y>20</y>
-     <width>371</width>
-     <height>381</height>
+     <width>531</width>
+     <height>411</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -284,8 +284,8 @@ border-radius: 22px
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>80</y>
-      <width>131</width>
+      <y>70</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -307,8 +307,8 @@ border-radius:5px
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>280</y>
-      <width>131</width>
+      <y>270</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -320,7 +320,7 @@ border-radius:5px
 }</string>
     </property>
     <property name="text">
-     <string>Embarazada:</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -329,9 +329,9 @@ border-radius:5px
    <widget class="QLabel" name="label_11">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>210</y>
-      <width>131</width>
+      <x>20</x>
+      <y>200</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -351,9 +351,9 @@ border-radius: 5px
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>280</y>
-      <width>131</width>
+      <x>20</x>
+      <y>270</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -375,8 +375,8 @@ border-radius:5px
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>260</y>
-      <width>131</width>
+      <y>250</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -387,7 +387,7 @@ border-radius: 5px
 }</string>
     </property>
     <property name="text">
-     <string>Embarazada:</string>
+     <string>Genero:</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -396,9 +396,9 @@ border-radius: 5px
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>130</y>
-      <width>131</width>
+      <x>20</x>
+      <y>120</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -420,8 +420,8 @@ border-radius:5px
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>330</y>
-      <width>131</width>
+      <y>320</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -433,7 +433,7 @@ border-radius:5px
 }</string>
     </property>
     <property name="text">
-     <string>Pensionado:</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -442,8 +442,8 @@ border-radius:5px
    <widget class="QLabel" name="label_19">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>20</y>
+      <x>130</x>
+      <y>10</y>
       <width>271</width>
       <height>16</height>
      </rect>
@@ -464,9 +464,9 @@ border-radius: 5px
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>80</y>
-      <width>131</width>
+      <x>20</x>
+      <y>70</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -487,9 +487,9 @@ border-radius:5px
    <widget class="QLabel" name="label_17">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>160</y>
-      <width>131</width>
+      <x>20</x>
+      <y>150</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -509,9 +509,9 @@ border-radius: 5px
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>110</y>
-      <width>131</width>
+      <x>190</x>
+      <y>50</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -532,8 +532,8 @@ border-radius: 5px
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>160</y>
-      <width>131</width>
+      <y>150</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -554,8 +554,8 @@ border-radius: 5px
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>210</y>
-      <width>131</width>
+      <y>200</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -576,8 +576,8 @@ border-radius: 5px
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>180</y>
-      <width>131</width>
+      <y>170</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -599,8 +599,8 @@ border-radius:5px
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>130</y>
-      <width>131</width>
+      <y>120</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -621,9 +621,9 @@ border-radius:5px
    <widget class="QLabel" name="label_48">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>310</y>
-      <width>131</width>
+      <x>20</x>
+      <y>300</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -634,7 +634,7 @@ border-radius: 5px
 }</string>
     </property>
     <property name="text">
-     <string>Lactante:</string>
+     <string>Profesion u oficio</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -643,9 +643,9 @@ border-radius: 5px
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>260</y>
-      <width>131</width>
+      <x>20</x>
+      <y>250</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -666,8 +666,8 @@ border-radius: 5px
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>310</y>
-      <width>131</width>
+      <y>300</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -687,9 +687,9 @@ border-radius: 5px
    <widget class="QLabel" name="label_18">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>180</y>
-      <width>131</width>
+      <x>20</x>
+      <y>170</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -711,8 +711,8 @@ border-radius:5px
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>230</y>
-      <width>131</width>
+      <y>220</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -733,9 +733,9 @@ border-radius:5px
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>60</y>
-      <width>131</width>
+      <x>20</x>
+      <y>100</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -755,9 +755,9 @@ border-radius: 5px
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>60</y>
-      <width>131</width>
+      <x>20</x>
+      <y>50</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -778,8 +778,8 @@ border-radius: 5px
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>110</y>
-      <width>131</width>
+      <y>100</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -799,9 +799,9 @@ border-radius: 5px
    <widget class="QLabel" name="label_12">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>230</y>
-      <width>131</width>
+      <x>20</x>
+      <y>220</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -822,9 +822,9 @@ border-radius:5px
    <widget class="QLabel" name="label_49">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>330</y>
-      <width>131</width>
+      <x>20</x>
+      <y>320</y>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
@@ -836,7 +836,412 @@ border-radius:5px
 }</string>
     </property>
     <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_23">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>170</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+background-color:#12191D;;
+color: #ffffff;
+border-radius:5px
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_24">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>120</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+background-color:#12191D;;
+color: #ffffff;
+border-radius:5px
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_25">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>300</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{background-color:#4466B8;
+color: rgb(255, 255, 255);
+border-radius: 5px
+}</string>
+    </property>
+    <property name="text">
+     <string>Nivel de instruccion:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_26">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>220</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+background-color:#12191D;;
+color: #ffffff;
+border-radius:5px
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_50">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>200</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{background-color:#4466B8;
+color: rgb(255, 255, 255);
+border-radius: 5px
+}</string>
+    </property>
+    <property name="text">
+     <string>Correo electronico:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_27">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>320</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+background-color:#12191D;;
+color: #ffffff;
+border-radius:5px
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_51">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>270</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+background-color:#12191D;;
+color: #ffffff;
+border-radius:5px
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_52">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>250</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{background-color:#4466B8;
+color: rgb(255, 255, 255);
+border-radius: 5px
+}</string>
+    </property>
+    <property name="text">
+     <string>Esta inscrito en REP:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_28">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>50</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{background-color:#4466B8;
+color: rgb(255, 255, 255);
+border-radius: 5px
+}</string>
+    </property>
+    <property name="text">
+     <string>Embarazo:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_29">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>100</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{background-color:#4466B8;
+color: rgb(255, 255, 255);
+border-radius: 5px
+}</string>
+    </property>
+    <property name="text">
      <string>Lactante:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_30">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>150</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{background-color:#4466B8;
+color: rgb(255, 255, 255);
+border-radius: 5px
+}</string>
+    </property>
+    <property name="text">
+     <string>Parentesco:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_31">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>70</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+background-color:#12191D;;
+color: #ffffff;
+border-radius:5px
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_32">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>350</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{background-color:#4466B8;
+color: rgb(255, 255, 255);
+border-radius: 5px
+}</string>
+    </property>
+    <property name="text">
+     <string>Estado civil:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_33">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>370</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+background-color:#12191D;;
+color: #ffffff;
+border-radius:5px
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_34">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>370</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+background-color:#12191D;;
+color: #ffffff;
+border-radius:5px
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_35">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>350</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{background-color:#4466B8;
+color: rgb(255, 255, 255);
+border-radius: 5px
+}</string>
+    </property>
+    <property name="text">
+     <string>Beneficio que posee:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_36">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>370</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+background-color:#12191D;;
+color: #ffffff;
+border-radius:5px
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_37">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>350</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{background-color:#4466B8;
+color: rgb(255, 255, 255);
+border-radius: 5px
+}</string>
+    </property>
+    <property name="text">
+     <string>Grupo social:</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -845,7 +1250,7 @@ border-radius:5px
   </widget>
  </widget>
  <resources>
-  <include location="Proyecto_Vesor/Proyecto-VESOR1/VESOR/Source.qrc"/>
+  <include location="../../../../../Proyecto-VESOR/VESOR/Source.qrc"/>
  </resources>
  <connections/>
 </ui>

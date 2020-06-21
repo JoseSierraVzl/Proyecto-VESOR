@@ -6,8 +6,6 @@ import sys, os
 from random import randint
 from PyQt5 import  uic 
 
-from Window_visualizar_user import *
-
 from PyQt5.QtGui import (QFont, QIcon, QPalette, QBrush, QColor, QPixmap, QRegion, QClipboard,
 						 QRegExpValidator, QImage)
 from PyQt5.QtCore import (Qt, QDir, pyqtSignal, QFile, QDate, QTime, QSize, QTimer, QRect, QRegExp, QTranslator,QLocale,
@@ -23,11 +21,11 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QTable
 
 
 
-class Window_edit_elim_user(QDialog):
+class Window_edit_elim_vocero(QDialog):
 	def __init__(self, parent=None):
 		QDialog.__init__(self)
 		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
-		self.setWindowTitle("Editar usuario")
+		self.setWindowTitle("Editar vocero")
 		self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
 		self.setFixedSize(783, 460)  
@@ -178,7 +176,7 @@ class Window_edit_elim_user(QDialog):
 
 		self.Label_3 = QLabel(self.frame_menu)
 		self.Label_3.setGeometry(QRect(0,50,121,21))
-		self.Label_3.setText("USUARIO")
+		self.Label_3.setText("VOCERO")
 		self.Label_3.setAlignment(Qt.AlignCenter)
 		self.Label_3.setStyleSheet(Style_label_menu)
 
@@ -194,7 +192,7 @@ class Window_edit_elim_user(QDialog):
 		#Line Edit ==========================================================================================
 		self.line_edit_busqueda = QLineEdit(self.frame_menu)
 		self.line_edit_busqueda.setGeometry(QRect(5,340,111,21))
-		self.line_edit_busqueda.setToolTip("Ingresa la cedula de identidad\npara busqueda de usuario")
+		self.line_edit_busqueda.setToolTip("Ingresa la cedula de identidad\npara busqueda de vocero")
 		self.line_edit_busqueda.setPlaceholderText("Ingresa cedula")
 		self.line_edit_busqueda.setStyleSheet(Style_line_edit_busqueda)
 
@@ -207,7 +205,7 @@ class Window_edit_elim_user(QDialog):
 		self.actualizar.setGeometry(QRect(50, 120, 23, 21))
 		self.actualizar.setStyleSheet(Style_actulizar_button)
 		self.actualizar.setIcon(QIcon(":/Icono_recargar/Imagenes-iconos/Recargar.png"))
-		self.actualizar.setToolTip("Click para actualizar\nla lista de usuarios")
+		self.actualizar.setToolTip("Click para actualizar\nla lista de voceros")
 		###
 
 		#Buttons aceptar
@@ -240,11 +238,13 @@ class Window_edit_elim_user(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
+		#EVENTOS ==========================================================================================      		
+		self.actualizar.clicked.connect(self.mostrar_datos)
+
 		#QTableWidget ==========================================================================================      		
-		nombreColumnas = ("ID", "Primer nombre", "Primer apellido", "Cedula",
-		 "N°Vivienda", "Vocera/o")
+		nombreColumnas = ("ID", "Primer nombre", "Primer apellido", "Cedula", "Usuarios que maneja")
 		self.QTableWidget_contenido = QTableWidget(self.frame_principal_contenido)
-		self.QTableWidget_contenido.setToolTip("Click para ver usuario")
+		#self.QTableWidget_contenido.setToolTip("Click para ver usuario")
 		self.QTableWidget_contenido.setGeometry(QRect(15,11,551,391))
 		self.QTableWidget_contenido.setStyleSheet(Style_qtable_contenido)
 		self.QTableWidget_contenido.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -254,7 +254,7 @@ class Window_edit_elim_user(QDialog):
 		self.QTableWidget_contenido.setTextElideMode(Qt.ElideRight)
 		self.QTableWidget_contenido.setWordWrap(False)
 		self.QTableWidget_contenido.setSortingEnabled(False)
-		self.QTableWidget_contenido.setColumnCount(6)
+		self.QTableWidget_contenido.setColumnCount(5)
 		self.QTableWidget_contenido.setRowCount(0)
 		self.QTableWidget_contenido.horizontalHeader().setDefaultAlignment(Qt.AlignHCenter|Qt.AlignVCenter|
 														  Qt.AlignCenter)
@@ -264,36 +264,23 @@ class Window_edit_elim_user(QDialog):
 		self.QTableWidget_contenido.setAlternatingRowColors(False)
 		self.QTableWidget_contenido.verticalHeader().setDefaultSectionSize(20)
 		self.QTableWidget_contenido.setHorizontalHeaderLabels(nombreColumnas)
-
-		for indice, ancho in enumerate((5, 150, 150, 150, 80, 150), start=0):
+		
+		for indice, ancho in enumerate((5, 170,170, 130,170), start=0):
 			self.QTableWidget_contenido.setColumnWidth(indice, ancho)
-
-
-		#EVENTOS ==========================================================================================      		
-		self.actualizar.clicked.connect(self.mostrar_datos)
-
-		self.QTableWidget_contenido.itemDoubleClicked.connect(self.Intem_click)
-
-		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-
 
 
 	def mostrar_datos(self):
 
-		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+		if QFile.exists("Voceros/DB_VOCEROS.db"):
 
 			try: 
-				self.con = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
-				self.con2 = sqlite3.connect("Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db")
+				self.con = sqlite3.connect("Voceros/DB_VOCEROS.db")
 
 				self.cursor = self.con.cursor()
-				self.cursor2 = self.con2.cursor()
 
-				self.cursor.execute("SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA FROM USUARIO_DT_GNR")
-				self.cursor2.execute("SELECT N_VIVIENDA FROM 'USUARIO_UBCGEOG'")
+				self.cursor.execute("SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA FROM DATOS_VOCEROS")
 
 				datos_Devueltos = self.cursor.fetchall()
-				datos_Devueltos_2 = self.cursor2.fetchall()
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -310,22 +297,11 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[2]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[3]))
-						#self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[4]))
 						row +=1
-						
-				if datos_Devueltos_2:
-					row = 0
-					for  datos_2 in datos_Devueltos_2:
-						
-						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos_2[0]))
-						row += 1
-
-
-
 
 
 				else:   
-					QMessageBox.information(self, "Buscar usuaria", "No se encontraron usuarios"
+					QMessageBox.information(self, "Buscar Vocero", "No se encontraron voceros"
 											"información.   ", QMessageBox.Ok)
 
 			except Exception as e:
@@ -333,61 +309,8 @@ class Window_edit_elim_user(QDialog):
 				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
 											 QMessageBox.Ok)
 		else:
-			QMessageBox.critical(self, "Buscar usuarios", "No se encontro la base de datos.   ",
+			QMessageBox.critical(self, "Buscar Voceros", "No se encontro la base de datos.   ",
 								 QMessageBox.Ok)
-
-
-
-
-	def Intem_click(self,celda):
-		celda = self.QTableWidget_contenido.selectedItems()
-
-		if celda:
-			indice = celda[0].row()
-			dato = [self.QTableWidget_contenido.item(indice,i).text()for i in range(4)]
-			print(dato)
-			print (dato[3])
-
-			dato_buscar = dato[3]
-
-			if dato_buscar:
-				sql = "SELECT * FROM USUARIO_DT_GNR WHERE CEDULA LIKE ?", (dato_buscar,)
-				print("Si")
-			else:
-				print("NO")
-
-			if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
-				conexion = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
-				cursor = conexion.cursor()
-
-				try:
-					cursor.execute(sql[0],sql[1])
-					datosdevueltos = cursor.fetchall()
-					print(datosdevueltos)
-					for dato in datosdevueltos:
-						indice = dato[0]
-
-						print(dato[0])
-
-						print(dato[7])
-
-					Window_visualizar_users(indice,dato,self).exec_()
-					conexion.close()
-				except Exception as e:
-					print(e)
-
-
-
-
-
-
-
-
-
-
-
-
-			
 
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
@@ -395,7 +318,7 @@ class Window_edit_elim_user(QDialog):
 		
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
-	interface = Window_edit_elim_user()
+	interface = Window_edit_elim_vocero()
 	interface.show()
 	app.exec_()
 
