@@ -1,7 +1,7 @@
 <RCC>
   <qresource prefix="Icono_usuario">
-    <file>Imagenes-iconos/Usuario_blanco.png</file>
     <file>Imagenes-iconos/Usuario_negro.png</file>
+    <file>Imagenes-iconos/Usuario_blanco.png</file>
   </qresource>
   <qresource prefix="Icono_descipcion">
     <file>Imagenes-iconos/descripcion.png</file>
@@ -87,8 +87,8 @@
     <file>Imagenes-iconos/Lupa_negra.png</file>
   </qresource>
   <qresource prefix="Icono_vocero">
-    <file>Imagenes-iconos/Vocero_blanco.png</file>
     <file>Imagenes-iconos/Vocero_negro.png</file>
+    <file>Imagenes-iconos/Vocero_blanco.png</file>
   </qresource>
   <qresource prefix="Icono_engranaje">
     <file>Imagenes-iconos/Engranaje_blanco.png</file>

@@ -72,35 +72,35 @@ class Window_gas_bombona(QDialog):
 		self.label_tipo_cilindro.setText("Tipo de cilindro que posee: ")
 
 		self.checkBox_27 =QCheckBox(self.groupBox_gas_bombona)
-		self.checkBox_27.setGeometry(QRect(30, 130, 200, 17))
-		self.checkBox_27.setText("xxxxxx")
+		self.checkBox_27.setGeometry(QRect(50, 135, 200, 17))
+		self.checkBox_27.setText("PDVSA Gas")
 		self.checkBox_27.setStyleSheet("QCheckBox{ background-color:#E5E7EE ;\n"
 		"color: #000000;\n"
 		"font-size: 12px}")
 
 		self.checkBox_26 = QCheckBox(self.groupBox_gas_bombona)
-		self.checkBox_26.setGeometry(QRect(30, 90, 200, 17))
+		self.checkBox_26.setGeometry(QRect(50, 95, 200, 17))
 		self.checkBox_26.setText("Tropiven")
 		self.checkBox_26.setStyleSheet("QCheckBox{ background-color:#E5E7EE ;\n"
 		"color: #000000;\n"
 		"font-size: 12px}")
 
 		self.checkBox_25 = QCheckBox(self.groupBox_gas_bombona)
-		self.checkBox_25.setGeometry(QRect(30, 70, 200, 17))
+		self.checkBox_25.setGeometry(QRect(50, 75, 200, 17))
 		self.checkBox_25.setText("Dani el gas")
 		self.checkBox_25.setStyleSheet("QCheckBox{ background-color:#E5E7EE ;\n"
 		"color: #000000;\n"
 		"font-size: 12px}")
 
 		self.checkBox_23 = QCheckBox(self.groupBox_gas_bombona)
-		self.checkBox_23.setGeometry(QRect(30, 50, 220, 17))
+		self.checkBox_23.setGeometry(QRect(50, 55, 220, 17))
 		self.checkBox_23.setText("Hermagas")
 		self.checkBox_23.setStyleSheet("QCheckBox{ background-color:#E5E7EE ;\n"
 		"color: #000000;\n"
 		"font-size: 12px}")
 
 		self.checkBox_24 = QCheckBox(self.groupBox_gas_bombona)
-		self.checkBox_24.setGeometry(QRect(30, 110, 200, 17))
+		self.checkBox_24.setGeometry(QRect(50, 115, 200, 17))
 		self.checkBox_24.setText("Autogas")
 
 		self.checkBox_24.setStyleSheet("QCheckBox{ background-color:#E5E7EE ;\n"
@@ -110,7 +110,7 @@ class Window_gas_bombona(QDialog):
 		#QSpinBox de cantidad de bombonas  ==========================================================================================      		
 
 		self.label_num_bombonas = QLabel(self.groupBox_gas_bombona)
-		self.label_num_bombonas.setGeometry(QRect(20,180,160,16))
+		self.label_num_bombonas.setGeometry(QRect(20,170,160,16))
 		self.label_num_bombonas.setText("Cuantas bombonas posee:")
 		self.label_num_bombonas.setAlignment(Qt.AlignCenter)
 		self.label_num_bombonas.setStyleSheet("background-color:#4466B8;\n"
@@ -119,7 +119,7 @@ class Window_gas_bombona(QDialog):
 		"font-size: 12px;")
 
 		self.num_bombonas = QSpinBox(self.groupBox_gas_bombona)
-		self.num_bombonas.setGeometry(QRect(75,205,51,31))
+		self.num_bombonas.setGeometry(QRect(75,200,51,31))
 		self.num_bombonas.setMaximum(15)
 		self.num_bombonas.setStyleSheet("QSpinBox{background-color:#12191D;\n"
 		"color: #ffffff;\n"
@@ -207,10 +207,130 @@ class Window_gas_bombona(QDialog):
 #========================================= #Eventos# ==================================================================
 
 		self.pushButton_cancelar.clicked.connect(self.close)
+
+		self.pushButton_aceptar.clicked.connect(self.Guardar_datos)
 		
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 #======================================== #Funciones# ==================================================================
+
+
+	def Guardar_datos(self):
+
+
+			tipo_de_cilindro = self.Tipo_de_cilindro()
+			cantidad_de_bombonas = int(self.num_bombonas.value())
+
+			if QFile.exists("Base de datos/DB_VESOR_USER_DATOS_VV.db"):
+			
+
+				try:
+					with sqlite3.connect('Base de datos/DB_VESOR_USER_DATOS_VV.db') as db:
+						cursor = db.cursor()
+
+					datos_insertar_Gnr = [tipo_de_cilindro, cantidad_de_bombonas]
+
+					cursor.execute("INSERT INTO USUARIO_DT_VV(TIPO_DE_CILINDRO, CANTIDAD_DE_BOMBONAS) VALUES(?,?)", datos_insertar_Gnr)
+
+					conexion.commit()
+					cursor.close()
+					conexion.close()
+
+					QMessageBox.information(self, "GAS Bombona", "Datos guardados con exito.",
+											QMessageBox.Ok)
+				except Exception as e:
+					print(e)					
+					QMessageBox.critical(self, "GAS Bombona", "Error desconocido.",
+										 QMessageBox.Ok)
+
+			else:
+				if not QFile.exists("Base de datos"):
+					makedirs("Base de datos")
+
+				if QFile.exists("Base de datos"):
+					try:
+
+						with sqlite3.connect('Base de datos/DB_VESOR_USER_DATOS_VV.db') as db:
+							cursor = db.cursor()
+
+						datos_insertar_Gnr = [tipo_de_cilindro, cantidad_de_bombonas]
+
+							
+						cursor.execute("CREATE TABLE IF NOT EXISTS USUARIO_DT_VV(ID INTEGER PRIMARY KEY,METROS_CUADRADOS TEXT, DESCRIPCION TEXT, NECESITA_REPARACION TEXT,"
+									"AGUA_POTABLE TEXT, AGUA_SERVIDAS TEXT, GAS_DIRECTO TEXT, GAS_BOMBONA TEXT,"
+									"TIPO_DE_CILINDRO TEXT, CANTIDAD_DE_BOMBONAS INT"
+									"INTERNET TEXT, ElECTRICIDAD TEXT,"
+									"TELEFONO_FIJO TEXT, DESCRIPCION_REPARACION TEXT, NECESITA_LINEBLANCA TEXT,"
+									"FOTO_ANEXADA1 BLOB, FOTO_ANEXADA2 BLOB, FOTO_ANEXADA3 BLOB, FOTO_ANEXADA4 BLOB, FOTO_ANEXADA5,FOTO_ANEXADA6 BLOB)")
+
+						cursor.execute("INSERT INTO USUARIO_DT_VV(TIPO_DE_CILINDRO, CANTIDAD_DE_BOMBONAS) VALUES(?,?)", datos_insertar_Gnr)
+
+						db.commit()
+						cursor.close()
+						db.close()
+
+						QMessageBox.information(self, "Gas Bombona", "Datos guardados con exito.",
+												QMessageBox.Ok)
+
+
+					except Exception as e:
+						print(e)					
+						QMessageBox.critical(self, "Gas Bombona", "Error desconocido.",
+											 QMessageBox.Ok)
+
+
+
+
+
+
+
+
+	def Tipo_de_cilindro(self):
+
+		if self.checkBox_27.isChecked():
+			return "PDVSA Gas"
+		elif self.checkBox_26.isChecked():
+			return "Tropiven"
+
+		elif self.checkBox_25.isChecked():
+			return "Dani el gas" 
+
+		elif self.checkBox_23.isChecked():
+			return "Hermagas" 
+
+		elif self.checkBox_24.isChecked():
+			return "Autogas" 
+
+		else:
+			return "No"
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	def close(self):
 		

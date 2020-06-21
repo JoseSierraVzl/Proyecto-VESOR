@@ -22,6 +22,8 @@ from Window_acerda_de_vesor import *
 
 #rom Window_gas_bombona import *
 
+from Window_vocero import*
+
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 import sys, os
 from random import randint
@@ -55,6 +57,7 @@ class Interface(QMainWindow):
 		self.shadow.setBlurRadius(22)
 		self.frame.setGraphicsEffect(self.shadow)
 
+		#Menu 1 =====================================================================================================	
 
 		self.menuArchivo = QMenu()
 		self.menuArchivo.setStyleSheet("QMenu{background-color:#12191D;\n"
@@ -68,25 +71,69 @@ class Interface(QMainWindow):
 		"margin-right:5px;}"
 
 		"QMenu::item::selected{\n"
-        "background-color:rgb(0, 170, 255);"
-        "}")
+		"background-color:rgb(0, 170, 255);"
+		"}")
 		
 		self.acercade = self.menuArchivo.addAction("Acerca de VESOR", self.Abrir_window)
 		
 		self.ayuda = self.menuArchivo.addAction("Ayuda")
+		#======================================================================================================
 
+		#Menu de opcionesde usuario =====================================================================================================	
 
+		self.menu_usuario = QMenu()
+		self.menu_usuario.setStyleSheet("QMenu{background-color:#12191D;\n"
+		"color: #ffffff;\n"
+		"height:57px;\n"
+		"width:180px;\n"
+		"margin:0px;\n}"
 
+		"QMenu:separator{height:10px;"
+		"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0,\n"
+		"stop:0 rgba(173, 181, 189, 95));"
+		"margin-left:2px;"
+		"margin-right:2px;}"
 
+		"QMenu::item::selected{\n"
+		"background-color:rgb(0, 170, 255);"
+		"}")
+		self.Registrar_user = self.menu_usuario.addAction(QIcon(":/Icono_registrar/Imagenes-iconos/Registrar.png"),"Registrar usuario", self.Nuevo_user)
+		self.Editar_usuario = self.menu_usuario.addAction(QIcon(":/Icono_papelera/Imagenes-iconos/Papelera_blanca.png"),"Editar o Eliminar usuario", self.Editar_usuario)
 
+		#Menu de opciones de vocero =====================================================================================================	
 
+		self.menu_vocero = QMenu()
+		self.menu_vocero.setStyleSheet("QMenu{background-color:#12191D;\n"
+		"color: #ffffff;\n"
+		"height:57px;\n"
+		"width:180px;\n"
+		"margin:0px;\n}"
+
+		"QMenu:separator{height:10px;"
+		"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0,\n"
+		"stop:0 rgba(173, 181, 189, 95));"
+		"margin-left:2px;"
+		"margin-right:2px;}"
+
+		"QMenu::item::selected{\n"
+		"background-color:rgb(0, 170, 255);"
+		"}")
+		self.Registrar_vocero = self.menu_vocero.addAction(QIcon(":/Icono_registrar/Imagenes-iconos/Registrar.png"),"Registrar vocero", self.Nv_vocero)
+
+		self.Editar_vocero = self.menu_vocero.addAction(QIcon(":/Icono_papelera/Imagenes-iconos/Papelera_blanca.png"),"Editar o Elimina vocero")
 
 #========================================= #Eventos# ==================================================================
 		self.Button_menu.setMenu(self.menuArchivo)
-		
-		self.buttonNewUser.clicked.connect(self.Nuevo_user)
 
-		self.buttonEditUser.clicked.connect(self.Editar_usuario)
+		self.buttonNewUser.setMenu(self.menu_usuario)
+		self.buttonNewUser.setToolTip("Click para ver opciones de usuario")
+
+		self.buttonVoceroNew.setMenu(self.menu_vocero)
+		self.buttonVoceroNew.setToolTip("Click para ver opciones de vocero")
+		
+		#self.buttonNewUser.clicked.connect(self.Nuevo_user)
+
+		#self.buttonEditUser.clicked.connect(self.Editar_usuario)
 
 		self.lineEditSearch.setToolTip("Ingresa la cedula de quien deseas buscar.")
 
@@ -103,7 +150,8 @@ class Interface(QMainWindow):
 	def Abrir_window(self):
 		Acerca_de(self).exec_()
 
-
+	def Nv_vocero(self):
+		Window_vocero(self).exec_()
 #========================================== #Classes# ===================================================================
 
 
