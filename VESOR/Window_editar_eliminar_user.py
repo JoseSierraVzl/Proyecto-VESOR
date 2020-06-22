@@ -4,7 +4,7 @@ from Source_rc import *
 
 import sys, os
 from random import randint
-from PyQt5 import  uic 
+from PyQt5 import  uic, QtWidgets
 
 from Window_visualizar_user import *
 
@@ -164,23 +164,10 @@ class Window_edit_elim_user(QDialog):
 		
 		#Labels ==========================================================================================
 		#Labels de menu
-		self.Label_1 = QLabel(self.frame_menu)
-		self.Label_1.setGeometry(QRect(0,10,121,21))
-		self.Label_1.setText("ELIMINAR")
-		self.Label_1.setAlignment(Qt.AlignCenter)
-		self.Label_1.setStyleSheet(Style_label_menu)
-
-		self.Label_2 = QLabel(self.frame_menu)
-		self.Label_2.setGeometry(QRect(0,30,121,21))
-		self.Label_2.setText("Y EDITAR")
-		self.Label_2.setAlignment(Qt.AlignCenter)
-		self.Label_2.setStyleSheet(Style_label_menu)
-
-		self.Label_3 = QLabel(self.frame_menu)
-		self.Label_3.setGeometry(QRect(0,50,121,21))
-		self.Label_3.setText("USUARIO")
-		self.Label_3.setAlignment(Qt.AlignCenter)
-		self.Label_3.setStyleSheet(Style_label_menu)
+		self.Label = QLabel(self.frame_menu)
+		self.Label.setGeometry(QRect(30,30,121,51))
+		self.Label.setText("ELIMINAR \nY EDITAR \nUSUARIO")
+		self.Label.setStyleSheet(Style_label_menu)
 
 		self.Label_4 = QLabel(self.frame_menu)
 		self.Label_4.setGeometry(QRect(0,310,121,21))
@@ -271,6 +258,8 @@ class Window_edit_elim_user(QDialog):
 
 		#EVENTOS ==========================================================================================      		
 		self.actualizar.clicked.connect(self.mostrar_datos)
+
+		self.eliminar.clicked.connect(self.eliminar_datos)
 
 		self.QTableWidget_contenido.itemDoubleClicked.connect(self.Intem_click)
 
@@ -379,17 +368,92 @@ class Window_edit_elim_user(QDialog):
 
 
 
+	def eliminar_datos(self):
+
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+			msg = QMessageBox()
+			msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
+			msg.setText("¿Está seguro de querer eliminar este usuario?")
+			msg.setIcon(QMessageBox.Question)
+			msg.setWindowTitle("Eliminar Usuario")
+			msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+
+			button_si = msg.button(QMessageBox.Yes)
+			button_si.setText("Si")
+			button_si.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+			button_si.setIconSize(QSize(13,13))
+			button_si.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
+			"QPushButton{background:#343a40;\n"
+			"}")
+
+			button_no = msg.button(QMessageBox.No)
+			button_no.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+			button_no.setIconSize(QSize(13,13))
+			button_no.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
+			"QPushButton{background:#343a40;}")
+
+			msg.setStyleSheet("\n"
+				"color:#ffffff;\n"
+				"font-size:12px;\n"
+				"background-color:#12191D;")
+
+			if (msg.exec_() == QMessageBox.Yes):
+
+				try:
+
+					self.con = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+					self.con2 = sqlite3.connect("Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db")
+					self.con3 = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOS_VV.db")
+					self.con4 = sqlite3.connect("Base de datos/DB_VESOR_USER_PROT_SOCIAL.db")
+
+					self.cursor = self.con.cursor()
+					self.cursor2 = self.con2.cursor()
+					self.cursor3 = self.con3.cursor()
+					self.cursor4 = self.con4.cursor()
 
 
+					self.QTableWidget_contenido.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+					ID = self.QTableWidget_contenido.selectedIndexes()[0].data()
+					print(f"has clickeado en {ID}")
+					
+					# Primera Instancia
+					query = 'DELETE  FROM USUARIO_DT_GNR WHERE ID =?'
+					self.cursor.execute(query, (ID,))
+					self.con.commit()
 
+					# Segunda Instancia
+					query_2 = 'DELETE FROM USUARIO_UBCGEOG WHERE ID =?'
+					self.cursor2.execute(query_2, (ID,))
+					self.con2.commit()
 
+					# Tercera Instancia
+					query_3 = 'DELETE FROM USUARIO_DT_VV WHERE ID =?'
+					self.cursor3.execute(query_3, (ID,))
+					self.con3.commit()
 
+					# Cuarta Instancia
+					query_4 = 'DELETE FROM USUARIO_PROT_SOCIAL WHERE ID =?'
+					self.cursor4.execute(query_4, (ID,))
+					self.con4.commit()
 
+					# Seleccionar fila
+					self.Seleccion = self.QTableWidget_contenido.selectedItems()
+					# Borrar seleccionado
+					self.QTableWidget_contenido.removeRow(self.QTableWidget_contenido.currentRow())
 
+				except Exception as e:
+					print(e)
+					QMessageBox.critical(self, "Error", "No existen usuarios para eliminar",
+											 QMessageBox.Ok)
 
+			else:
+				pass	
+
+		else:
+			QMessageBox.critical(self, "Eliminar", "No se encontró la base de datos.   ",
+									 		QMessageBox.Ok)
 			
-
-
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 		
