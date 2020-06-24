@@ -10,7 +10,7 @@ from Window_visualizar_user import *
 
 from PyQt5.QtGui import (QFont, QIcon, QPalette, QBrush, QColor, QPixmap, QRegion, QClipboard,
 						 QRegExpValidator, QImage)
-from PyQt5.QtCore import (Qt, QDir, pyqtSignal, QFile, QDate, QTime, QSize, QTimer, QRect, QRegExp, QTranslator,QLocale,
+from PyQt5.QtCore import (Qt, QDir, pyqtSignal, QFile, QByteArray,QIODevice,QBuffer,QDate, QTime, QSize, QTimer, QRect, QRegExp, QTranslator,QLocale,
 						  QLocale, QLibraryInfo, QFileInfo, QDir,QPropertyAnimation,QTranslator,QAbstractAnimation, QLocale)
 
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QTableWidget, QMenu, 
@@ -92,7 +92,7 @@ class Window_edit_elim_user(QDialog):
 		#Style buttons
 		Style_buttons = ("QPushButton{\n"
 						"border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
-						"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
+						"background-color: qlineargrabdient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
 						"color:rgb(255, 255, 255);\n"
 						"font-size: 12px\n"
 						"}\n"
@@ -360,10 +360,12 @@ class Window_edit_elim_user(QDialog):
 
 						print(dato[7])
 
-					Window_visualizar_users(indice,dato,self).exec_()
+					Window_visualizar_users(dato,self).exec_()
 					conexion.close()
 				except Exception as e:
-					print(e)
+					print("A1:",e)
+		else:
+			print("Error")
 
 
 

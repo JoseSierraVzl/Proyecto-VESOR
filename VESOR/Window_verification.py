@@ -47,7 +47,7 @@ class CustomWindow(QMainWindow):
 				"color:qlineargradient(spread:pad, x1:0.671, y1:0.108, x2:0.255045, y2:0.801, stop:0.0852273 rgba(255, 57, 107, 255), stop:0.676136 rgba(255, 241, 131, 255))")
 
 		self.Label_cuatro = QtWidgets.QLabel(self)
-		self.Label_cuatro.setGeometry(QRect(650, 430, 300, 100))
+		self.Label_cuatro.setGeometry(QRect(650, 430, 340, 100))
 		self.Label_cuatro.setText("El programa de gestion comunitaria")
 		self.Label_cuatro.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
 				"font: 75 13pt \"MS Shell Dlg 2\";\n"

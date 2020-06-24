@@ -56,8 +56,8 @@ border-radius: 45px;
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>230</y>
-       <width>121</width>
+       <y>190</y>
+       <width>151</width>
        <height>31</height>
       </rect>
      </property>
@@ -77,7 +77,7 @@ font-size: 12px;
 }</string>
      </property>
      <property name="text">
-      <string>Nuevo usuario</string>
+      <string> USUARIO           </string>
      </property>
      <property name="icon">
       <iconset>
@@ -85,8 +85,8 @@ font-size: 12px;
      </property>
      <property name="iconSize">
       <size>
-       <width>17</width>
-       <height>17</height>
+       <width>18</width>
+       <height>18</height>
       </size>
      </property>
     </widget>
@@ -94,8 +94,8 @@ font-size: 12px;
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>100</y>
-       <width>121</width>
+       <y>160</y>
+       <width>151</width>
        <height>31</height>
       </rect>
      </property>
@@ -114,7 +114,7 @@ font-size: 12px;
 }</string>
      </property>
      <property name="text">
-      <string>Nuevo vocero</string>
+      <string>VOCERO            </string>
      </property>
      <property name="icon">
       <iconset>
@@ -127,213 +127,11 @@ font-size: 12px;
       </size>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>70</y>
-       <width>121</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel{
-color:rgb(255, 255, 255);
-font: 9pt &quot;Comic Sans MS&quot;;
-
-background-color:#1C262D
-
-}</string>
-     </property>
-     <property name="text">
-      <string>VOCEROS</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="buttonVoceroEdit">
-     <property name="geometry">
-      <rect>
-       <x>-10</x>
-       <y>130</y>
-       <width>131</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton{
-border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-color:rgb(255, 255, 255);
-font-size: 12px
-}
-
-QPushButton:hover{
-background-color:rgb(0, 170, 255);
-color:rgb(255, 255, 255);
-font-size: 12px;
-
-}</string>
-     </property>
-     <property name="text">
-      <string> Editar vocero</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>Imagenes-iconos/Lapiz_blanco.png</normaloff>Imagenes-iconos/Lapiz_blanco.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>16</width>
-       <height>16</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="buttonVoceroDelete">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>160</y>
-       <width>121</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton{
-border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-color:rgb(255, 255, 255);
-font-size: 12px
-}
-
-QPushButton:hover{
-background-color:rgb(0, 170, 255);
-color:rgb(255, 255, 255);
-font-size: 12px;
-
-}</string>
-     </property>
-     <property name="text">
-      <string>Eliminar vocero</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>Imagenes-iconos/Papelera_blanca.png</normaloff>Imagenes-iconos/Papelera_blanca.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>17</width>
-       <height>17</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>200</y>
-       <width>121</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel{
-color:rgb(255, 255, 255);
-font: 9pt &quot;Comic Sans MS&quot;;
-
-background-color:#1C262D
-
-}</string>
-     </property>
-     <property name="text">
-      <string>USUARIOS</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="buttonEditUser">
-     <property name="geometry">
-      <rect>
-       <x>-10</x>
-       <y>260</y>
-       <width>131</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton{
-border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-color:rgb(255, 255, 255);
-font-size: 12px
-}
-
-QPushButton:hover{
-background-color:rgb(0, 170, 255);
-color:rgb(255, 255, 255);
-font-size: 12px;
-
-}</string>
-     </property>
-     <property name="text">
-      <string>Editar usuario</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>Imagenes-iconos/Lapiz_blanco.png</normaloff>Imagenes-iconos/Lapiz_blanco.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>16</width>
-       <height>16</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="buttonDeleteUser">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>290</y>
-       <width>121</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton{
-border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-color:rgb(255, 255, 255);
-font-size: 12px
-}
-
-QPushButton:hover{
-background-color:rgb(0, 170, 255);
-color:rgb(255, 255, 255);
-font-size: 12px;
-
-}</string>
-     </property>
-     <property name="text">
-      <string>Eliminar usuario</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>Imagenes-iconos/Papelera_blanca.png</normaloff>Imagenes-iconos/Papelera_blanca.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>17</width>
-       <height>17</height>
-      </size>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>330</y>
+       <y>350</y>
        <width>121</width>
        <height>20</height>
       </rect>
@@ -358,7 +156,7 @@ background-color:#1C262D
      <property name="geometry">
       <rect>
        <x>5</x>
-       <y>360</y>
+       <y>380</y>
        <width>111</width>
        <height>20</height>
       </rect>
@@ -405,7 +203,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>40</y>
+       <y>50</y>
        <width>23</width>
        <height>21</height>
       </rect>
@@ -439,8 +237,8 @@ border-radius:10px;
     <widget class="QPushButton" name="Button_menu">
      <property name="geometry">
       <rect>
-       <x>65</x>
-       <y>40</y>
+       <x>70</x>
+       <y>50</y>
        <width>23</width>
        <height>20</height>
       </rect>

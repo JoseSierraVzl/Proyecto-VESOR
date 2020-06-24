@@ -3,6 +3,12 @@
     <file>Imagenes-iconos/Usuario_negro.png</file>
     <file>Imagenes-iconos/Usuario_blanco.png</file>
   </qresource>
+  <qresource prefix="Icono_buscar">
+    <file>Imagenes-iconos/Buscar.png</file>
+  </qresource>
+  <qresource prefix="Icono_edicacion">
+    <file>Imagenes-iconos/educacion.png</file>
+  </qresource>
   <qresource prefix="Icono_descipcion">
     <file>Imagenes-iconos/descripcion.png</file>
   </qresource>

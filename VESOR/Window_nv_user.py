@@ -3533,6 +3533,7 @@ class Window_nv_users(QDialog):
 			self.checkBox_31_sinusitis.setChecked(False)
 			self.checkBox_32_otra_enf.setChecked(False)
 
+
 			self.checkBox_3_enfer.setChecked(False)
 			self.Ocultar_Enfermedad()
 
@@ -3721,11 +3722,21 @@ class Window_nv_users(QDialog):
 
 																			"ESTADO_CIVIL TEXT, INSCRITO_REP TEXT, CORREO_ELECTRONICO TEXT,"
 
-																			"PENSIONADO TEXT, POSEE_DISCAPACIDAD TEXT,NECESITA_INSUMO_MEDICO TEXT,"
+																			"PENSIONADO TEXT, DISCAPACIDAD_MOTRIZ TEXT, DISCAPACIDAD_AUDITIVA TEXT,"
+
+																			"DISCAPACIDAD_VISUAL TEXT, DISCAPACIDAD_INTELECTUAL TEXT, DISCAPACIDAD_VISCERAL TEXT,"
+
+																			"DISCAPACIDAD_OTRAS TEXT, SILLA_DE_RUEDA TEXT, MULETAS TEXT, PROTESIS TEXT, INSUMO_OTROS TEXT,"
 
 																			"DESCRIBA_DISCAPACIDAD TEXT, TOMA_MEDICAMENTO TEXT, DESCRIBA_MEDICAMENTO TEXT,"
 																			
-																			"POSEE_ENFERMEDAD TEXT, DESCRIBA_ENFERMEDAD TEXT, TOMA_MEDICAMENTO_ENF TEXT, DESCRIBA_MEDICAMENTO_ENF TEXT,"
+																			"ENFERMEDAD_CANCER TEXT, ENFERMEDAD_DIABETES TEXT, ENFERMEDAD_HIPERTENSION TEXT, ENFERMEDAD_ASMA TEXT,"
+
+																			"ENFERMEDAD_CARDIO TEXT, ENFERMEDAD_GASTRITIS TEXT, ENFERMEDAD_BRONQUITIS TEXT, ENFERMEDAD_CALCULOS TEXT,"
+
+																			"ENFERMEDAD_SINUSITIS TEXT, ENFERMEDAD_OTRAS TEXT,"
+
+																			"DESCRIBA_ENFERMEDAD TEXT, TOMA_MEDICAMENTO_ENF TEXT, DESCRIBA_MEDICAMENTO_ENF TEXT,"
 
 																			"EMBARAZADA TEXT, LACTANTE TEXT, NIVEL_DE_ESTUDIO TEXT, CARRERA_CURSANDO TEXT, DONDE_ESTUDIA TEXT)")
 
@@ -3765,7 +3776,10 @@ class Window_nv_users(QDialog):
 						cursor = db.cursor()
 
 						cursor.execute("CREATE TABLE IF NOT EXISTS USUARIO_DT_VV(ID INTEGER PRIMARY KEY,METROS_CUADRADOS TEXT, DESCRIPCION TEXT, NECESITA_REPARACION TEXT,"
-									" TIPO_DE_REPARACION TEXT, AGUA_POTABLE TEXT, AGUA_SERVIDAS TEXT, GAS_DIRECTO TEXT, GAS_BOMBONA TEXT,"
+									"REPARACION_TECHOS TEXT, REPARACION_PARED TEXT, REPARACION_PINTURA TEXT,REPARACION_PISOS TEXT,"
+									"REPARACION_ELECTRICO TEXT, REPARACION_AGUA TEXT, REPARACION_AGUA_SERVIDAS TEXT, REPARACION_VENTANAS TEXT,"
+									"REPARACION_PUERTARS TEXT, REPARACION_OTRAS TEXT,"
+									"AGUA_POTABLE TEXT, AGUA_SERVIDAS TEXT, GAS_DIRECTO TEXT, GAS_BOMBONA TEXT,"
 									"TIPO_DE_CILINDRO TEXT, CANTIDAD_DE_BOMBONAS INT,"
 									"INTERNET TEXT, ElECTRICIDAD TEXT,"
 									"TELEFONO_FIJO TEXT, DESCRIPCION_REPARACION TEXT, NECESITA_LINEBLANCA TEXT,"
@@ -3866,23 +3880,51 @@ class Window_nv_users(QDialog):
 		#Ventana de discapacidad
 
 		descripcion_discapacidad = self.textEdit_dcrp_discapacidad.toPlainText()
-		tipo_de_discapacidad = self.tipo_discapacidad()
-		necesita_algun_medicamento_dscp = self.necesita_algun_medicamento_dscp()
+		discapacidad_motriz = self.Discapacidad_Motriz()
+		discapacidad_auditiva = self.Discapacidad_Auditiva()
+		discapacidad_visual = self.Discapacidad_Visual()
+		discapacidad_intelectual = self.Discapacidad_Intelectual_Mental()
+		discapacidad_viceral = self.Discapacidad_Visceral()
+		discapacidad_otras = self.Discapacidad_Otras()
+
+		insumomedico_silla_de_reudas = self.Necesita_silla_de_rueda()
+		insumomedico_muletas = self.Necesita_muletas()
+		insumomedico_protesis = self.Necesita_protesis()
+		insumomedico_otros = self.Necesita_Otros()
 		descripcion_medicamento_dscp= self.textEdit_medicamento_dscp.toPlainText()
-		insumos_medicos = self.insumomedico()
+		necesita_algun_medicamento_dscp = self.necesita_algun_medicamento_dscp()
+		#insumos_medicos = self.insumomedico()
 
 		#Ventana de enfermedad
-		tipo_de_enfermedad = self.Tipo_de_enfermedad()
+		enfermedad_de_cancer = self.Tipo_Enfer_Cancer()
+		enfermedad_de_diabetes = self.Tipo_Enfer_Diabetes()
+		enfermedad_de_hipertension = self.Tipo_Enfer_Hipertension_arterial()
+		enfermedad_de_asma = self.Tipo_Enfer_Asma()
+		enfermedad_de_cardio = self.Tipo_Enfer_Cardio_Vascula()
+		enfermedad_de_gastritis = self.Tipo_Enfer_Gastritis()
+		enfermedad_de_bronquitis = self.Tipo_Enfer_Bronquitis()
+		enfermedad_de_calculos = self.Tipo_Enfer_Calculos_rinon()
+		enfermedad_de_sinusitis = self.Tipo_Enfer_Sinusitis()
+		enfermedad_de_otras = self.Tipo_Enfer_Otras()
+
 		descripcion_enfermedad=  self.textEdit_dcrp_enfermedad.toPlainText()
-		necesita_algun_medicamento_enfer = self.necesita_algun_medicamento_dscp()
+		necesita_algun_medicamento_enfer = self.necesita_medicamento_enfer()
 		descripcion_medicamento_enfer = self.textEdit_medicamento_enfer.toPlainText()
 
 		#Ventana de reparacion de vivienda:
 
 		Descripcion_de_reparacion = self.textEdit_dcrp_reparacionvv.toPlainText()
-		Tipo_de_reparacion = self.Opcion_reparacion_vivienda()
+		reparacion_de_techos = self.Reparacion_de_Techos()
+		reparacion_de_pared = self.Reparacion_de_Pared()
+		reparacion_de_pintura = self.Reparacion_de_Pintura()
+		reparacion_de_pisos = self.Reparacion_de_Pisos()
+		reparacion_de_electrico = self.Reparacion_de_Electrico()
+		reparacion_de_agua = self.Reparacion_de_Agua()
+		reparacion_de_agua_servidas = self.Reparacion_de_Agua_servidas()
+		reparacion_de_ventanas = self.Reparacion_de_Ventanas()
+		reparacion_de_puertas = self.Reparacion_de_Puertas()
+		reparacion_de_otras = self.Reparacion_de_otras()
 		Linea_blanca = self.Linea_blanca()
-
 
 		#Ventana bombona 
 		tipo_de_cilindro = self.Tipo_de_cilindro()
@@ -3989,8 +4031,14 @@ class Window_nv_users(QDialog):
 									cedula_identidad, genero, telefono_princ, telefono_secund,
 									fecha_Nacimiento, edad, profesion_oficio, nivel_instruccion,
 									parentesco, estado_civil, inscrito_rep, correo_electronico,
-									opcion_pensionado,tipo_de_discapacidad, descripcion_discapacidad,necesita_algun_medicamento_dscp,
-									descripcion_medicamento_dscp, insumos_medicos,tipo_de_enfermedad,descripcion_enfermedad,
+									opcion_pensionado,discapacidad_motriz, discapacidad_auditiva, discapacidad_visual,
+									discapacidad_intelectual, discapacidad_viceral, discapacidad_otras,
+									descripcion_discapacidad,necesita_algun_medicamento_dscp,
+									descripcion_medicamento_dscp, insumomedico_silla_de_reudas,
+									insumomedico_muletas, insumomedico_protesis,insumomedico_otros,
+									enfermedad_de_cancer,enfermedad_de_diabetes, enfermedad_de_hipertension, enfermedad_de_asma,
+									enfermedad_de_cardio, enfermedad_de_gastritis, enfermedad_de_bronquitis, enfermedad_de_calculos,
+									enfermedad_de_sinusitis, enfermedad_de_otras,descripcion_enfermedad,
 									necesita_algun_medicamento_enfer,descripcion_medicamento_enfer, opcion_embarazada,opcion_lactante,
 									nivel_estudio,carrera_cursando,donde_estudia]
 
@@ -4005,11 +4053,21 @@ class Window_nv_users(QDialog):
 
 																			"ESTADO_CIVIL, INSCRITO_REP, CORREO_ELECTRONICO,"
 
-																			"PENSIONADO, POSEE_DISCAPACIDAD, DESCRIBA_DISCAPACIDAD,"
-
-																			"TOMA_MEDICAMENTO,DESCRIBA_MEDICAMENTO, NECESITA_INSUMO_MEDICO,"
+																			"PENSIONADO,DISCAPACIDAD_MOTRIZ, DISCAPACIDAD_AUDITIVA,"
 																			
-																			"POSEE_ENFERMEDAD, DESCRIBA_ENFERMEDAD,TOMA_MEDICAMENTO_ENF, DESCRIBA_MEDICAMENTO_ENF,"  
+																			"DISCAPACIDAD_VISUAL, DISCAPACIDAD_INTELECTUAL, DISCAPACIDAD_VISCERAL,"
+																			
+																			"DISCAPACIDAD_OTRAS, DESCRIBA_DISCAPACIDAD,"
+
+																			"TOMA_MEDICAMENTO,DESCRIBA_MEDICAMENTO, SILLA_DE_RUEDA, MULETAS, PROTESIS, INSUMO_OTROS,"
+																			
+																			"ENFERMEDAD_CANCER, ENFERMEDAD_DIABETES, ENFERMEDAD_HIPERTENSION, ENFERMEDAD_ASMA,"
+
+																			"ENFERMEDAD_CARDIO, ENFERMEDAD_GASTRITIS, ENFERMEDAD_BRONQUITIS, ENFERMEDAD_CALCULOS,"
+
+																			"ENFERMEDAD_SINUSITIS, ENFERMEDAD_OTRAS,"
+
+																			"DESCRIBA_ENFERMEDAD,TOMA_MEDICAMENTO_ENF, DESCRIBA_MEDICAMENTO_ENF,"  
 
 																			"EMBARAZADA, LACTANTE, NIVEL_DE_ESTUDIO,CARRERA_CURSANDO,DONDE_ESTUDIA)"
 										
@@ -4020,7 +4078,11 @@ class Window_nv_users(QDialog):
 											"?,?,?,?,"
 											"?,?,?,?,"
 											"?,?,?,?,"
-											"?,?,?)", datos_insertar_Gnr)
+											"?,?,?,?,"
+											"?,?,?,?,"
+											"?,?,?,?,"
+											"?,?,?,?,"
+											"?,?,?,?)", datos_insertar_Gnr)
 
 					
 
@@ -4067,13 +4129,19 @@ class Window_nv_users(QDialog):
 
 	
 				datos_insertar_Vv = [metros_cuadrados, descripcion_vivienda, reparaciones, Descripcion_de_reparacion,
-									Tipo_de_reparacion, Linea_blanca, servicio_aguapotable, servicio_aguaservidas, 
+									reparacion_de_techos,reparacion_de_pared,reparacion_de_pintura, reparacion_de_pisos,
+									reparacion_de_electrico,reparacion_de_agua, reparacion_de_agua_servidas, reparacion_de_ventanas,
+									reparacion_de_puertas, reparacion_de_otras,
+									Linea_blanca, servicio_aguapotable, servicio_aguaservidas, 
 									servicio_gasdirecto, servicio_gasbombona, tipo_de_cilindro,cantidad_de_bombonas,
 									servicio_internet,servicio_electricidad,
 									servicio_tlf_fijo,bArray_1, bArray_2, bArray_3, bArray_4, bArray_5, bArray_6]
 				
 				cursor.execute("INSERT INTO USUARIO_DT_VV(METROS_CUADRADOS, DESCRIPCION, NECESITA_REPARACION,DESCRIPCION_REPARACION,"
-									"TIPO_DE_REPARACION, NECESITA_LINEBLANCA, AGUA_POTABLE, AGUA_SERVIDAS,"
+									"REPARACION_TECHOS, REPARACION_PARED, REPARACION_PINTURA, REPARACION_PISOS, REPARACION_ELECTRICO,"
+									"REPARACION_AGUA, REPARACION_AGUA_SERVIDAS, REPARACION_VENTANAS, REPARACION_PUERTARS,"
+									"REPARACION_OTRAS,"
+									"NECESITA_LINEBLANCA, AGUA_POTABLE, AGUA_SERVIDAS,"
 									"GAS_DIRECTO, GAS_BOMBONA,"
 									"TIPO_DE_CILINDRO , CANTIDAD_DE_BOMBONAS,"
 									"INTERNET, ElECTRICIDAD,"
@@ -4083,7 +4151,9 @@ class Window_nv_users(QDialog):
 									"?,?,?,?,"
 									"?,?,?,?,"
 									"?,?,?,?,"
-									"?,?,?,?,?)", datos_insertar_Vv)
+									"?,?,?,?,"
+									"?,?,?,?,"
+									"?,?,?,?,?,?)", datos_insertar_Vv)
 
 
 				conexion.commit()		
@@ -4210,7 +4280,7 @@ class Window_nv_users(QDialog):
 			self.textEdit_dcrp_enfermedad.clear()
 			self.textEdit_medicamento_enfer.clear()
 			self.checkBox_27_cancer.setChecked(False)
-			#self.radioButton_si_medicamentos_enfer.setChecked(False)
+			self.radioButton_si_medicamentos_enfer.setChecked(False)
 			#self.radioButton_si_medicamentos_enfer.setAutoExclusive(False)
 			#self.radioButton_no_medicamentos_enfer.setChecked(False)
 			#self.radioButton_no_medicamentos_enfer.setAutoExclusive(False)
@@ -4376,68 +4446,118 @@ class Window_nv_users(QDialog):
 		else:
 			return "No necesita linea blanca"
 
+	#TIPOS DE REPARACION
 
-	def Opcion_reparacion_vivienda(self):
+	def Reparacion_de_Techos(self):
 
 		if self.checkBox_arreglo_techos.isChecked():
 			return "Arreglo o falta de techos"
-		elif self.checkBox_2_friso.isChecked():
+		else:
+			return "No necesita este arreglo"
+	def Reparacion_de_Pared(self):
+
+		if self.checkBox_2_friso.isChecked():
 			return "Friso de pared"
-		elif self.checkBox_3_pintura.isChecked():
+		else:
+			return "No necesita este arreglo"
+	def Reparacion_de_Pintura(self):
+		if self.checkBox_3_pintura.isChecked():
 			return " Falta de pintura"
-		elif self.checkBox_4_arreglo_Pisos.isChecked():
+		else:
+			return "No necesita este arreglo"
+
+	def Reparacion_de_Pisos(self):
+		if self.checkBox_4_arreglo_Pisos.isChecked():
 			return "Arreglo de pisos"
-		elif self.checkBox_5_sistema_electrico.isChecked():
+		else:
+			return "No necesita este arreglo"
+
+	def Reparacion_de_Electrico(self):
+		if self.checkBox_5_sistema_electrico.isChecked():
 			return "Sistema eléctrico"
-		elif self.checkBox_6_sistema_agua.isChecked():
+		else:
+			return "No necesita este arreglo"
+	def Reparacion_de_Agua(self):
+		if self.checkBox_6_sistema_agua.isChecked():
 			return "Sistema de agua"
-		elif self.checkBox_7_aguas_servidas.isChecked():
+		else:
+			return "No necesita este arreglo"
+	def Reparacion_de_Agua_servidas(self):
+		if self.checkBox_7_aguas_servidas.isChecked():
 			return "Sistema de aguas servida"
-		elif self.checkBox_8_fatla_ventanas.isChecked():
+		else:
+			return "No necesita este arreglo"
+	def Reparacion_de_Ventanas(self):
+		if self.checkBox_8_fatla_ventanas.isChecked():
 			return "Falta de Ventanas"
-		elif self.checkBox_9_falta_puertas.isChecked():
+		else:
+			return "No necesita este arreglo"
+	def Reparacion_de_Puertas(self):
+		if self.checkBox_9_falta_puertas.isChecked():
 			return "Falta de puertas"
-		elif self.checkBox_10_otras_rpr.isChecked():
+		else:
+			return "No necesita este arreglo"
+	def Reparacion_de_otras(self):
+		if self.checkBox_10_otras_rpr.isChecked():
 			return "Otras..."
 		else:
-			"No necesita reparacion"
+			"No necesita este arreglo"
 
 	#Ventana de Enfermedad =======================================================================================
 
-	def Tipo_de_enfermedad(self):
-		
+	def Tipo_Enfer_Cancer(self):	
 		if self.checkBox_27_cancer.isChecked():
 			return "Cáncer"
-
-		elif self.checkBox_26_diabetes.isChecked():
-			return "Diabetes" 
-
-		elif self.checkBox_25_hp_arterial.isChecked():
+		else:
+			return "No posee esta enfermedad"
+	def Tipo_Enfer_Diabetes(self):
+		if self.checkBox_26_diabetes.isChecked():
+			return "Diabetes"
+		else:
+			return "No posee esta enfermedad" 
+	def Tipo_Enfer_Hipertension_arterial(self):
+		if self.checkBox_25_hp_arterial.isChecked():
 			return "Hipertensión arterial"
-
-		elif self.checkBox_23_asma.isChecked():
+		else:
+			return "No posee esta enfermedad"
+	def Tipo_Enfer_Asma(self):
+		if self.checkBox_23_asma.isChecked():
 			return "Asma"
-
-		elif self.checkBox_24_vascular.isChecked():
+		else:
+			return "No posee esta enfermedad"
+	def Tipo_Enfer_Cardio_Vascula(self):
+		if self.checkBox_24_vascular.isChecked():
 			return "Cardio Vascular"
-
-		elif self.checkBox_28_gastritis.isChecked():
+		else:
+			return "No posee esta enfermedad"
+	def Tipo_Enfer_Gastritis(self):
+		if self.checkBox_28_gastritis.isChecked():
 			return "Gastritis"
-
-		elif self.checkBox_29_bronquitis.isChecked():
+		else:
+			return "No posee esta enfermedad"
+	def Tipo_Enfer_Bronquitis(self):
+		if self.checkBox_29_bronquitis.isChecked():
 			return "Bronquitis"
+		else:
+			return "No posee esta enfermedad"
 
-		elif self.checkBox_30_calcu_riñon.isChecked():
+	def Tipo_Enfer_Calculos_rinon(self):
+		if self.checkBox_30_calcu_riñon.isChecked():
 			return "Cálculos de riñón"
-
-		elif self.checkBox_31_sinusitis.isChecked():
+		else:
+			return "No posee esta enfermedad"
+	def Tipo_Enfer_Sinusitis(self):
+		if self.checkBox_31_sinusitis.isChecked():
 			return "Sinusitis"
-
-		elif self.checkBox_32_otra_enf.isChecked():
+		else:
+			return "No posee esta enfermedad"
+			
+	def Tipo_Enfer_Otras(self):
+		if self.checkBox_32_otra_enf.isChecked():
 			return "Otra..."
 
 		else:
-			"No posee enfermedad"
+			"No posee esta enfermedad"
 
 
 
@@ -4458,18 +4578,30 @@ class Window_nv_users(QDialog):
 
 	#Ventana de discapacidad =======================================================================================
 
+	def Necesita_silla_de_rueda(self):
+		if self.checkBox_sillarueda.isChecked():
+			return "Necesita silla de rueda"
+		else:
+			return "No necesita este insumo medico"
+	def Necesita_muletas(self):
+		if self.checkBox_muletas.isChecked():
+			return "Necesita muletas"
+		else:
+			return "No necesita este insumo medico"
 
-	def insumomedico(self):
-			if self.checkBox_sillarueda.isChecked():
-				return "Necesita silla de rueda"
-			elif self.checkBox_muletas.isChecked():
-				return "Necesita muletas"
-			elif self.checkBox_protesis.isChecked():
-				return "Necesita protesis"
-			elif self.checkBox_otros.isChecked():
-				return "Otros..."
-			else:
-				return "No necesita insume medico"
+	def Necesita_protesis(self):
+
+		if self.checkBox_protesis.isChecked():
+			return "Necesita protesis"
+		else:
+			return "No necesita este insumo medico"
+	def Necesita_Otros(self):
+
+		if self.checkBox_otros.isChecked():
+			return "Otros..."
+		else:
+			return "No necesita este insumo medico"
+
 
 	def necesita_algun_medicamento_dscp(self):
 
@@ -4481,22 +4613,44 @@ class Window_nv_users(QDialog):
 			else:
 				return "No necesita medicamento"
 
-	def tipo_discapacidad(self):
+	#Tipo de discapacidades		
 
-			if self.checkBox_27_Dscp_motriz.isChecked():
-				return "Discapacidad Motriz"
-			elif self.checkBox_26_Dscp_auditiva.isChecked():
-				return "Discapacidad Auditiva"
-			elif self.checkBox_25_Dscp_visual.isChecked():
-				return "Discapacidad Visual"
-			elif self.checkBox_23_Dscp_mental.isChecked():
-				return "Discapacidad Intelectual o Mental"
-			elif self.checkBox_24_Dscp_viceral.isChecked():
+	def Discapacidad_Motriz(self):
+		if self.checkBox_27_Dscp_motriz.isChecked():
+			return "Discapacidad Motriz"
+		else:
+			return "No posee esta discapacidad"
+
+	def Discapacidad_Auditiva(self):
+		if self.checkBox_26_Dscp_auditiva.isChecked():
+			return "Discapacidad Auditiva"
+
+		else:
+			return "No posee esta discapacidad"
+
+	def Discapacidad_Visual(self):
+		if self.checkBox_25_Dscp_visual.isChecked():
+			return "Discapacidad Visual"
+		else:
+			return "No posee esta discapacidad"
+
+	def Discapacidad_Intelectual_Mental(self):
+		if self.checkBox_23_Dscp_mental.isChecked():
+			return "Discapacidad Intelectual o Mental"
+		else:
+			return "No posee esta discapacidad"
+
+	def Discapacidad_Visceral(self):
+		if self.checkBox_24_Dscp_viceral.isChecked():
 				return "Discapacidad Visceral"
-			elif self.checkBox_otras.isChecked():
-				return "Otras..."
-			else:
-				return "No posee ninguna discapacidad"
+		else: 
+			return " No posee esta discapacidad"
+	def Discapacidad_Otras(self):
+		if self.checkBox_otras.isChecked():
+			return "Otras..."
+		else:
+			return "No posee esta discapacidad"
+	###############
 
 
 	###################################### Funciones para los radio button y Checkbox #########################################
@@ -5256,6 +5410,7 @@ class Window_nv_users(QDialog):
 
 	def Mostrar(self,label, imagen, nombre, posicionX=20):
 		imagen = QPixmap.fromImage(imagen)
+		self.foto_1 = imagen
 	
 		# Escalar imagen a 169x119 si el ancho es mayor a 171 o el alto mayor a 121
 		if imagen.width() > 171 or imagen.height() > 121:
@@ -5263,6 +5418,8 @@ class Window_nv_users(QDialog):
 
 		# Mostrar imagen
 		label.setPixmap(imagen)
+
+		
     
 		self.animacionMostar = QPropertyAnimation(label, b"geometry")
 		self.animacionMostar.finished.connect(lambda: (self.label_miniatura_1_nombre.setText(nombre)))
