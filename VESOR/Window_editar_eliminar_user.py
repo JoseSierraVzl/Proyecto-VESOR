@@ -92,7 +92,7 @@ class Window_edit_elim_user(QDialog):
 		#Style buttons
 		Style_buttons = ("QPushButton{\n"
 						"border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
-						"background-color: qlineargrabdient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
+						"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
 						"color:rgb(255, 255, 255);\n"
 						"font-size: 12px\n"
 						"}\n"
@@ -170,7 +170,7 @@ class Window_edit_elim_user(QDialog):
 		self.Label.setStyleSheet(Style_label_menu)
 
 		self.Label_4 = QLabel(self.frame_menu)
-		self.Label_4.setGeometry(QRect(0,310,121,21))
+		self.Label_4.setGeometry(QRect(0,300,121,21))
 		self.Label_4.setText("BÚSQUEDA")
 		self.Label_4.setAlignment(Qt.AlignCenter)
 		self.Label_4.setStyleSheet(Style_label_busqueda)	
@@ -180,10 +180,12 @@ class Window_edit_elim_user(QDialog):
 
 		#Line Edit ==========================================================================================
 		self.line_edit_busqueda = QLineEdit(self.frame_menu)
-		self.line_edit_busqueda.setGeometry(QRect(5,340,111,21))
+		self.line_edit_busqueda.setObjectName("Enter")
+		self.line_edit_busqueda.setGeometry(QRect(5,330,111,21))
 		self.line_edit_busqueda.setToolTip("Ingresa la cedula de identidad\npara busqueda de usuario")
 		self.line_edit_busqueda.setPlaceholderText("Ingresa cedula")
 		self.line_edit_busqueda.setStyleSheet(Style_line_edit_busqueda)
+
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -195,6 +197,14 @@ class Window_edit_elim_user(QDialog):
 		self.actualizar.setStyleSheet(Style_actulizar_button)
 		self.actualizar.setIcon(QIcon(":/Icono_recargar/Imagenes-iconos/Recargar.png"))
 		self.actualizar.setToolTip("Click para actualizar\nla lista de usuarios")
+		###
+
+		# Buttons Buscar
+		self.buscar = QPushButton(self.frame_menu)
+		self.buscar.setObjectName("Buscar")
+		self.buscar.setText("Buscar")
+		self.buscar.setGeometry(QRect(5,351,111,21))
+		self.buscar.setStyleSheet(Style_buttons)
 		###
 
 		#Buttons aceptar
@@ -261,7 +271,11 @@ class Window_edit_elim_user(QDialog):
 
 		self.eliminar.clicked.connect(self.eliminar_datos)
 
+		self.line_edit_busqueda.returnPressed.connect(self.buscar_datos)
+		self.buscar.clicked.connect(self.buscar_datos)
+
 		self.QTableWidget_contenido.itemDoubleClicked.connect(self.Intem_click)
+
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -455,6 +469,125 @@ class Window_edit_elim_user(QDialog):
 		else:
 			QMessageBox.critical(self, "Eliminar", "No se encontró la base de datos.   ",
 									 		QMessageBox.Ok)
+
+	def buscar_datos(self):
+
+
+		widget = self.sender().objectName()
+
+		if widget in ("Enter", "Buscar"):
+			cliente = " ".join(self.line_edit_busqueda.text().split()).lower()
+
+			if cliente:
+				sql = "SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA FROM USUARIO_DT_GNR WHERE PRIMER_NOMBRE LIKE ?", ("%"+cliente+"%",)
+			else:
+				self.line_edit_busqueda.setFocus()
+				return
+		else:
+			self.line_edit_busqueda.clear()
+			sql = "SELECT * FROM USUARIO_DT_GNR "
+
+		if QFile.exists('Base de datos/DB_VESOR_USER_DATOSGENERALES.db'):
+			conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_DATOSGENERALES.db')
+			cursor = conexion.cursor()
+			print("Si")
+                
+			try:
+				if widget in ("Enter", "Buscar"):
+					cursor.execute(sql[0], sql[1])
+					
+				else:
+					cursor.execute(sql)
+                    
+				datosDevueltos = cursor.fetchall()
+				conexion.close()
+
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
+
+				if datosDevueltos:
+					fila = 0
+					for datos in datosDevueltos:
+						self.QTableWidget_contenido.setRowCount(fila + 1)
+            
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
+                        
+						self.QTableWidget_contenido.setItem(fila, 0, idDato)
+						self.QTableWidget_contenido.setItem(fila, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(fila, 2, QTableWidgetItem(datos[2]))
+						self.QTableWidget_contenido.setItem(fila, 3, QTableWidgetItem(datos[3]))
+
+						fila += 1
+						ide_importante = datos[0]
+
+						# Segunda conexion y numero de vivienda
+						try:
+							conexion2 = sqlite3.connect('Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db')
+							cursor2 = conexion2.cursor()
+
+							sql2 = "SELECT N_VIVIENDA FROM USUARIO_UBCGEOG WHERE ID LIKE ?"
+
+							cursor2.execute(sql2, (ide_importante,))
+							datos_Devueltos_2 = cursor2.fetchall()
+							conexion2.close()
+
+							fila = 0
+							for  datos_2 in datos_Devueltos_2:
+	            
+								idDato = QTableWidgetItem(str(datos_2[0]))
+								idDato.setTextAlignment(Qt.AlignCenter)
+
+								self.QTableWidget_contenido.setItem(fila, 4, QTableWidgetItem(datos_2[0]))
+								fila += 1
+
+						except Exception as e:
+							print(e)
+							QMessageBox.information(self, "Buscar cliente", "No se pudo encontrar la base de datos geográfica",
+															QMessageBox.Ok)
+
+				else:   
+					QMessageBox.information(self, "Buscar cliente", "No se encontro "
+                                            "información.   ", QMessageBox.Ok)
+			except Exception as e:
+				print(e)
+				conexion.close()
+				QMessageBox.critical(self, "Buscar clientes", "Error desconocido.   ",
+                                     QMessageBox.Ok)
+		else:
+			QMessageBox.critical(self, "Buscar clientes", "No se encontro la base de datos.   ",
+                                 QMessageBox.Ok)
+
+		self.line_edit_busqueda.setFocus()
+			
+
+	def keyPressEvent(self, event):
+		if event.key() == Qt.Key_Escape:
+
+			cerrar = QMessageBox(self)
+			cerrar.setWindowTitle("¿Salir de VESOR?")
+			cerrar.setIcon(QMessageBox.Question)
+			cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
+			botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
+			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
+	            
+			cerrar.exec_()
+	            
+			if cerrar.clickedButton() == botonSalir:
+				self.destroy()
+			else:
+				event.ignore()
+
+	def closeEvent(self, event):
+               
+			cerrar = QMessageBox(self)
+			cerrar.setWindowTitle("¿Salir de VESOR?")
+			cerrar.setIcon(QMessageBox.Question)
+			cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
+			botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
+			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
+            
+			cerrar.exec_()
 			
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 

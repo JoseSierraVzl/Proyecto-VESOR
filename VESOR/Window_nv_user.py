@@ -5429,6 +5429,35 @@ class Window_nv_users(QDialog):
 		self.animacionMostar.setEndValue(QRect(20, 20, 171, 121))
 		self.animacionMostar.start(QAbstractAnimation.DeleteWhenStopped)
 
+
+	def keyPressEvent(self, event):
+		if event.key() == Qt.Key_Escape:
+
+			cerrar = QMessageBox(self)
+			cerrar.setWindowTitle("¿Salir de VESOR?")
+			cerrar.setIcon(QMessageBox.Question)
+			cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
+			botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
+			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
+	            
+			cerrar.exec_()
+	            
+			if cerrar.clickedButton() == botonSalir:
+				self.destroy()
+			else:
+				event.ignore()
+
+	def closeEvent(self, event):
+               
+			cerrar = QMessageBox(self)
+			cerrar.setWindowTitle("¿Salir de VESOR?")
+			cerrar.setIcon(QMessageBox.Question)
+			cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
+			botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
+			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
+            
+			cerrar.exec_()
+
 #/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+ Fin de la Ventana registro de usuario+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+
 
 

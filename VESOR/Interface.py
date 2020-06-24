@@ -152,6 +152,26 @@ class Interface(QMainWindow):
 
 	def Nv_vocero(self):
 		Window_vocero(self).exec_()
+
+	def closeEvent(self, event):
+		
+		cerrar = QMessageBox(self)
+		cerrar.setWindowTitle("¿Salir de VESOR?")
+		cerrar.setIcon(QMessageBox.Question)
+		cerrar.setText("¿Estás seguro que desea cerrar VESOR?   ")
+		botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
+		botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
+            
+		cerrar.exec_()
+            
+		if cerrar.clickedButton() == botonSalir:
+			event.accept()
+		else:
+			event.ignore()
+
+	def keyPressEvent(self, event):
+		if event.key() == Qt.Key_Escape:
+			self.close()
 #========================================== #Classes# ===================================================================
 
 
