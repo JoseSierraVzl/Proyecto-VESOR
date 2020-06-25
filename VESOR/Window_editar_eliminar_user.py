@@ -470,99 +470,107 @@ class Window_edit_elim_user(QDialog):
 			QMessageBox.critical(self, "Eliminar", "No se encontró la base de datos.   ",
 									 		QMessageBox.Ok)
 
+
 	def buscar_datos(self):
 
+		try:
+			widget = self.sender().objectName()
 
-		widget = self.sender().objectName()
+			if widget in ("Enter", "Buscar"):
+				cliente = " ".join(self.line_edit_busqueda.text().split()).lower()
 
-		if widget in ("Enter", "Buscar"):
-			cliente = " ".join(self.line_edit_busqueda.text().split()).lower()
-
-			if cliente:
-				sql = "SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA FROM USUARIO_DT_GNR WHERE PRIMER_NOMBRE LIKE ?", ("%"+cliente+"%",)
-			else:
-				self.line_edit_busqueda.setFocus()
-				return
-		else:
-			self.line_edit_busqueda.clear()
-			sql = "SELECT * FROM USUARIO_DT_GNR "
-
-		if QFile.exists('Base de datos/DB_VESOR_USER_DATOSGENERALES.db'):
-			conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_DATOSGENERALES.db')
-			cursor = conexion.cursor()
-			print("Si")
-                
-			try:
-				if widget in ("Enter", "Buscar"):
-					cursor.execute(sql[0], sql[1])
-					
+				if len(cliente)== 0:
+					QMessageBox.critical(self, "Error", "No se ha escrito nada",
+												 QMessageBox.Ok)
+				if cliente:
+					sql = "SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA FROM USUARIO_DT_GNR WHERE PRIMER_NOMBRE LIKE ?", ("%"+cliente+"%",)
 				else:
-					cursor.execute(sql)
-                    
-				datosDevueltos = cursor.fetchall()
-				conexion.close()
+					self.line_edit_busqueda.setFocus()
+					return
+			else:
+				self.line_edit_busqueda.clear()
+				sql = "SELECT * FROM USUARIO_DT_GNR "
 
-				self.QTableWidget_contenido.clearContents()
-				self.QTableWidget_contenido.setRowCount(0)
+			if QFile.exists('Base de datos/DB_VESOR_USER_DATOSGENERALES.db'):
+				conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_DATOSGENERALES.db')
+				cursor = conexion.cursor()
+				print("Si")
+	                
+				try:
+					if widget in ("Enter", "Buscar"):
+						cursor.execute(sql[0], sql[1])
+						
+					else:
+						cursor.execute(sql)
+	                    
+					datosDevueltos = cursor.fetchall()
+					conexion.close()
 
-				if datosDevueltos:
-					fila = 0
-					for datos in datosDevueltos:
-						self.QTableWidget_contenido.setRowCount(fila + 1)
-            
-						idDato = QTableWidgetItem(str(datos[0]))
-						idDato.setTextAlignment(Qt.AlignCenter)
-                        
-						self.QTableWidget_contenido.setItem(fila, 0, idDato)
-						self.QTableWidget_contenido.setItem(fila, 1, QTableWidgetItem(datos[1]))
-						self.QTableWidget_contenido.setItem(fila, 2, QTableWidgetItem(datos[2]))
-						self.QTableWidget_contenido.setItem(fila, 3, QTableWidgetItem(datos[3]))
+					self.QTableWidget_contenido.clearContents()
+					self.QTableWidget_contenido.setRowCount(0)
 
-						fila += 1
-						ide_importante = datos[0]
-
-						# Segunda conexion y numero de vivienda
-						try:
-							conexion2 = sqlite3.connect('Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db')
-							cursor2 = conexion2.cursor()
-
-							sql2 = "SELECT N_VIVIENDA FROM USUARIO_UBCGEOG WHERE ID LIKE ?"
-
-							cursor2.execute(sql2, (ide_importante,))
-							datos_Devueltos_2 = cursor2.fetchall()
-							conexion2.close()
-
-							fila = 0
-							for  datos_2 in datos_Devueltos_2:
+					if datosDevueltos:
+						fila = 0
+						for datos in datosDevueltos:
+							self.QTableWidget_contenido.setRowCount(fila + 1)
 	            
-								idDato = QTableWidgetItem(str(datos_2[0]))
-								idDato.setTextAlignment(Qt.AlignCenter)
+							idDato = QTableWidgetItem(str(datos[0]))
+							idDato.setTextAlignment(Qt.AlignCenter)
+	                        
+							self.QTableWidget_contenido.setItem(fila, 0, idDato)
+							self.QTableWidget_contenido.setItem(fila, 1, QTableWidgetItem(datos[1]))
+							self.QTableWidget_contenido.setItem(fila, 2, QTableWidgetItem(datos[2]))
+							self.QTableWidget_contenido.setItem(fila, 3, QTableWidgetItem(datos[3]))
 
-								self.QTableWidget_contenido.setItem(fila, 4, QTableWidgetItem(datos_2[0]))
-								fila += 1
+							fila += 1
+							ide_importante = datos[0]
 
-						except Exception as e:
-							print(e)
-							QMessageBox.information(self, "Buscar cliente", "No se pudo encontrar la base de datos geográfica",
-															QMessageBox.Ok)
+							# Segunda conexion y numero de vivienda
+							try:
+								conexion2 = sqlite3.connect('Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db')
+								cursor2 = conexion2.cursor()
 
-				else:   
-					QMessageBox.information(self, "Buscar cliente", "No se encontro "
-                                            "información.   ", QMessageBox.Ok)
-			except Exception as e:
-				print(e)
-				conexion.close()
-				QMessageBox.critical(self, "Buscar clientes", "Error desconocido.   ",
-                                     QMessageBox.Ok)
-		else:
-			QMessageBox.critical(self, "Buscar clientes", "No se encontro la base de datos.   ",
-                                 QMessageBox.Ok)
+								sql2 = "SELECT N_VIVIENDA FROM USUARIO_UBCGEOG WHERE ID LIKE ?"
 
-		self.line_edit_busqueda.setFocus()
-			
+								cursor2.execute(sql2, (ide_importante,))
+								datos_Devueltos_2 = cursor2.fetchall()
+								conexion2.close()
+
+								fila = 0
+								for  datos_2 in datos_Devueltos_2:
+		            
+									idDato = QTableWidgetItem(str(datos_2[0]))
+									idDato.setTextAlignment(Qt.AlignCenter)
+
+									self.QTableWidget_contenido.setItem(fila, 4, QTableWidgetItem(datos_2[0]))
+									fila += 1
+
+							except Exception as e:
+								print(e)
+								QMessageBox.information(self, "Buscar cliente", "No se pudo encontrar la base de datos geográfica",
+																QMessageBox.Ok)
+
+					else:   
+						QMessageBox.information(self, "Buscar cliente", "No se encontro "
+	                                            "información.   ", QMessageBox.Ok)
+				except Exception as e:
+					print(e)
+					conexion.close()
+					QMessageBox.critical(self, "Buscar clientes", "Error desconocido.   ",
+	                                     QMessageBox.Ok)
+			else:
+				QMessageBox.critical(self, "Buscar clientes", "No se encontro la base de datos.   ",
+	                                 QMessageBox.Ok)
+
+			self.line_edit_busqueda.setFocus()
+		except AttributeError:
+			pass
 
 	def keyPressEvent(self, event):
-		if event.key() == Qt.Key_Escape:
+		if event.key() == Qt.Key_Return:
+			self.buscar_datos()
+
+		elif event.key() == Qt.Key_Escape:
 
 			cerrar = QMessageBox(self)
 			cerrar.setWindowTitle("¿Salir de VESOR?")
