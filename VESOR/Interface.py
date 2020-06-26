@@ -15,6 +15,7 @@ from Window_editar_eliminar_user import*
 #from Window_enfermedad import * 
 
 #rom Window_discapacidad import *
+from Window_status_user import *
 
 from Window_nv_user import *
 
@@ -122,11 +123,16 @@ class Interface(QMainWindow):
 
 		self.Editar_vocero = self.menu_vocero.addAction(QIcon(":/Icono_papelera/Imagenes-iconos/Papelera_blanca.png"),"Editar o Elimina vocero")
 
+
+
 #========================================= #Eventos# ==================================================================
 		self.Button_menu.setMenu(self.menuArchivo)
 
 		self.buttonNewUser.setMenu(self.menu_usuario)
 		self.buttonNewUser.setToolTip("Click para ver opciones de usuario")
+
+		self.buttonStatus.setToolTip("Click para ver status de los usuarios")
+		self.buttonStatus.clicked.connect(self.Abrir_ventana)
 
 		self.buttonVoceroNew.setMenu(self.menu_vocero)
 		self.buttonVoceroNew.setToolTip("Click para ver opciones de vocero")
@@ -138,6 +144,9 @@ class Interface(QMainWindow):
 		self.lineEditSearch.setToolTip("Ingresa la cedula de quien deseas buscar.")
 
 #======================================== #Funciones# ==================================================================
+
+	def Abrir_ventana(self):
+		Window_status_user(self).exec_()
 
 	def Editar_usuario(self):
 		self.interface = Window_edit_elim_user()

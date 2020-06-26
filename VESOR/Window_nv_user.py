@@ -3,6 +3,7 @@ import sqlite3
 from os import getcwd, makedirs
 from Source_rc import *
 
+
 #=============================== Ventans importadas =======================================================
 from Window_editar_eliminar_user import*
 
@@ -19,7 +20,7 @@ from Window_editar_eliminar_user import*
 
 
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
-import sys, os
+import sys, os, time
 from random import randint
 from PyQt5 import  uic 
 
@@ -3641,17 +3642,6 @@ class Window_nv_users(QDialog):
 			pass
 
 
-
-
-
-
-
-
-
-
-
-
-
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 	#Funcion para verificar datos antes de crear la basde de datos ==========================================================================================      		
@@ -3738,7 +3728,7 @@ class Window_nv_users(QDialog):
 
 																			"DESCRIBA_ENFERMEDAD TEXT, TOMA_MEDICAMENTO_ENF TEXT, DESCRIBA_MEDICAMENTO_ENF TEXT,"
 
-																			"EMBARAZADA TEXT, LACTANTE TEXT, NIVEL_DE_ESTUDIO TEXT, CARRERA_CURSANDO TEXT, DONDE_ESTUDIA TEXT)")
+																			"EMBARAZADA TEXT, LACTANTE TEXT, NIVEL_DE_ESTUDIO TEXT, CARRERA_CURSANDO TEXT, DONDE_ESTUDIA TEXT, FECHA TEXT, HORA TEXT)")
 
 
 						db.commit()		
@@ -4026,7 +4016,11 @@ class Window_nv_users(QDialog):
 				conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_DATOSGENERALES.db')
 				cursor = conexion.cursor()
 
-				try:		
+				try:
+					# Variables de tiempo insertadas en base de datos
+					hora = time.strftime("%I:%M:%S")
+					fecha_actual = time.strftime("%d/%m/%y")
+
 					datos_insertar_Gnr = [nombre_1, nombre_2, apellido_1, apellido_2,
 									cedula_identidad, genero, telefono_princ, telefono_secund,
 									fecha_Nacimiento, edad, profesion_oficio, nivel_instruccion,
@@ -4040,7 +4034,7 @@ class Window_nv_users(QDialog):
 									enfermedad_de_cardio, enfermedad_de_gastritis, enfermedad_de_bronquitis, enfermedad_de_calculos,
 									enfermedad_de_sinusitis, enfermedad_de_otras,descripcion_enfermedad,
 									necesita_algun_medicamento_enfer,descripcion_medicamento_enfer, opcion_embarazada,opcion_lactante,
-									nivel_estudio,carrera_cursando,donde_estudia]
+									nivel_estudio,carrera_cursando,donde_estudia, fecha_actual, hora]
 
 					cursor.execute("INSERT INTO USUARIO_DT_GNR(PRIMER_NOMBRE,"
 																			"SEGUNDO_NOMBRE, PRIMER_APELLIDO, SEGUNDO_APELLIDO,"
@@ -4069,7 +4063,7 @@ class Window_nv_users(QDialog):
 
 																			"DESCRIBA_ENFERMEDAD,TOMA_MEDICAMENTO_ENF, DESCRIBA_MEDICAMENTO_ENF,"  
 
-																			"EMBARAZADA, LACTANTE, NIVEL_DE_ESTUDIO,CARRERA_CURSANDO,DONDE_ESTUDIA)"
+																			"EMBARAZADA, LACTANTE, NIVEL_DE_ESTUDIO,CARRERA_CURSANDO,DONDE_ESTUDIA, FECHA, HORA)"
 										
 										" VALUES(?,?,?,?,"
 											"?,?,?,?,"
@@ -4082,7 +4076,7 @@ class Window_nv_users(QDialog):
 											"?,?,?,?,"
 											"?,?,?,?,"
 											"?,?,?,?,"
-											"?,?,?,?)", datos_insertar_Gnr)
+											"?,?,?,?,?,?)", datos_insertar_Gnr)
 
 					
 
@@ -4987,21 +4981,6 @@ class Window_nv_users(QDialog):
 		self.animacionMostar.setStartValue(QRect(200, 100, 613,303))
 		self.animacionMostar.setEndValue(QRect(200, 1000, 613,303))
 		self.animacionMostar.start(QAbstractAnimation.DeleteWhenStopped)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

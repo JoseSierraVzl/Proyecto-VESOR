@@ -155,7 +155,7 @@ class Window_edit_elim_user(QDialog):
 		self.frame_principal_contenido.setStyleSheet(Style_frame_principal)
 		###
 
-		#Frame menu
+		#Frame menus
 		self.frame_menu = QFrame(self)
 		self.frame_menu.setGeometry(QRect(30,20,121,411))
 		self.frame_menu.setStyleSheet(Style_frame_menu)
@@ -274,7 +274,8 @@ class Window_edit_elim_user(QDialog):
 		self.line_edit_busqueda.returnPressed.connect(self.buscar_datos)
 		self.buscar.clicked.connect(self.buscar_datos)
 
-		self.QTableWidget_contenido.itemDoubleClicked.connect(self.Intem_click)
+		self.aceptar.clicked.connect(self.Item_click)
+		self.QTableWidget_contenido.itemDoubleClicked.connect(self.Item_click)
 
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
@@ -288,12 +289,11 @@ class Window_edit_elim_user(QDialog):
 			try: 
 				self.con = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
 				self.con2 = sqlite3.connect("Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db")
-
 				self.cursor = self.con.cursor()
 				self.cursor2 = self.con2.cursor()
 
 				self.cursor.execute("SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA FROM USUARIO_DT_GNR")
-				self.cursor2.execute("SELECT N_VIVIENDA FROM 'USUARIO_UBCGEOG'")
+				self.cursor2.execute("SELECT N_VIVIENDA FROM USUARIO_UBCGEOG")
 
 				datos_Devueltos = self.cursor.fetchall()
 				datos_Devueltos_2 = self.cursor2.fetchall()
@@ -342,14 +342,12 @@ class Window_edit_elim_user(QDialog):
 
 
 
-	def Intem_click(self,celda):
+	def Item_click(self,celda):
 		celda = self.QTableWidget_contenido.selectedItems()
 
 		if celda:
 			indice = celda[0].row()
 			dato = [self.QTableWidget_contenido.item(indice,i).text()for i in range(4)]
-			print(dato)
-			print (dato[3])
 
 			dato_buscar = dato[3]
 
@@ -369,10 +367,6 @@ class Window_edit_elim_user(QDialog):
 					print(datosdevueltos)
 					for dato in datosdevueltos:
 						indice = dato[0]
-
-						print(dato[0])
-
-						print(dato[7])
 
 					Window_visualizar_users(dato,self).exec_()
 					conexion.close()
