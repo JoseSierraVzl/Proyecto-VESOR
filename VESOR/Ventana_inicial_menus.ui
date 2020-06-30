@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>783</width>
+    <width>745</width>
     <height>462</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1000</width>
+    <width>745</width>
     <height>462</height>
    </size>
   </property>
@@ -56,7 +56,7 @@ border-radius: 45px;
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>190</y>
+       <y>200</y>
        <width>151</width>
        <height>31</height>
       </rect>
@@ -94,7 +94,7 @@ font-size: 12px;
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>160</y>
+       <y>170</y>
        <width>151</width>
        <height>31</height>
       </rect>
@@ -125,53 +125,6 @@ font-size: 12px;
        <width>20</width>
        <height>20</height>
       </size>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>350</y>
-       <width>121</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel{
-color:rgb(255, 255, 255);
-font: 8pt &quot;Comic Sans MS&quot;;
-
-background-color:#1C262D
-
-}</string>
-     </property>
-     <property name="text">
-      <string>BUSQUEDA RAPIDA </string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditSearch">
-     <property name="geometry">
-      <rect>
-       <x>5</x>
-       <y>380</y>
-       <width>111</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLineEdit{
-border-radius: 6px;
-
-}
-QLineEdit:hover{
-border:1px solid rgb(0, 170, 255);
-}</string>
-     </property>
-     <property name="placeholderText">
-      <string>Ingrese cédula</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_2">
@@ -272,9 +225,9 @@ border-radius: 10px;
     <widget class="QPushButton" name="buttonStatus">
      <property name="geometry">
       <rect>
-       <x>-10</x>
-       <y>220</y>
-       <width>151</width>
+       <x>-7</x>
+       <y>230</y>
+       <width>131</width>
        <height>31</height>
       </rect>
      </property>
@@ -296,20 +249,135 @@ font-size: 12px;
      <property name="text">
       <string>ESTATUS</string>
      </property>
+     <property name="icon">
+      <iconset resource="Source.qrc">
+       <normaloff>:/Icono_reloj/Imagenes-iconos/reloj.png</normaloff>:/Icono_reloj/Imagenes-iconos/reloj.png</iconset>
+     </property>
      <property name="iconSize">
       <size>
-       <width>18</width>
-       <height>18</height>
+       <width>16</width>
+       <height>16</height>
       </size>
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>10</y>
-      <width>591</width>
+      <x>180</x>
+      <y>20</y>
+      <width>221</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox{
+color:#1b231f;
+background-color: #E5E7EE;
+font: 75 10pt Comic Sans MS;
+border-radius: 22px;
+
+}</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <widget class="QLabel" name="Cantidad_m">
+     <property name="geometry">
+      <rect>
+       <x>25</x>
+       <y>40</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>Hombres:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>20</y>
+       <width>81</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>Mujeres:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Cantidad_f">
+     <property name="geometry">
+      <rect>
+       <x>125</x>
+       <y>40</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>20</y>
+      <width>271</width>
       <height>231</height>
      </rect>
     </property>
@@ -323,19 +391,234 @@ border-radius: 22px;
 }</string>
     </property>
     <property name="title">
-     <string>Estadisticas</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <widget class="QLabel" name="Cantidad_12_18">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>40</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Cantidad_0_12">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>40</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>De 0 a 12 años:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>20</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>De 13 a 18 años:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Cantidad_31_54">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>110</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Cantidad_19_30">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>110</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>De 19 a 30 años:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>90</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>De 31 a 54 años:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>160</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>&gt;= a 55 años:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Cantidad_55">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>180</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
+   <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>250</y>
-      <width>291</width>
-      <height>191</height>
+      <x>160</x>
+      <y>130</y>
+      <width>271</width>
+      <height>311</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -348,19 +631,320 @@ border-radius: 22px;
 }</string>
     </property>
     <property name="title">
-     <string>Estadisticas</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>131</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>Inscrito en el REP:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>10</y>
+       <width>101</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>Estudiantes:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_11">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>DIscapacitados:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_12">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>90</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>Enfermedades:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Cantidad_rep">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>30</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Cantidad_estudiante">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>30</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Cantidad_discapacidad">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>110</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Cantidad_enfermedad">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>110</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_13">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>170</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>Pensionados:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>170</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>Embarazadas:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_15">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>240</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>Lactantes:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Cantidad_lactante">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>260</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Cantidad_pensionado">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>190</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Cantidad_embarazo">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>190</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+color:#12191D;
+font: 18pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox_3">
+   <widget class="QGroupBox" name="groupBox_5">
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>250</y>
-      <width>291</width>
-      <height>191</height>
+      <y>280</y>
+      <width>231</width>
+      <height>161</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -373,11 +957,274 @@ border-radius: 22px;
 }</string>
     </property>
     <property name="title">
-     <string>Estadisticas</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <widget class="QLabel" name="label_18">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>10</y>
+       <width>131</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string>Sacar porcentajes:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="valor_1">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit{
+		border-radius: 8px;
+		background:#B7C0EE;
+		color: #000000;
+		}
+		QLineEdit:hover{
+		border: 1px solid  #113384;
+}</string>
+     </property>
+     <property name="inputMask">
+      <string/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="valor_2">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>50</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit{
+		border-radius: 8px;
+		background:#B7C0EE;
+		color: #000000;
+		}
+		QLineEdit:hover{
+		border: 1px solid  #113384;
+}</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="resultado_1">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>50</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_20">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>50</y>
+       <width>51</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:1 rgba(255, 255, 255, 0));
+color: #000000;
+font: 12pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>% de</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="valor_1_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>107</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit{
+		border-radius: 8px;
+		background:#B7C0EE;
+		color: #000000;
+		}
+		QLineEdit:hover{
+		border: 1px solid  #113384;
+}</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="valor_2_2">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>107</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit{
+		border-radius: 8px;
+		background:#B7C0EE;
+		color: #000000;
+		}
+		QLineEdit:hover{
+		border: 1px solid  #113384;
+}</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="resultado_2">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>107</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#4466B8;
+		color: rgb(255, 255, 255);
+		border-radius: 5px</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_22">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>107</y>
+       <width>51</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:1 rgba(255, 255, 255, 0));
+color: #000000;
+font: 12pt &quot;Sans&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>de</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="operacion_1">
+     <property name="geometry">
+      <rect>
+       <x>145</x>
+       <y>55</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:1 rgba(255, 255, 255, 0));
+border:0px;
+}
+
+QPushButton:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(204, 204, 204, 129));
+border-radius: 10px;
+
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="Source.qrc">
+       <normaloff>:/Icono_igualdad/Imagenes-iconos/igualdad.png</normaloff>:/Icono_igualdad/Imagenes-iconos/igualdad.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="operacion_2">
+     <property name="geometry">
+      <rect>
+       <x>145</x>
+       <y>112</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:1 rgba(255, 255, 255, 0));
+border:0px;
+}
+
+
+QPushButton:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(204, 204, 204, 129));
+border-radius: 10px;
+
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="Source.qrc">
+       <normaloff>:/Icono_igualdad/Imagenes-iconos/igualdad.png</normaloff>:/Icono_igualdad/Imagenes-iconos/igualdad.png</iconset>
+     </property>
+    </widget>
+    <zorder>operacion_1</zorder>
+    <zorder>label_18</zorder>
+    <zorder>valor_1</zorder>
+    <zorder>valor_2</zorder>
+    <zorder>resultado_1</zorder>
+    <zorder>label_20</zorder>
+    <zorder>valor_1_2</zorder>
+    <zorder>valor_2_2</zorder>
+    <zorder>resultado_2</zorder>
+    <zorder>label_22</zorder>
+    <zorder>operacion_2</zorder>
    </widget>
   </widget>
   <action name="actionSave">

@@ -172,7 +172,7 @@ class Window_status_user(QDialog):
 
 		#QTableWidget ==========================================================================================      		
 		nombreColumnas = ("Usuario", "Cedula", "Fecha", "Hora",
-		 "Cambios")
+		 "Modificación")
 		self.Tabla_contenido = QTableWidget(self.frame_principal_contenido)
 		self.Tabla_contenido.setToolTip("Click para ver usuario")
 		self.Tabla_contenido.setGeometry(QRect(15,11,551,391))
@@ -213,7 +213,7 @@ class Window_status_user(QDialog):
 
 				self.cursor = self.con.cursor()
 
-				self.cursor.execute("SELECT PRIMER_NOMBRE, CEDULA, FECHA, HORA FROM USUARIO_DT_GNR")
+				self.cursor.execute("SELECT PRIMER_NOMBRE, CEDULA, FECHA, HORA, MODIFICACION FROM USUARIO_DT_GNR")
 
 
 				datos_Devueltos = self.cursor.fetchall()

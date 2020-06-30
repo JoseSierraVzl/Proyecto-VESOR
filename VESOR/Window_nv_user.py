@@ -3712,7 +3712,7 @@ class Window_nv_users(QDialog):
 
 																			"ESTADO_CIVIL TEXT, INSCRITO_REP TEXT, CORREO_ELECTRONICO TEXT,"
 
-																			"PENSIONADO TEXT, DISCAPACIDAD_MOTRIZ TEXT, DISCAPACIDAD_AUDITIVA TEXT,"
+																			"PENSIONADO TEXT, DISCAPACIDAD TEXT, DISCAPACIDAD_MOTRIZ TEXT, DISCAPACIDAD_AUDITIVA TEXT,"
 
 																			"DISCAPACIDAD_VISUAL TEXT, DISCAPACIDAD_INTELECTUAL TEXT, DISCAPACIDAD_VISCERAL TEXT,"
 
@@ -3728,7 +3728,9 @@ class Window_nv_users(QDialog):
 
 																			"DESCRIBA_ENFERMEDAD TEXT, TOMA_MEDICAMENTO_ENF TEXT, DESCRIBA_MEDICAMENTO_ENF TEXT,"
 
-																			"EMBARAZADA TEXT, LACTANTE TEXT, NIVEL_DE_ESTUDIO TEXT, CARRERA_CURSANDO TEXT, DONDE_ESTUDIA TEXT, FECHA TEXT, HORA TEXT)")
+																			"EMBARAZADA TEXT, LACTANTE TEXT, NIVEL_DE_ESTUDIO TEXT, CARRERA_CURSANDO TEXT, DONDE_ESTUDIA TEXT, FECHA TEXT, HORA TEXT,"
+
+																			"MODIFICACION TEXT)")
 
 
 						db.commit()		
@@ -3868,7 +3870,7 @@ class Window_nv_users(QDialog):
 
 
 		#Ventana de discapacidad
-
+		discapacidad = self.si_posee_discapacidad()
 		descripcion_discapacidad = self.textEdit_dcrp_discapacidad.toPlainText()
 		discapacidad_motriz = self.Discapacidad_Motriz()
 		discapacidad_auditiva = self.Discapacidad_Auditiva()
@@ -4025,7 +4027,7 @@ class Window_nv_users(QDialog):
 									cedula_identidad, genero, telefono_princ, telefono_secund,
 									fecha_Nacimiento, edad, profesion_oficio, nivel_instruccion,
 									parentesco, estado_civil, inscrito_rep, correo_electronico,
-									opcion_pensionado,discapacidad_motriz, discapacidad_auditiva, discapacidad_visual,
+									opcion_pensionado, discapacidad_motriz, discapacidad_auditiva, discapacidad_visual,
 									discapacidad_intelectual, discapacidad_viceral, discapacidad_otras,
 									descripcion_discapacidad,necesita_algun_medicamento_dscp,
 									descripcion_medicamento_dscp, insumomedico_silla_de_reudas,
@@ -4609,6 +4611,11 @@ class Window_nv_users(QDialog):
 
 	#Tipo de discapacidades		
 
+	def si_posee_discapacidad(self):
+		if self.checkBox_2_discapacidad.isChecked():
+			return "Si"
+		else:
+			return "No"
 	def Discapacidad_Motriz(self):
 		if self.checkBox_27_Dscp_motriz.isChecked():
 			return "Discapacidad Motriz"

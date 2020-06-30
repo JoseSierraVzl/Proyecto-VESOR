@@ -5,7 +5,7 @@ from Source_rc import *
 
 from Window_visualizador_discapacidad import *
 
-import sys, os
+import sys, os, time
 from random import randint
 from PyQt5 import  uic 
 
@@ -4040,7 +4040,10 @@ class Window_visualizar_users(QDialog):
 				conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_DATOSGENERALES.db')
 				cursor = conexion.cursor()
 
-				try:		
+				try:
+					
+					fecha_actual = time.strftime("%d/%m/%y")
+
 					datos_insertar_Gnr = [nombre_1, nombre_2, apellido_1, apellido_2,
 									cedula_identidad, genero, telefono_princ, telefono_secund,
 									fecha_Nacimiento, edad, profesion_oficio, nivel_instruccion,
@@ -4054,7 +4057,7 @@ class Window_visualizar_users(QDialog):
 									enfermedad_de_cardio, enfermedad_de_gastritis, enfermedad_de_bronquitis, enfermedad_de_calculos,
 									enfermedad_de_sinusitis, enfermedad_de_otras,descripcion_enfermedad,
 									necesita_algun_medicamento_enfer,descripcion_medicamento_enfer, opcion_embarazada,opcion_lactante,
-									nivel_estudio,carrera_cursando,donde_estudia,self.datos[0]]
+									nivel_estudio,carrera_cursando,donde_estudia, fecha_actual,self.datos[0]]
 
 					cursor.execute("UPDATE USUARIO_DT_GNR SET PRIMER_NOMBRE = ?,"
 																			"SEGUNDO_NOMBRE = ?, PRIMER_APELLIDO = ?, SEGUNDO_APELLIDO = ?,"
@@ -4083,7 +4086,7 @@ class Window_visualizar_users(QDialog):
 
 																			"DESCRIBA_ENFERMEDAD = ?,TOMA_MEDICAMENTO_ENF = ?, DESCRIBA_MEDICAMENTO_ENF = ?,"  
 
-																			"EMBARAZADA = ?, LACTANTE = ?, NIVEL_DE_ESTUDIO = ?,CARRERA_CURSANDO = ?,DONDE_ESTUDIA = ? WHERE ID = ?", datos_insertar_Gnr)
+																			"EMBARAZADA = ?, LACTANTE = ?, NIVEL_DE_ESTUDIO = ?,CARRERA_CURSANDO = ?,DONDE_ESTUDIA = ?, MODIFICACION = ? WHERE ID = ?", datos_insertar_Gnr)
 
 					
 
