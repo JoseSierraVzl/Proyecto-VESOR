@@ -145,7 +145,57 @@ class Window_edit_elim_user(QDialog):
 									"border:1px solid rgb(0, 170, 255);\n"
 									"}")
 		###
+
+		#Style del menu del button buscar
+
+		Style_button_menu =("QMenu{background-color:#12191D;\n"
+		"color: #ffffff;}\n"
+
+		"QMenu::item::selected{\n"
+		"background-color:rgb(0, 170, 255);"
+		"}") 
+
+
+		#"QMenu:separator{height:0px;"
+		#"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0,\n"
+		#"stop:0 rgba(173, 181, 189, 95));"
+		#"margin-left:0px;"
+		#"margin-right:0px;}"
+
+		###
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
+		#frames ==========================================================================================      				
+
+
+		self.menu_buscar = QMenu()
+		self.menu_buscar.setStyleSheet(Style_button_menu)
+		self.buscar_estudiante = self.menu_buscar.addAction("Buscar estudiante")
+		self.buscar_discapacidad = self.menu_buscar.addAction("Buscar discapacitados")
+		self.buscar_enfermedad = self.menu_buscar.addAction("Buscar enfermos")
+		self.buscar_pensionados = self.menu_buscar.addAction("Buscar pensionados")
+		self.buscar_embarazadas = self.menu_buscar.addAction("Buscar embarazadas")
+		self.buscar_lactantes = self.menu_buscar.addAction("Buscar lactantes")
+		self.buscar_rep = self.menu_buscar.addAction("Buscar inscritos en el REP")
+		#
+		self.buscar_parentesco = self.menu_buscar.addMenu("Buscar por parentesco")
+		self.buscar_parentesco.addAction("Jefe/a de familia")
+		#
+		self.buscar_genero = self.menu_buscar.addMenu("Buscar por genero")
+		self.buscar_genero.addAction("Masculino")
+		self.buscar_genero.addAction("Femenino")
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		#frames ==========================================================================================      				
 		#Frame principal contenido
@@ -178,13 +228,14 @@ class Window_edit_elim_user(QDialog):
 		
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Line Edit ==========================================================================================
+		#Line Edit busqueda nombre ==========================================================================================
 		self.line_edit_busqueda = QLineEdit(self.frame_menu)
 		self.line_edit_busqueda.setObjectName("Enter")
 		self.line_edit_busqueda.setGeometry(QRect(5,330,111,21))
-		self.line_edit_busqueda.setToolTip("Ingresa la cedula de identidad\npara busqueda de usuario")
-		self.line_edit_busqueda.setPlaceholderText("Ingresa cedula")
+		self.line_edit_busqueda.setToolTip("Ingresa el dato del usuario\npara la busqueda")
+		self.line_edit_busqueda.setPlaceholderText("Ingresa dato")
 		self.line_edit_busqueda.setStyleSheet(Style_line_edit_busqueda)
+		#self.line_edit_busqueda.setMove(1000,330)
 
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
@@ -203,11 +254,14 @@ class Window_edit_elim_user(QDialog):
 		self.buscar = QPushButton(self.frame_menu)
 		self.buscar.setObjectName("Buscar")
 		self.buscar.setText("Buscar")
-		self.buscar.setGeometry(QRect(5,351,111,21))
+		self.buscar.setGeometry(QRect(-3,355,130,21))
 		self.buscar.setStyleSheet(Style_buttons)
+		self.buscar.setToolTip("Click para motrar opciones de busqueda")
+
 		###
 
 		#Buttons aceptar
+
 		self.aceptar = QPushButton(self.frame_menu)
 		self.aceptar.setText("Aceptar")
 		self.aceptar.setGeometry(QRect(0, 150, 121, 31))
@@ -224,11 +278,20 @@ class Window_edit_elim_user(QDialog):
 		self.eliminar.setIcon(QIcon(":/Icono_papelera/Imagenes-iconos/Papelera_blanca.png"))
 		self.eliminar.setIconSize(QSize(17,17))
 		###
+		
+		#Buttons opciones para buscar 
+		self.opciones_de_busqueda = QPushButton(self.frame_menu)
+		self.opciones_de_busqueda.setText("Opciones")
+		self.opciones_de_busqueda.setGeometry(QRect(-12, 210, 151, 31))
+		self.opciones_de_busqueda.setStyleSheet(Style_buttons)
+		self.opciones_de_busqueda.setIcon(QIcon(":/Icono_lupa/Imagenes-iconos/Lupa_blanca.png"))
+		self.opciones_de_busqueda.setIconSize(QSize(16,16))
+		###
 
 		#Buttons cancelar
 		self.cancelar = QPushButton(self.frame_menu)
 		self.cancelar.setText("Cancelar")
-		self.cancelar.setGeometry(QRect(0, 210, 121, 31))
+		self.cancelar.setGeometry(QRect(0, 240, 121, 31))
 		self.cancelar.setStyleSheet(Style_buttons)
 		self.cancelar.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.cancelar.setIconSize(QSize(15,15))
@@ -267,21 +330,23 @@ class Window_edit_elim_user(QDialog):
 
 
 		#EVENTOS ==========================================================================================      		
+		
+		#self.limpiar.clicked.connect(self.Ocultar_todos)
+
 		self.actualizar.clicked.connect(self.mostrar_datos)
 
 		self.eliminar.clicked.connect(self.eliminar_datos)
 
 		self.line_edit_busqueda.returnPressed.connect(self.buscar_datos)
 		self.buscar.clicked.connect(self.buscar_datos)
+		self.opciones_de_busqueda.setMenu(self.menu_buscar)
+
 
 		self.aceptar.clicked.connect(self.Item_click)
 		self.QTableWidget_contenido.itemDoubleClicked.connect(self.Item_click)
 
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-
-
-
 	def mostrar_datos(self):
 
 		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
@@ -465,6 +530,9 @@ class Window_edit_elim_user(QDialog):
 									 		QMessageBox.Ok)
 
 
+
+
+
 	def buscar_datos(self):
 
 		try:
@@ -560,6 +628,7 @@ class Window_edit_elim_user(QDialog):
 		except AttributeError:
 			pass
 
+
 	def keyPressEvent(self, event):
 		if event.key() == Qt.Key_Return:
 			self.buscar_datos()
@@ -590,6 +659,11 @@ class Window_edit_elim_user(QDialog):
 			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
             
 			cerrar.exec_()
+
+
+
+
+
 			
 			
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#

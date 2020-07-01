@@ -714,7 +714,7 @@ border-radius: 22px;
 		border-radius: 5px</string>
      </property>
      <property name="text">
-      <string>Enfermedades:</string>
+      <string>Enfermos:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
