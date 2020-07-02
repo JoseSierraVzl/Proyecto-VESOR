@@ -3246,12 +3246,12 @@ class Window_visualizar_users(QDialog):
 			self.checkBox_1_pensionado.setChecked(True)
 
 
-		if self.datos[44] == "No esta en estado de embarazo":
+		if self.datos[45] == "No esta en estado de embarazo":
 			None
 		else:
 			self.checkBox_4_Embarazada.setChecked(True)
 
-		if self.datos[45] == "No esta en estado de lactancia":
+		if self.datos[46] == "No esta en estado de lactancia":
 			None
 		else:
 			self.checkBox_5_lactante.setChecked(True)
@@ -3260,120 +3260,120 @@ class Window_visualizar_users(QDialog):
 
 		#Ventana de discapacidad
 
-		if self.datos[18] == "Discapacidad Motriz":
+		if self.datos[19] == "Discapacidad Motriz":
 			self.checkBox_27_Dscp_motriz.setChecked(True)
 		else:
 			None
-		if self.datos[19] == "Discapacidad Auditiva":
+		if self.datos[20] == "Discapacidad Auditiva":
 			self.checkBox_26_Dscp_auditiva.setChecked(True)
 		else:
 			None
-		if self.datos[20] == "Discapacidad Visual":
+		if self.datos[21] == "Discapacidad Visual":
 			self.checkBox_25_Dscp_visual.setChecked(True)
 		else:
 			None
-		if self.datos[21] == "Discapacidad Intelectual o Mental":
+		if self.datos[22] == "Discapacidad Intelectual o Mental":
 			self.checkBox_23_Dscp_mental.setChecked(True)
 		else:
 			None
-		if self.datos[22] == "Discapacidad Visceral":
+		if self.datos[23] == "Discapacidad Visceral":
 			self.checkBox_24_Dscp_viceral.setChecked(True)
 		else:
 			None
-		if self.datos[23] == "Otras...":
+		if self.datos[24] == "Otras...":
 			self.checkBox_otras.setChecked(True)
 		else:
 			None
 
-		if self.datos[24] ==  "Necesita silla de rueda":
+		if self.datos[25] ==  "Necesita silla de rueda":
 			self.checkBox_sillarueda.setChecked(True)
 		else:
 			None
 
-		if self.datos[25] == "Necesita muletas":
+		if self.datos[26] == "Necesita muletas":
 			self.checkBox_muletas.setChecked(True)
 		else:
 			None
-		if self.datos[26] == "Necesita protesis":
+		if self.datos[27] == "Necesita protesis":
 			self.checkBox_protesis.setChecked(True)
 		else:
 			None
 
-		if self.datos[27] == "Otros...":
+		if self.datos[28] == "Otros...":
 			self.checkBox_otros.setChecked(True)
 		else:
 			None
 
-		self.textEdit_dcrp_discapacidad.setText(self.datos[28])
+		self.textEdit_dcrp_discapacidad.setText(self.datos[29])
 
-		if self.datos[29] == "Si":
+		if self.datos[30] == "Si":
 			self.radioButton_si_medicamentos_dscp.setChecked(True)
-		elif self.datos[29] == "No necesita medicamento":
+		elif self.datos[30] == "No necesita medicamento":
 			self.radioButton_no_medicamentos_dscp.setChecked(True)
 
-		self.textEdit_medicamento_dscp.setText(self.datos[30])
+		self.textEdit_medicamento_dscp.setText(self.datos[31])
 
 
 		#Ventana de enfermedad
 
-		if self.datos[31] == "Cáncer":
+		if self.datos[32] == "Cáncer":
 			self.checkBox_27_cancer.setChecked(True)
 		else:
 			None
 			 
-		if self.datos[32] == "Diabetes":
+		if self.datos[33] == "Diabetes":
 			self.checkBox_26_diabetes.setChecked(True)
 		else:
 			None
 
-		if self.datos[33] == "Hipertensión arterial":
+		if self.datos[34] == "Hipertensión arterial":
 			self.checkBox_25_hp_arterial.setChecked(True)
 		else:
 			None
 
-		if self.datos[34] == "Asma":
+		if self.datos[35] == "Asma":
 			self.checkBox_23_asma.setChecked(True)
 		else:
 			None
 
-		if self.datos[35] == "Cardio Vascular":
+		if self.datos[36] == "Cardio Vascular":
 		 	self.checkBox_24_vascular.setChecked(True)
 		else:
 		 	None
 
-		if self.datos[36] ==  "Gastritis":
+		if self.datos[37] ==  "Gastritis":
 			self.checkBox_28_gastritis.setChecked(True)
 		else:
 			None
 
-		if self.datos[37] ==  "Bronquitis":
+		if self.datos[38] ==  "Bronquitis":
 			self.checkBox_29_bronquitis.setChecked(True)
 		else:
 			None
 
-		if self.datos[37] == "Cálculos de riñón":
+		if self.datos[39] == "Cálculos de riñón":
 			self.checkBox_30_calcu_rinon.setChecked(True)
 		else:
 			None
 
-		if self.datos[39] == "Sinusitis":
+		if self.datos[40] == "Sinusitis":
 			self.checkBox_31_sinusitis.setChecked(True)
 		else:
 			None
 
-		if self.datos[40] == "Otra...":
+		if self.datos[41] == "Otra...":
 			self.checkBox_32_otra_enf.setChecked(True)
 		else:
 			None
 
-		self.textEdit_dcrp_enfermedad.setText(self.datos[41])
+		self.textEdit_dcrp_enfermedad.setText(self.datos[42])
 
-		if self.datos[42] == "Si":
+		if self.datos[43] == "Si":
 			self.radioButton_si_medicamentos_enfer.setChecked(True)
 		else:
 			self.radioButton_no_medicamentos_enfer.setChecked(True)
 
-		self.textEdit_medicamento_enfer.setText(self.datos[43])
+		self.textEdit_medicamento_enfer.setText(self.datos[44])
 
 
 		###
@@ -3404,10 +3404,10 @@ class Window_visualizar_users(QDialog):
 					self.parroquia = dato[3]
 					print(dato[3])
 					self.direccion = dato[4]
-
 					print(dato[4])
-					self.n_vivienda = dato[5]
-					print(dato[5])
+
+					#self.n_vivienda = dato[5]
+					#print(dato[5])
 				conexion.close()
 			except Exception as e:
 				print("a:",e)
@@ -3420,7 +3420,7 @@ class Window_visualizar_users(QDialog):
 
 		self.textEdit_direccion.setText(self.direccion)
 
-		self.lineEdit_N_vivienda.setText(self.n_vivienda)
+		
 
 
 
@@ -3725,21 +3725,22 @@ class Window_visualizar_users(QDialog):
 
 
 
-		if self.datos[46] == "Primaria":
+		if self.datos[47] == "Primaria":
 			self.checkbox_primaria.setChecked(True)
-		elif self.datos[46] == "Bachillerato":
+		elif self.datos[47] == "Bachillerato":
 			self.checkbox_bachillerato.setChecked(True)
-		elif self.datos[46] == "Universitario":
+		elif self.datos[47] == "Universitario":
 			self.checkbox_universitario.setChecked(True)
-		elif self.datos[46] == "Técnico Superior universitario ":
+		elif self.datos[47] == "Técnico Superior universitario ":
 			self.checkbox_tcn_superior.setChecked(True)
-		elif self.datos[46] == "Especialización":
+		elif self.datos[47] == "Especialización":
 			self.checkbox_especializacion.setChecked(True)
 		else:
 			None
 
-		self.texedit_carrera.setText(self.datos[47])
-		self.texedit_donde_estudia.setText(self.datos[48])
+		self.texedit_carrera.setText(self.datos[48])
+		self.texedit_donde_estudia.setText(self.datos[49])
+		self.lineEdit_N_vivienda.setText(self.datos[53])
 
 		if self.datos[0]:
 			sql = "SELECT * FROM USUARIO_PROT_SOCIAL WHERE ID LIKE ?", (self.datos[0],)
@@ -4057,11 +4058,11 @@ class Window_visualizar_users(QDialog):
 									enfermedad_de_cardio, enfermedad_de_gastritis, enfermedad_de_bronquitis, enfermedad_de_calculos,
 									enfermedad_de_sinusitis, enfermedad_de_otras,descripcion_enfermedad,
 									necesita_algun_medicamento_enfer,descripcion_medicamento_enfer, opcion_embarazada,opcion_lactante,
-									nivel_estudio,carrera_cursando,donde_estudia, fecha_actual,self.datos[0]]
+									nivel_estudio,carrera_cursando,donde_estudia, fecha_actual, numero_vivienda,self.datos[0]]
 
 					cursor.execute("UPDATE USUARIO_DT_GNR SET PRIMER_NOMBRE = ?,"
 																			"SEGUNDO_NOMBRE = ?, PRIMER_APELLIDO = ?, SEGUNDO_APELLIDO = ?,"
-
+#
 																			"CEDULA = ? , GENERO = ? , TELEFONO_PRINCIPAL = ? ," 
 
 																			"TELEFONO_SECUNDARIO = ?, FECHA_NACIMIENTO = ?, EDAD = ?,"
@@ -4086,14 +4087,14 @@ class Window_visualizar_users(QDialog):
 
 																			"DESCRIBA_ENFERMEDAD = ?,TOMA_MEDICAMENTO_ENF = ?, DESCRIBA_MEDICAMENTO_ENF = ?,"  
 
-																			"EMBARAZADA = ?, LACTANTE = ?, NIVEL_DE_ESTUDIO = ?,CARRERA_CURSANDO = ?,DONDE_ESTUDIA = ?, MODIFICACION = ? WHERE ID = ?", datos_insertar_Gnr)
+																			"EMBARAZADA = ?, LACTANTE = ?, NIVEL_DE_ESTUDIO = ?,CARRERA_CURSANDO = ?,DONDE_ESTUDIA = ?, MODIFICACION = ?, N_VIVIENDA = ? WHERE ID = ?", datos_insertar_Gnr)
 
 					
 
 					idusuario = cursor.lastrowid
 					print(idusuario)
 
-					conexion.commit()		
+					conexion.commit()		 
 					cursor.close()
 					conexion.close()
 					QMessageBox.information(self, "Nuevo usuario", "Usuario registrado.",
@@ -4110,10 +4111,10 @@ class Window_visualizar_users(QDialog):
 				cursor = conexion.cursor()
 
 			try:		
-				datos_insertar_Ubc = [estado, municipio,parroquia,direccion,numero_vivienda,self.datos[0]]
+				datos_insertar_Ubc = [estado, municipio,parroquia,direccion,self.datos[0]]
 
 				cursor.execute("UPDATE USUARIO_UBCGEOG SET ESTADO = ?, MUNICIPIO = ?,"
-								"PARROQUIA = ?, DIRECCION = ?, N_VIVIENDA = ? WHERE ID = ?", datos_insertar_Ubc)
+								"PARROQUIA = ?, DIRECCION = ? WHERE ID = ?", datos_insertar_Ubc)
 				conexion.commit()		
 				cursor.close()
 				conexion.close()

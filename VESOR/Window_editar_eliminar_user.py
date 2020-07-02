@@ -169,7 +169,7 @@ class Window_edit_elim_user(QDialog):
 
 		self.menu_buscar = QMenu()
 		self.menu_buscar.setStyleSheet(Style_button_menu)
-		self.buscar_estudiante = self.menu_buscar.addAction("Buscar estudiante")
+		self.buscar_estudiante = self.menu_buscar.addAction("Buscar estudiante", self.Mostrar_estudiantes)
 		self.buscar_discapacidad = self.menu_buscar.addAction("Buscar discapacitados")
 		self.buscar_enfermedad = self.menu_buscar.addAction("Buscar enfermos")
 		self.buscar_pensionados = self.menu_buscar.addAction("Buscar pensionados")
@@ -586,6 +586,77 @@ class Window_edit_elim_user(QDialog):
 			self.line_edit_busqueda.setFocus()
 		except AttributeError:
 			pass
+
+
+
+	def Mostrar_estudiantes(self):
+
+
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+			try: 
+				cur_estudiante = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+				cursor_estudiante = cur_estudiante.cursor()
+
+				cursor_estudiante.execute("SELECT * FROM USUARIO_DT_GNR WHERE PROFESION_OFICIO = 'Estudiante' ")
+				
+
+				datos_Devueltos = cursor_estudiante.fetchall()
+				#print(datos_Devueltos)
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
+
+				if datos_Devueltos:
+					row = 0
+
+					for datos in datos_Devueltos:
+						self.QTableWidget_contenido.setRowCount(row + 1)
+						
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
+
+						self.QTableWidget_contenido.setItem(row, 0, idDato)
+						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
+						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						row +=1
+
+				else:   
+					QMessageBox.information(self, "Buscar usuaria", "No se encontraron usuarios"
+											"información.   ", QMessageBox.Ok)
+
+			except Exception as e:
+				print(e)
+				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
+											 QMessageBox.Ok)
+		else:
+			QMessageBox.critical(self, "Buscar usuarios", "No se encontro la base de datos.   ",
+								 QMessageBox.Ok)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	def keyPressEvent(self, event):

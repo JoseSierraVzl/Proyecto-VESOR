@@ -3828,7 +3828,7 @@ class Window_nv_users(QDialog):
 		nivel_instruccion = self.comboBox_nvl_instruccion.currentText()
 		parentesco = self.comboBox_parentesco.currentText()
 		opcion_pensionado = self.pensionado()
-		opcion_discapacidad = self.checkBox_2_discapacidad.text()
+		opcion_discapacidad = self.si_posee_discapacidad
 		opcion_enfermedad = self.checkBox_3_enfer.text()
 		opcion_embarazada = self.opcion_de_embarazada()
 		opcion_lactante = self.opcion_de_lactante()
