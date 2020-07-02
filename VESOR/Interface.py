@@ -61,6 +61,9 @@ class Interface(QMainWindow):
 		self.valor_2.setValidator(QRegExpValidator(QRegExp("[0-9]+"),self.valor_2))
 		self.valor_1_2.setValidator(QRegExpValidator(QRegExp("[0-9]+"),self.valor_2))
 		self.valor_2_2.setValidator(QRegExpValidator(QRegExp("[0-9]+"),self.valor_2))
+		self._timer = QTimer()
+		self._timer.singleShot(1000, self.mostrar_datos)
+
 
 		#Menu 1 =====================================================================================================	
 

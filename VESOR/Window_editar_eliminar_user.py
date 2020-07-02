@@ -353,15 +353,11 @@ class Window_edit_elim_user(QDialog):
 
 			try: 
 				self.con = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
-				self.con2 = sqlite3.connect("Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db")
 				self.cursor = self.con.cursor()
-				self.cursor2 = self.con2.cursor()
 
-				self.cursor.execute("SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA FROM USUARIO_DT_GNR")
-				self.cursor2.execute("SELECT N_VIVIENDA FROM USUARIO_UBCGEOG")
+				self.cursor.execute("SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA, N_VIVIENDA FROM USUARIO_DT_GNR")
 
 				datos_Devueltos = self.cursor.fetchall()
-				datos_Devueltos_2 = self.cursor2.fetchall()
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -378,19 +374,8 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[2]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[3]))
-						#self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[4]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[4]))
 						row +=1
-						
-				if datos_Devueltos_2:
-					row = 0
-					for  datos_2 in datos_Devueltos_2:
-						
-						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos_2[0]))
-						row += 1
-
-
-
-
 
 				else:   
 					QMessageBox.information(self, "Buscar usuaria", "No se encontraron usuarios"
@@ -429,7 +414,6 @@ class Window_edit_elim_user(QDialog):
 				try:
 					cursor.execute(sql[0],sql[1])
 					datosdevueltos = cursor.fetchall()
-					print(datosdevueltos)
 					for dato in datosdevueltos:
 						indice = dato[0]
 
@@ -545,7 +529,7 @@ class Window_edit_elim_user(QDialog):
 					QMessageBox.critical(self, "Error", "No se ha escrito nada",
 												 QMessageBox.Ok)
 				if cliente:
-					sql = "SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA FROM USUARIO_DT_GNR WHERE PRIMER_NOMBRE LIKE ?", ("%"+cliente+"%",)
+					sql = "SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA, N_VIVIENDA FROM USUARIO_DT_GNR WHERE PRIMER_NOMBRE LIKE ?", ("%"+cliente+"%",)
 				else:
 					self.line_edit_busqueda.setFocus()
 					return
@@ -583,34 +567,9 @@ class Window_edit_elim_user(QDialog):
 							self.QTableWidget_contenido.setItem(fila, 1, QTableWidgetItem(datos[1]))
 							self.QTableWidget_contenido.setItem(fila, 2, QTableWidgetItem(datos[2]))
 							self.QTableWidget_contenido.setItem(fila, 3, QTableWidgetItem(datos[3]))
+							self.QTableWidget_contenido.setItem(fila, 4, QTableWidgetItem(datos[4]))
 
 							fila += 1
-							ide_importante = datos[0]
-
-							# Segunda conexion y numero de vivienda
-							try:
-								conexion2 = sqlite3.connect('Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db')
-								cursor2 = conexion2.cursor()
-
-								sql2 = "SELECT N_VIVIENDA FROM USUARIO_UBCGEOG WHERE ID LIKE ?"
-
-								cursor2.execute(sql2, (ide_importante,))
-								datos_Devueltos_2 = cursor2.fetchall()
-								conexion2.close()
-
-								fila = 0
-								for  datos_2 in datos_Devueltos_2:
-		            
-									idDato = QTableWidgetItem(str(datos_2[0]))
-									idDato.setTextAlignment(Qt.AlignCenter)
-
-									self.QTableWidget_contenido.setItem(fila, 4, QTableWidgetItem(datos_2[0]))
-									fila += 1
-
-							except Exception as e:
-								print(e)
-								QMessageBox.information(self, "Buscar cliente", "No se pudo encontrar la base de datos geográfica",
-																QMessageBox.Ok)
 
 					else:   
 						QMessageBox.information(self, "Buscar cliente", "No se encontro "

@@ -3730,7 +3730,7 @@ class Window_nv_users(QDialog):
 
 																			"EMBARAZADA TEXT, LACTANTE TEXT, NIVEL_DE_ESTUDIO TEXT, CARRERA_CURSANDO TEXT, DONDE_ESTUDIA TEXT, FECHA TEXT, HORA TEXT,"
 
-																			"MODIFICACION TEXT)")
+																			"MODIFICACION TEXT, N_VIVIENDA TEXT)")
 
 
 						db.commit()		
@@ -3749,7 +3749,7 @@ class Window_nv_users(QDialog):
 						cursor = db.cursor()
 
 					cursor.execute("CREATE TABLE IF NOT EXISTS USUARIO_UBCGEOG (ID INTEGER PRIMARY KEY,ESTADO TEXT, MUNICIPIO TEXT,PARROQUIA TEXT,"
-																					"DIRECCION TEXT, N_VIVIENDA)")
+																					"DIRECCION TEXT)")
 
 
 					db.commit()		
@@ -4036,7 +4036,7 @@ class Window_nv_users(QDialog):
 									enfermedad_de_cardio, enfermedad_de_gastritis, enfermedad_de_bronquitis, enfermedad_de_calculos,
 									enfermedad_de_sinusitis, enfermedad_de_otras,descripcion_enfermedad,
 									necesita_algun_medicamento_enfer,descripcion_medicamento_enfer, opcion_embarazada,opcion_lactante,
-									nivel_estudio,carrera_cursando,donde_estudia, fecha_actual, hora]
+									nivel_estudio,carrera_cursando,donde_estudia, fecha_actual, hora, numero_vivienda]
 
 					cursor.execute("INSERT INTO USUARIO_DT_GNR(PRIMER_NOMBRE,"
 																			"SEGUNDO_NOMBRE, PRIMER_APELLIDO, SEGUNDO_APELLIDO,"
@@ -4065,7 +4065,7 @@ class Window_nv_users(QDialog):
 
 																			"DESCRIBA_ENFERMEDAD,TOMA_MEDICAMENTO_ENF, DESCRIBA_MEDICAMENTO_ENF,"  
 
-																			"EMBARAZADA, LACTANTE, NIVEL_DE_ESTUDIO,CARRERA_CURSANDO,DONDE_ESTUDIA, FECHA, HORA)"
+																			"EMBARAZADA, LACTANTE, NIVEL_DE_ESTUDIO,CARRERA_CURSANDO,DONDE_ESTUDIA, FECHA, HORA, N_VIVIENDA)"
 										
 										" VALUES(?,?,?,?,"
 											"?,?,?,?,"
@@ -4078,7 +4078,7 @@ class Window_nv_users(QDialog):
 											"?,?,?,?,"
 											"?,?,?,?,"
 											"?,?,?,?,"
-											"?,?,?,?,?,?)", datos_insertar_Gnr)
+											"?,?,?,?,?,?,?)", datos_insertar_Gnr)
 
 					
 
@@ -4102,9 +4102,9 @@ class Window_nv_users(QDialog):
 				cursor = conexion.cursor()
 
 			try:		
-				datos_insertar_Ubc = [estado, municipio,parroquia,direccion,numero_vivienda]
+				datos_insertar_Ubc = [estado, municipio,parroquia,direccion]
 
-				cursor.execute("INSERT INTO USUARIO_UBCGEOG VALUES(NULL,?,?,?,?,?)", datos_insertar_Ubc)
+				cursor.execute("INSERT INTO USUARIO_UBCGEOG VALUES(NULL,?,?,?,?)", datos_insertar_Ubc)
 				conexion.commit()		
 				cursor.close()
 				conexion.close()
