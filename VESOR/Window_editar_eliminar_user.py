@@ -170,30 +170,19 @@ class Window_edit_elim_user(QDialog):
 		self.menu_buscar = QMenu()
 		self.menu_buscar.setStyleSheet(Style_button_menu)
 		self.buscar_estudiante = self.menu_buscar.addAction("Buscar estudiante", self.Mostrar_estudiantes)
-		self.buscar_discapacidad = self.menu_buscar.addAction("Buscar discapacitados")
-		self.buscar_enfermedad = self.menu_buscar.addAction("Buscar enfermos")
-		self.buscar_pensionados = self.menu_buscar.addAction("Buscar pensionados")
-		self.buscar_embarazadas = self.menu_buscar.addAction("Buscar embarazadas")
-		self.buscar_lactantes = self.menu_buscar.addAction("Buscar lactantes")
-		self.buscar_rep = self.menu_buscar.addAction("Buscar inscritos en el REP")
+		self.buscar_discapacidad = self.menu_buscar.addAction("Buscar discapacitados", self.Mostrar_discapacitados)
+		self.buscar_enfermedad = self.menu_buscar.addAction("Buscar enfermos", self.Mostrar_enfermos)
+		self.buscar_pensionados = self.menu_buscar.addAction("Buscar pensionados", self.Mostrar_pensionados)
+		self.buscar_embarazadas = self.menu_buscar.addAction("Buscar embarazadas", self.Mostrar_embarazadas)
+		self.buscar_lactantes = self.menu_buscar.addAction("Buscar lactantes", self.Mostrar_lactantes)
+		self.buscar_rep = self.menu_buscar.addAction("Buscar inscritos en el REP", self.Mostrar_inscritosRep)
 		#
 		self.buscar_parentesco = self.menu_buscar.addMenu("Buscar por parentesco")
-		self.buscar_parentesco.addAction("Jefe/a de familia")
+		self.buscar_parentesco.addAction("Jefe/a de familia", self.Mostrar_jefe_de_familia)
 		#
-		self.buscar_genero = self.menu_buscar.addMenu("Buscar por genero")
-		self.buscar_genero.addAction("Masculino")
-		self.buscar_genero.addAction("Femenino")
-
-
-
-
-
-
-
-
-
-
-
+		self.buscar_genero = self.menu_buscar.addMenu("Buscar por género")
+		self.buscar_genero.addAction("Masculino", self.Mostrar_masculino)
+		self.buscar_genero.addAction("Femenino", self.Mostrar_femenino)
 
 
 
@@ -378,7 +367,7 @@ class Window_edit_elim_user(QDialog):
 						row +=1
 
 				else:   
-					QMessageBox.information(self, "Buscar usuaria", "No se encontraron usuarios"
+					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
 											"información.   ", QMessageBox.Ok)
 
 			except Exception as e:
@@ -572,15 +561,15 @@ class Window_edit_elim_user(QDialog):
 							fila += 1
 
 					else:   
-						QMessageBox.information(self, "Buscar cliente", "No se encontro "
+						QMessageBox.information(self, "Buscar usuario", "No se encontró "
 	                                            "información.   ", QMessageBox.Ok)
 				except Exception as e:
 					print(e)
 					conexion.close()
-					QMessageBox.critical(self, "Buscar clientes", "Error desconocido.   ",
+					QMessageBox.critical(self, "Buscar usuarios", "Error desconocido.   ",
 	                                     QMessageBox.Ok)
 			else:
-				QMessageBox.critical(self, "Buscar clientes", "No se encontro la base de datos.   ",
+				QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
 	                                 QMessageBox.Ok)
 
 			self.line_edit_busqueda.setFocus()
@@ -623,7 +612,7 @@ class Window_edit_elim_user(QDialog):
 						row +=1
 
 				else:   
-					QMessageBox.information(self, "Buscar usuaria", "No se encontraron usuarios"
+					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
 											"información.   ", QMessageBox.Ok)
 
 			except Exception as e:
@@ -631,31 +620,406 @@ class Window_edit_elim_user(QDialog):
 				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
 											 QMessageBox.Ok)
 		else:
-			QMessageBox.critical(self, "Buscar usuarios", "No se encontro la base de datos.   ",
+			QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
 								 QMessageBox.Ok)
 
 
 
 
+	def Mostrar_discapacitados(self):
+
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+			try:
+				cur_discapacidad = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+				cursor_discapacidad = cur_discapacidad.cursor()
+
+				cursor_discapacidad.execute("SELECT * FROM USUARIO_DT_GNR WHERE DISCAPACIDAD = '' ")
+				
+
+				datos_Devueltos = cursor_discapacidad.fetchall()
+				#print(datos_Devueltos)
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
+
+				if datos_Devueltos:
+					row = 0
+
+					for datos in datos_Devueltos:
+						self.QTableWidget_contenido.setRowCount(row + 1)
+						
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
+
+						self.QTableWidget_contenido.setItem(row, 0, idDato)
+						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
+						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						row +=1
+				else:   
+					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
+											"información.   ", QMessageBox.Ok)
 
 
+			except Exception as e:
+				print(e)
+				QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.")
 
 
+	def Mostrar_enfermos(self):
+
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+			try: 
+				cur_enfermos = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+				cursor_enfermos = cur_enfermos.cursor()
+
+				cursor_enfermos.execute("SELECT * FROM USUARIO_DT_GNR WHERE DESCRIBA_ENFERMEDAD != ''")
+					
+
+				datos_Devueltos = cursor_enfermos.fetchall()
+					#print(datos_Devueltos)
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
+
+				if datos_Devueltos:
+					row = 0
+
+					for datos in datos_Devueltos:
+						self.QTableWidget_contenido.setRowCount(row + 1)
+							
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
+
+						self.QTableWidget_contenido.setItem(row, 0, idDato)
+						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
+						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						row +=1
+
+				else:   
+					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
+											"información.   ", QMessageBox.Ok)
+
+			except Exception as e:
+				print(e)
+				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
+											 QMessageBox.Ok)
+		else:
+			QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
+								 QMessageBox.Ok)
 
 
+	def Mostrar_pensionados(self):
+
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+			try: 
+				cur_pensionado = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+				cursor_pensionado = cur_pensionado.cursor()
+
+				cursor_pensionado.execute("SELECT * FROM USUARIO_DT_GNR WHERE PENSIONADO = 'Pensionado' ")
+				
+
+				datos_Devueltos = cursor_pensionado.fetchall()
+				#print(datos_Devueltos)
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
+
+				if datos_Devueltos:
+					row = 0
+
+					for datos in datos_Devueltos:
+						self.QTableWidget_contenido.setRowCount(row + 1)
+						
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
+
+						self.QTableWidget_contenido.setItem(row, 0, idDato)
+						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
+						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						row +=1
+
+				else:   
+					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
+											"información.   ", QMessageBox.Ok)
+
+			except Exception as e:
+				print(e)
+				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
+											 QMessageBox.Ok)
+		else:
+			QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
+								 QMessageBox.Ok)
 
 
+	def Mostrar_embarazadas(self):
 
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
 
+			try: 
+				cur_embarazada = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+				cursor_embarazada = cur_embarazada.cursor()
 
+				cursor_embarazada.execute("SELECT * FROM USUARIO_DT_GNR WHERE EMBARAZADA = 'Si' ")
+				
 
+				datos_Devueltos = cursor_embarazada.fetchall()
+				#print(datos_Devueltos)
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
 
+				if datos_Devueltos:
+					row = 0
 
+					for datos in datos_Devueltos:
+						self.QTableWidget_contenido.setRowCount(row + 1)
+						
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
 
+						self.QTableWidget_contenido.setItem(row, 0, idDato)
+						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
+						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						row +=1
 
+				else:   
+					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
+											"información.   ", QMessageBox.Ok)
 
+			except Exception as e:
+				print(e)
+				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
+											 QMessageBox.Ok)
+		else:
+			QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
+								 QMessageBox.Ok)
 
+	def Mostrar_lactantes(self):
 
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+			try: 
+				cur_lactantes = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+				cursor_lactantes = cur_lactantes.cursor()
+
+				cursor_lactantes.execute("SELECT * FROM USUARIO_DT_GNR WHERE EMBARAZADA = 'Si' ")
+				
+
+				datos_Devueltos = cursor_lactantes.fetchall()
+				#print(datos_Devueltos)
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
+
+				if datos_Devueltos:
+					row = 0
+
+					for datos in datos_Devueltos:
+						self.QTableWidget_contenido.setRowCount(row + 1)
+						
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
+
+						self.QTableWidget_contenido.setItem(row, 0, idDato)
+						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
+						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						row +=1
+
+				else:   
+					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
+											"información.   ", QMessageBox.Ok)
+
+			except Exception as e:
+				print(e)
+				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
+											 QMessageBox.Ok)
+		else:
+			QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
+								 QMessageBox.Ok)
+
+	def Mostrar_inscritosRep(self):
+
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+			try: 
+				cur_inscritos = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+				cursor_inscritos = cur_inscritos.cursor()
+
+				cursor_inscritos.execute("SELECT * FROM USUARIO_DT_GNR WHERE INSCRITO_REP = 'Si' ")
+				
+
+				datos_Devueltos = cursor_inscritos.fetchall()
+				#print(datos_Devueltos)
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
+
+				if datos_Devueltos:
+					row = 0
+
+					for datos in datos_Devueltos:
+						self.QTableWidget_contenido.setRowCount(row + 1)
+						
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
+
+						self.QTableWidget_contenido.setItem(row, 0, idDato)
+						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
+						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						row +=1
+
+				else:   
+					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
+											"información.   ", QMessageBox.Ok)
+
+			except Exception as e:
+				print(e)
+				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
+											 QMessageBox.Ok)
+		else:
+			QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
+								 QMessageBox.Ok)
+
+	def Mostrar_jefe_de_familia(self):
+
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+			try: 
+				cur_jf = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+				cursor_jf = cur_jf.cursor()
+
+				cursor_jf.execute("SELECT * FROM USUARIO_DT_GNR WHERE PARENTESCO = 'Jefe/a de familia' ")
+				
+
+				datos_Devueltos = cursor_jf.fetchall()
+				#print(datos_Devueltos)
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
+
+				if datos_Devueltos:
+					row = 0
+
+					for datos in datos_Devueltos:
+						self.QTableWidget_contenido.setRowCount(row + 1)
+						
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
+
+						self.QTableWidget_contenido.setItem(row, 0, idDato)
+						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
+						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						row +=1
+
+				else:   
+					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
+											"información.   ", QMessageBox.Ok)
+
+			except Exception as e:
+				print(e)
+				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
+											 QMessageBox.Ok)
+		else:
+			QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
+								 QMessageBox.Ok)
+
+	def Mostrar_femenino(self):
+
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+			try: 
+				cur_femenino = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+				cursor_femenino = cur_femenino.cursor()
+
+				cursor_femenino.execute("SELECT * FROM USUARIO_DT_GNR WHERE GENERO = 'Femenino' ")
+				
+
+				datos_Devueltos = cursor_femenino.fetchall()
+				#print(datos_Devueltos)
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
+
+				if datos_Devueltos:
+					row = 0
+
+					for datos in datos_Devueltos:
+						self.QTableWidget_contenido.setRowCount(row + 1)
+						
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
+
+						self.QTableWidget_contenido.setItem(row, 0, idDato)
+						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
+						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						row +=1
+
+				else:   
+					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
+											"información.   ", QMessageBox.Ok)
+
+			except Exception as e:
+				print(e)
+				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
+											 QMessageBox.Ok)
+		else:
+			QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
+								 QMessageBox.Ok)
+
+	def Mostrar_masculino(self):
+
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+			try: 
+				cur_masculino = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+				cursor_masculino = cur_masculino.cursor()
+
+				cursor_masculino.execute("SELECT * FROM USUARIO_DT_GNR WHERE GENERO = 'Masculino' ")
+				
+
+				datos_Devueltos = cursor_masculino.fetchall()
+				#print(datos_Devueltos)
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
+
+				if datos_Devueltos:
+					row = 0
+
+					for datos in datos_Devueltos:
+						self.QTableWidget_contenido.setRowCount(row + 1)
+						
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
+
+						self.QTableWidget_contenido.setItem(row, 0, idDato)
+						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
+						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						row +=1
+
+				else:   
+					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
+											"información.   ", QMessageBox.Ok)
+
+			except Exception as e:
+				print(e)
+				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
+											 QMessageBox.Ok)
+		else:
+			QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
+								 QMessageBox.Ok)
 
 
 
