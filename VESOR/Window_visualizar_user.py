@@ -724,13 +724,13 @@ class Window_visualizar_users(QDialog):
 
 		#Direccion ========================================================================================================	      
 		self.label_direccion = QLabel(self.groupBox_datosUb) 
-		self.label_direccion.setGeometry(QRect(235, 20, 81, 16))
+		self.label_direccion.setGeometry(QRect(193, 20, 161, 16))
 		self.label_direccion.setStyleSheet("background-color:#4466B8;\n"
 		"color: rgb(255, 255, 255);\n"
 		"border-radius: 5px")
 		self.label_direccion.setAlignment(Qt.AlignCenter)
 		self.label_direccion.setObjectName("label_direccion")
-		self.label_direccion.setText("<font color='#FF3300'>*</font>Dirección:")
+		self.label_direccion.setText("<font color='#FF3300'>*</font>Dirección y donde vota:")
 		self.textEdit_direccion = QTextEdit(self.groupBox_datosUb)
 		self.textEdit_direccion.setGeometry(QRect(193, 40, 161, 71))
 		self.textEdit_direccion.setStyleSheet("QTextEdit{\n"
@@ -738,8 +738,11 @@ class Window_visualizar_users(QDialog):
 		"}\n"
 		"")
 		self.textEdit_direccion.setObjectName("textEdit_direccion")
-		self.textEdit_direccion.setPlaceholderText("Ingresa la dirección...")
-		self.textEdit_direccion.setToolTip("Ingresa la dirección donde se residencia")
+		self.textEdit_direccion.setPlaceholderText("Ingresa la dirección\n"
+													"Y lugar donde vota...")
+		self.textEdit_direccion.setToolTip("Ingresa la dirección donde se residencia\n"
+		                                   "Y lugar donde vota ")
+
 
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#

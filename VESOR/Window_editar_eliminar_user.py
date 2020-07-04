@@ -183,6 +183,8 @@ class Window_edit_elim_user(QDialog):
 		self.buscar_genero = self.menu_buscar.addMenu("Buscar por género")
 		self.buscar_genero.addAction("Masculino", self.Mostrar_masculino)
 		self.buscar_genero.addAction("Femenino", self.Mostrar_femenino)
+		#
+		self.buscar_edad = self.menu_buscar.addAction("Buscar por edad",self.Mostrar_edad)
 
 
 
@@ -291,7 +293,8 @@ class Window_edit_elim_user(QDialog):
 
 		#QTableWidget ==========================================================================================      		
 		nombreColumnas = ("ID", "Primer nombre", "Primer apellido", "Cedula",
-		 "N°Vivienda", "Vocera/o")
+		 "Edad", "N°Vivienda")
+
 		self.QTableWidget_contenido = QTableWidget(self.frame_principal_contenido)
 		self.QTableWidget_contenido.setToolTip("Click para ver usuario")
 		self.QTableWidget_contenido.setGeometry(QRect(15,11,551,391))
@@ -336,6 +339,14 @@ class Window_edit_elim_user(QDialog):
 
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
+
+	def mostrarOcultar(self, accion):
+		columna = accion.data()
+		if accion.isChecked():
+			self.QTableWidget_contenido.setColumnHidden(columna, False)
+		else:
+			self.QTableWidget_contenido.setColumnHidden(columna,True)
+
 	def mostrar_datos(self):
 
 		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
@@ -344,11 +355,12 @@ class Window_edit_elim_user(QDialog):
 				self.con = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
 				self.cursor = self.con.cursor()
 
-				self.cursor.execute("SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA, N_VIVIENDA FROM USUARIO_DT_GNR")
+				self.cursor.execute("SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA, EDAD, N_VIVIENDA FROM USUARIO_DT_GNR ORDER BY N_VIVIENDA")
 
 				datos_Devueltos = self.cursor.fetchall()
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
+				print(datos_Devueltos)
 
 				if datos_Devueltos:
 					row = 0
@@ -364,6 +376,7 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[2]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[3]))
 						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[4]))
+						self.QTableWidget_contenido.setItem(row, 5, QTableWidgetItem(datos[5]))
 						row +=1
 
 				else:   
@@ -518,7 +531,7 @@ class Window_edit_elim_user(QDialog):
 					QMessageBox.critical(self, "Error", "No se ha escrito nada",
 												 QMessageBox.Ok)
 				if cliente:
-					sql = "SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA, N_VIVIENDA FROM USUARIO_DT_GNR WHERE PRIMER_NOMBRE LIKE ?", ("%"+cliente+"%",)
+					sql = "SELECT ID, PRIMER_NOMBRE, PRIMER_APELLIDO, CEDULA, EDAD, N_VIVIENDA FROM USUARIO_DT_GNR WHERE PRIMER_NOMBRE LIKE ?", ("%"+cliente+"%",)
 				else:
 					self.line_edit_busqueda.setFocus()
 					return
@@ -557,6 +570,7 @@ class Window_edit_elim_user(QDialog):
 							self.QTableWidget_contenido.setItem(fila, 2, QTableWidgetItem(datos[2]))
 							self.QTableWidget_contenido.setItem(fila, 3, QTableWidgetItem(datos[3]))
 							self.QTableWidget_contenido.setItem(fila, 4, QTableWidgetItem(datos[4]))
+							self.QTableWidget_contenido.setItem(fila, 5, QTableWidgetItem(datos[5]))
 
 							fila += 1
 
@@ -587,7 +601,7 @@ class Window_edit_elim_user(QDialog):
 				cur_estudiante = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
 				cursor_estudiante = cur_estudiante.cursor()
 
-				cursor_estudiante.execute("SELECT * FROM USUARIO_DT_GNR WHERE PROFESION_OFICIO = 'Estudiante' ")
+				cursor_estudiante.execute("SELECT * FROM USUARIO_DT_GNR WHERE PROFESION_OFICIO = 'Estudiante' ORDER BY EDAD ")
 				
 
 				datos_Devueltos = cursor_estudiante.fetchall()
@@ -597,7 +611,7 @@ class Window_edit_elim_user(QDialog):
 
 				if datos_Devueltos:
 					row = 0
-
+					print("Viendo: ",datos_Devueltos)
 					for datos in datos_Devueltos:
 						self.QTableWidget_contenido.setRowCount(row + 1)
 						
@@ -608,7 +622,8 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
-						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[10]))
+						self.QTableWidget_contenido.setItem(row, 5, QTableWidgetItem(datos[53]))
 						row +=1
 
 				else:   
@@ -634,7 +649,7 @@ class Window_edit_elim_user(QDialog):
 				cur_discapacidad = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
 				cursor_discapacidad = cur_discapacidad.cursor()
 
-				cursor_discapacidad.execute("SELECT * FROM USUARIO_DT_GNR WHERE DISCAPACIDAD = '' ")
+				cursor_discapacidad.execute("SELECT * FROM USUARIO_DT_GNR WHERE DISCAPACIDAD = ''  ORDER BY EDAD")
 				
 
 				datos_Devueltos = cursor_discapacidad.fetchall()
@@ -655,7 +670,8 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
-						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[10]))
+						self.QTableWidget_contenido.setItem(row, 5, QTableWidgetItem(datos[53]))
 						row +=1
 				else:   
 					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
@@ -696,7 +712,8 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
-						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[10]))
+						self.QTableWidget_contenido.setItem(row, 5, QTableWidgetItem(datos[53]))
 						row +=1
 
 				else:   
@@ -741,7 +758,8 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
-						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[10]))
+						self.QTableWidget_contenido.setItem(row, 5, QTableWidgetItem(datos[53]))
 						row +=1
 
 				else:   
@@ -786,7 +804,8 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
-						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[10]))
+						self.QTableWidget_contenido.setItem(row, 5, QTableWidgetItem(datos[53]))
 						row +=1
 
 				else:   
@@ -830,7 +849,8 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
-						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[10]))
+						self.QTableWidget_contenido.setItem(row, 5, QTableWidgetItem(datos[53]))
 						row +=1
 
 				else:   
@@ -874,7 +894,8 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
-						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[10]))
+						self.QTableWidget_contenido.setItem(row, 5, QTableWidgetItem(datos[53]))
 						row +=1
 
 				else:   
@@ -897,7 +918,7 @@ class Window_edit_elim_user(QDialog):
 				cur_jf = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
 				cursor_jf = cur_jf.cursor()
 
-				cursor_jf.execute("SELECT * FROM USUARIO_DT_GNR WHERE PARENTESCO = 'Jefe/a de familia' ")
+				cursor_jf.execute("SELECT * FROM USUARIO_DT_GNR WHERE PARENTESCO = 'Jefe/a de familia' ORDER BY EDAD ")
 				
 
 				datos_Devueltos = cursor_jf.fetchall()
@@ -918,7 +939,8 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
-						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[10]))
+						self.QTableWidget_contenido.setItem(row, 5, QTableWidgetItem(datos[53]))
 						row +=1
 
 				else:   
@@ -941,7 +963,7 @@ class Window_edit_elim_user(QDialog):
 				cur_femenino = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
 				cursor_femenino = cur_femenino.cursor()
 
-				cursor_femenino.execute("SELECT * FROM USUARIO_DT_GNR WHERE GENERO = 'Femenino' ")
+				cursor_femenino.execute("SELECT * FROM USUARIO_DT_GNR WHERE GENERO = 'Femenino' ORDER BY EDAD")
 				
 
 				datos_Devueltos = cursor_femenino.fetchall()
@@ -962,7 +984,8 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
-						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[10]))
+						self.QTableWidget_contenido.setItem(row, 5, QTableWidgetItem(datos[53]))
 						row +=1
 
 				else:   
@@ -985,7 +1008,7 @@ class Window_edit_elim_user(QDialog):
 				cur_masculino = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
 				cursor_masculino = cur_masculino.cursor()
 
-				cursor_masculino.execute("SELECT * FROM USUARIO_DT_GNR WHERE GENERO = 'Masculino' ")
+				cursor_masculino.execute("SELECT * FROM USUARIO_DT_GNR WHERE GENERO = 'Masculino' ORDER BY EDAD ")
 				
 
 				datos_Devueltos = cursor_masculino.fetchall()
@@ -1006,7 +1029,8 @@ class Window_edit_elim_user(QDialog):
 						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
 						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
 						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
-						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[53]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[10]))
+						self.QTableWidget_contenido.setItem(row, 5, QTableWidgetItem(datos[53]))
 						row +=1
 
 				else:   
@@ -1020,6 +1044,67 @@ class Window_edit_elim_user(QDialog):
 		else:
 			QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
 								 QMessageBox.Ok)
+
+
+	def Mostrar_edad(self):
+
+
+		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
+
+			try: 
+				cur_estudiante = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
+				cursor_estudiante = cur_estudiante.cursor()
+
+				cursor_estudiante.execute("SELECT * FROM USUARIO_DT_GNR WHERE EDAD != '' ORDER BY EDAD ")
+				
+
+				datos_Devueltos = cursor_estudiante.fetchall()
+				#print(datos_Devueltos)
+				self.QTableWidget_contenido.clearContents()
+				self.QTableWidget_contenido.setRowCount(0)
+
+				if datos_Devueltos:
+					row = 0
+					print("EDAD: ",datos_Devueltos)
+					for datos in datos_Devueltos:
+						self.QTableWidget_contenido.setRowCount(row + 1)
+						
+						idDato = QTableWidgetItem(str(datos[0]))
+						idDato.setTextAlignment(Qt.AlignCenter)
+
+						self.QTableWidget_contenido.setItem(row, 0, idDato)
+						self.QTableWidget_contenido.setItem(row, 1, QTableWidgetItem(datos[1]))
+						self.QTableWidget_contenido.setItem(row, 2, QTableWidgetItem(datos[3]))
+						self.QTableWidget_contenido.setItem(row, 3, QTableWidgetItem(datos[5]))
+						self.QTableWidget_contenido.setItem(row, 4, QTableWidgetItem(datos[10]))
+						self.QTableWidget_contenido.setItem(row, 5, QTableWidgetItem(datos[53]))
+						row +=1
+
+				else:   
+					QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
+											"información.   ", QMessageBox.Ok)
+
+			except Exception as e:
+				print(e)
+				QMessageBox.critical(self, "Error", "No se ha podido conectar a la base de datos o no existe la base de datos",
+											 QMessageBox.Ok)
+		else:
+			QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
+								 QMessageBox.Ok)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

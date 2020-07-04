@@ -144,8 +144,8 @@ class Interface(QMainWindow):
 		self.buttonStatus.setToolTip("Click para ver status de los usuarios")
 		self.buttonStatus.clicked.connect(self.Abrir_ventana)
 
-		self.buttonVoceroNew.setMenu(self.menu_vocero)
-		self.buttonVoceroNew.setToolTip("Click para ver opciones de vocero")
+		#self.buttonVoceroNew.setMenu(self.menu_vocero)
+		#self.buttonVoceroNew.setToolTip("Click para ver opciones de vocero")
 		
 		#self.buttonNewUser.clicked.connect(self.Nuevo_user)
 
