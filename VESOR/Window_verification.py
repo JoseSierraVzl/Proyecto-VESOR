@@ -17,10 +17,11 @@ from Start_window_code import *
 
 class CustomWindow(QMainWindow):
 
-	Color = QColor(104, 189, 155)
+	Color = QColor(227, 0, 112)
 	Clockwise = True
 	Delta = 36
-
+#4039A8
+	Color2 = QColor(255,120,52)
 
 	def __init__(self, *args, color=None, clockwise=True, **kwargs):
 		super(CustomWindow, self).__init__(*args, **kwargs)
@@ -60,15 +61,12 @@ class CustomWindow(QMainWindow):
 
 
 	# def paintEvent(self, event = None):
-
 			
-
-
 	def paintEvent(self, event):
 
 		pinturito = QPainter(self)
 		pinturito.setRenderHint(QPainter.Antialiasing)
-		pinturito.translate(650,650)
+		pinturito.translate(620,650)
 		side = min(self.width(), self.height())
 		pinturito.scale(side / 100.0, side / 100.0)
 		pinturito.rotate(self.angle)
@@ -79,9 +77,28 @@ class CustomWindow(QMainWindow):
 			color.setAlphaF(1.0 * i / 10)
 			pinturito.setBrush(color)
 			#pinturito.drawEllipse(30, -10, 20, 20)
-			pinturito.drawEllipse(5,-5,5,5)
+			pinturito.drawEllipse(3,-3,5,3)
 			pinturito.rotate(36)
 		pinturito.restore()
+		self.angle += self.Delta if self.Clockwise else -self.Delta
+		self.angle %= 360
+
+		pinturito2 = QPainter(self)
+		pinturito2.setRenderHint(QPainter.Antialiasing)
+		pinturito2.translate(620,650)
+		side = min(self.width(), self.height())
+		pinturito2.scale(side / 200.0, side / 200.0)
+		pinturito2.rotate(self.angle)
+		pinturito2.save()
+		pinturito2.setPen(Qt.NoPen)
+		color = self.Color2.toRgb()
+		for i in range(11):
+			color.setAlphaF(1.0 * i / 10)
+			pinturito2.setBrush(color)
+			#pinturito.drawEllipse(30, -10, 20, 20)
+			pinturito2.drawEllipse(3,-3,5,3)
+			pinturito2.rotate(36)
+		pinturito2.restore()
 		self.angle += self.Delta if self.Clockwise else -self.Delta
 		self.angle %= 360
 
