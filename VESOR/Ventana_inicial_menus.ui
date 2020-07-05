@@ -940,7 +940,7 @@ border-radius: 22px;
 		border-radius: 5px</string>
      </property>
      <property name="text">
-      <string>Sacar porcentajes:</string>
+      <string>Obtener porcentajes:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

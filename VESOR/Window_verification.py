@@ -9,7 +9,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon, QPalette, QColor, QPixmap, QFont, QPainter
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import (QMessageBox,QApplication, QDialog, QLineEdit,
-QMainWindow, QAction, QLabel, QFrame,)
+QMainWindow, QAction, QLabel, QFrame, QWidget, QHBoxLayout)
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5 import  uic
 from Login_window import *
@@ -17,8 +17,13 @@ from Start_window_code import *
 
 class CustomWindow(QMainWindow):
 
-	def __init__(self):
-		super().__init__()
+	Color = QColor(104, 189, 155)
+	Clockwise = True
+	Delta = 36
+
+
+	def __init__(self, *args, color=None, clockwise=True, **kwargs):
+		super(CustomWindow, self).__init__(*args, **kwargs)
 
 		self.setWindowFlags(Qt.FramelessWindowHint)
 		self.setAttribute(Qt.WA_NoSystemBackground, True)
@@ -53,18 +58,53 @@ class CustomWindow(QMainWindow):
 				"font: 75 13pt \"MS Shell Dlg 2\";\n"
 				"color: rgb(255, 255, 255);")
 
-	def paintEvent(self, event = None):
-			painter = QtGui.QPainter(self) 
-			painter.setOpacity(0.3)
-			painter.setBrush(Qt.black)
-			painter.setPen(QPen(Qt.black))   
-			painter.drawRect(self.rect())
+		self.angle	= 0
+		self.Clockwise = clockwise
+		if color:
+			self.Color = color
+		self._timer = QTimer(self, timeout = self.update)
+		self._timer.start(100)
 
 
 
-			self._timer = QTimer()
-			self._timer.singleShot(5000, self.Validator)
+
+	# def paintEvent(self, event = None):
+
 			
+
+
+	def paintEvent(self, event):
+
+		pinturito = QPainter(self)
+		pinturito.setRenderHint(QPainter.Antialiasing)
+		pinturito.translate(650,650)
+		side = min(self.width(), self.height())
+		pinturito.scale(side / 100.0, side / 100.0)
+		pinturito.rotate(self.angle)
+		pinturito.save()
+		pinturito.setPen(Qt.NoPen)
+		color = self.Color.toRgb()
+		for i in range(11):
+			color.setAlphaF(1.0 * i / 10)
+			pinturito.setBrush(color)
+			#pinturito.drawEllipse(30, -10, 20, 20)
+			pinturito.drawEllipse(5,-5,5,5)
+			pinturito.rotate(36)
+		pinturito.restore()
+		self.angle += self.Delta if self.Clockwise else -self.Delta
+		self.angle %= 360
+
+		painter = QtGui.QPainter(self) 
+		painter.setOpacity(0.3)
+		painter.setBrush(Qt.black)
+		painter.setPen(QPen(Qt.black))   
+		painter.drawRect(self.rect())
+
+
+
+		self._timer = QTimer()
+		self._timer.singleShot(5000, self.Validator)
+
 
 	def Validator(self):
 		if os.path.isfile('Users_database.db'):
