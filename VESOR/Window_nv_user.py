@@ -4090,103 +4090,92 @@ class Window_nv_users(QDialog):
 					conexion.commit()		
 					cursor.close()
 					conexion.close()
-					QMessageBox.information(self, "Nuevo usuario", "Usuario registrado.",
-														   QMessageBox.Ok)
+
+
+
+					if QFile.exists("Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db"):
+						conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db')
+						cursor = conexion.cursor()
+
+						datos_insertar_Ubc = [estado, municipio,parroquia,direccion]
+
+						cursor.execute("INSERT INTO USUARIO_UBCGEOG VALUES(NULL,?,?,?,?)", datos_insertar_Ubc)
+						conexion.commit()		
+						cursor.close()
+						conexion.close()
+				
+						if QFile.exists("Base de datos/DB_VESOR_USER_DATOS_VV.db"):
+							conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_DATOS_VV.db')
+							cursor = conexion.cursor()
+	
+							datos_insertar_Vv = [metros_cuadrados, descripcion_vivienda, reparaciones, Descripcion_de_reparacion,
+													reparacion_de_techos,reparacion_de_pared,reparacion_de_pintura, reparacion_de_pisos,
+													reparacion_de_electrico,reparacion_de_agua, reparacion_de_agua_servidas, reparacion_de_ventanas,
+													reparacion_de_puertas, reparacion_de_otras,
+													Linea_blanca, servicio_aguapotable, servicio_aguaservidas, 
+													servicio_gasdirecto, servicio_gasbombona, tipo_de_cilindro,cantidad_de_bombonas,
+													servicio_internet,servicio_electricidad,
+													servicio_tlf_fijo,bArray_1, bArray_2, bArray_3, bArray_4, bArray_5, bArray_6]
+								
+							cursor.execute("INSERT INTO USUARIO_DT_VV(METROS_CUADRADOS, DESCRIPCION, NECESITA_REPARACION,DESCRIPCION_REPARACION,"
+													"REPARACION_TECHOS, REPARACION_PARED, REPARACION_PINTURA, REPARACION_PISOS, REPARACION_ELECTRICO,"
+													"REPARACION_AGUA, REPARACION_AGUA_SERVIDAS, REPARACION_VENTANAS, REPARACION_PUERTARS,"
+													"REPARACION_OTRAS,"
+													"NECESITA_LINEBLANCA, AGUA_POTABLE, AGUA_SERVIDAS,"
+													"GAS_DIRECTO, GAS_BOMBONA,"
+													"TIPO_DE_CILINDRO , CANTIDAD_DE_BOMBONAS,"
+													"INTERNET, ElECTRICIDAD,"
+													"TELEFONO_FIJO,"
+													"FOTO_ANEXADA1, FOTO_ANEXADA2, FOTO_ANEXADA3, FOTO_ANEXADA4, FOTO_ANEXADA5,FOTO_ANEXADA6)"
+													"VALUES(?,?,?,?,"
+													"?,?,?,?,"
+													"?,?,?,?,"
+													"?,?,?,?,"
+													"?,?,?,?,"
+													"?,?,?,?,"
+													"?,?,?,?,?,?)", datos_insertar_Vv)
+
+
+							conexion.commit()		
+							cursor.close()
+							conexion.close()
+
+				
+							if QFile.exists("Base de datos/DB_VESOR_USER_PROT_SOCIAL.db"):
+								conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_PROT_SOCIAL.db')
+								cursor = conexion.cursor()
+
+								datos_insertar_Prot = [hogaresdelapatria, amormayor,josegregorio,partohumanizado,
+														chambajuvenil, somosvenezuela,frentemiranda, jpsuv]
+
+								cursor.execute("INSERT INTO USUARIO_PROT_SOCIAL VALUES(NULL,?,?,?,?,"
+																							"?,?,?,?)", datos_insertar_Prot)
+								conexion.commit()		
+								cursor.close()
+								conexion.close()
+
+								QMessageBox.information(self, "Nuevo usuario", "Usuario registrado.",QMessageBox.Ok)
+
+							else:
+								QMessageBox.information(self,"Conexion con la base de datos", "No se ha podido conectar con la base de datos.",
+											 QMessageBox.Ok)
+						
+						else:
+							QMessageBox.information(self,"Conexion con la base de datos", "No se ha podido conectar con la base de datos.",
+											 QMessageBox.Ok)							
+					else:
+
+						QMessageBox.information(self,"Conexion con la base de datos", "No se ha podido conectar con la base de datos.",
+											 QMessageBox.Ok)
 				except Exception as e:
 					print(e)
 					QMessageBox.critical(self, "Nuevo Usuario", "Error desconocido.",
-								 QMessageBox.Ok)
+											QMessageBox.Ok)
+			else:
 
+				QMessageBox.information(self, "Conexion con la base de datos", "No se ha podido conectar con la base de datos.",
+												   QMessageBox.Ok)
 
-
-			if QFile.exists("Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db"):
-				conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_UBICACIONGEOGRAFICA.db')
-				cursor = conexion.cursor()
-
-			try:		
-				datos_insertar_Ubc = [estado, municipio,parroquia,direccion]
-
-				cursor.execute("INSERT INTO USUARIO_UBCGEOG VALUES(NULL,?,?,?,?)", datos_insertar_Ubc)
-				conexion.commit()		
-				cursor.close()
-				conexion.close()
-
-				QMessageBox.information(self, "Nuevo usuario", "Usuario registrado.",
-															   QMessageBox.Ok)
-			except Exception as e:
-					print(e)
-					QMessageBox.critical(self, "Nuevo Usuario", "Error desconocido.",
-								 QMessageBox.Ok)
-
-				
-			if QFile.exists("Base de datos/DB_VESOR_USER_DATOS_VV.db"):
-				conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_DATOS_VV.db')
-				cursor = conexion.cursor()
-	
-			try:	
-
-	
-				datos_insertar_Vv = [metros_cuadrados, descripcion_vivienda, reparaciones, Descripcion_de_reparacion,
-									reparacion_de_techos,reparacion_de_pared,reparacion_de_pintura, reparacion_de_pisos,
-									reparacion_de_electrico,reparacion_de_agua, reparacion_de_agua_servidas, reparacion_de_ventanas,
-									reparacion_de_puertas, reparacion_de_otras,
-									Linea_blanca, servicio_aguapotable, servicio_aguaservidas, 
-									servicio_gasdirecto, servicio_gasbombona, tipo_de_cilindro,cantidad_de_bombonas,
-									servicio_internet,servicio_electricidad,
-									servicio_tlf_fijo,bArray_1, bArray_2, bArray_3, bArray_4, bArray_5, bArray_6]
-				
-				cursor.execute("INSERT INTO USUARIO_DT_VV(METROS_CUADRADOS, DESCRIPCION, NECESITA_REPARACION,DESCRIPCION_REPARACION,"
-									"REPARACION_TECHOS, REPARACION_PARED, REPARACION_PINTURA, REPARACION_PISOS, REPARACION_ELECTRICO,"
-									"REPARACION_AGUA, REPARACION_AGUA_SERVIDAS, REPARACION_VENTANAS, REPARACION_PUERTARS,"
-									"REPARACION_OTRAS,"
-									"NECESITA_LINEBLANCA, AGUA_POTABLE, AGUA_SERVIDAS,"
-									"GAS_DIRECTO, GAS_BOMBONA,"
-									"TIPO_DE_CILINDRO , CANTIDAD_DE_BOMBONAS,"
-									"INTERNET, ElECTRICIDAD,"
-									"TELEFONO_FIJO,"
-									"FOTO_ANEXADA1, FOTO_ANEXADA2, FOTO_ANEXADA3, FOTO_ANEXADA4, FOTO_ANEXADA5,FOTO_ANEXADA6)"
-									"VALUES(?,?,?,?,"
-									"?,?,?,?,"
-									"?,?,?,?,"
-									"?,?,?,?,"
-									"?,?,?,?,"
-									"?,?,?,?,"
-									"?,?,?,?,?,?)", datos_insertar_Vv)
-
-
-				conexion.commit()		
-				cursor.close()
-				conexion.close()
-
-				QMessageBox.information(self, "Nuevo usuario", "Usuario registrado.",
-											   QMessageBox.Ok)
-			except Exception as e:
-					print(e)
-					QMessageBox.critical(self, "Nuevo Usuario", "Error desconocido.",
-									QMessageBox.Ok)
-
-
-				
-			if QFile.exists("Base de datos/DB_VESOR_USER_PROT_SOCIAL.db"):
-				conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_PROT_SOCIAL.db')
-				cursor = conexion.cursor()
-
-				try:		
-					datos_insertar_Prot = [hogaresdelapatria, amormayor,josegregorio,partohumanizado,
-										chambajuvenil, somosvenezuela,frentemiranda, jpsuv]
-
-					cursor.execute("INSERT INTO USUARIO_PROT_SOCIAL VALUES(NULL,?,?,?,?,"
-																			"?,?,?,?)", datos_insertar_Prot)
-					conexion.commit()		
-					cursor.close()
-					conexion.close()
-
-					QMessageBox.information(self, "Nuevo usuario", "Usuario registrado.",
-													   QMessageBox.Ok)
-				except Exception as e:
-					print(e)
-					QMessageBox.critical(self, "Nuevo Usuario", "Error desconocido.",
-									QMessageBox.Ok)
 
 
 

@@ -31,28 +31,19 @@ class CustomWindow(QMainWindow):
 
 
 		self.Label = QtWidgets.QLabel(self)
-		self.Label.setGeometry(QRect(460, 300, 200, 100))
+		self.Label.setGeometry(QRect(390, 300, 200, 100))
 		self.Label.setText("Bienvenidos a ")
 		self.Label.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
 				"font: 75 14pt \"MS Shell Dlg 2\";\n"
 				"color: rgb(255, 255, 255);")
 
-		self.label_dos = QtWidgets.QLabel(self)
-		self.label_dos.setGeometry(QRect(520, 380, 72, 80))
-		self.label_dos.setText("V")
-		self.label_dos.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
-				"font: 70pt \"Lucida Handwriting\";\n"
-				"color:qlineargradient(spread:pad, x1:0.075, y1:0.977, x2:0.835, y2:0.170455, stop:0.0852273 rgba(255, 57, 107, 255), stop:0.676136 rgba(255, 241, 131, 255))")
 
 		self.label_tres = QtWidgets.QLabel(self)
-		self.label_tres.setGeometry(QRect(590, 400, 200, 59))
-		self.label_tres.setText("ESOR")
-		self.label_tres.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
-				"font: 50pt \"Lucida Handwriting\";\n"
-				"color:qlineargradient(spread:pad, x1:0.671, y1:0.108, x2:0.255045, y2:0.801, stop:0.0852273 rgba(255, 57, 107, 255), stop:0.676136 rgba(255, 241, 131, 255))")
+		self.label_tres.setGeometry(QRect(420, 290, 341, 251))
+		self.label_tres.setStyleSheet("QLabel{border-image: url(:/Titulo_vesor/Imagenes-iconos/VESOR.png);}")
 
 		self.Label_cuatro = QtWidgets.QLabel(self)
-		self.Label_cuatro.setGeometry(QRect(650, 430, 340, 100))
+		self.Label_cuatro.setGeometry(QRect(590, 430, 340, 100))
 		self.Label_cuatro.setText("El programa de gestion comunitaria")
 		self.Label_cuatro.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
 				"font: 75 13pt \"MS Shell Dlg 2\";\n"
