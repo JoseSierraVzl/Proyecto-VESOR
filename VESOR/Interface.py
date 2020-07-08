@@ -65,6 +65,21 @@ class Interface(QMainWindow):
 		self._timer.singleShot(1000, self.mostrar_datos)
 
 
+		self.shadow  = QGraphicsDropShadowEffect()        
+		self.shadow.setBlurRadius(22)
+		self.groupBox_2.setGraphicsEffect(self.shadow)
+
+		self.shadow  = QGraphicsDropShadowEffect()        
+		self.shadow.setBlurRadius(22)
+		self.groupBox.setGraphicsEffect(self.shadow)
+
+		self.shadow  = QGraphicsDropShadowEffect()        
+		self.shadow.setBlurRadius(22)
+		self.groupBox_3.setGraphicsEffect(self.shadow)
+
+		self.shadow  = QGraphicsDropShadowEffect()        
+		self.shadow.setBlurRadius(22)
+		self.groupBox_5.setGraphicsEffect(self.shadow)
 		#Menu 1 =====================================================================================================	
 
 		self.menuArchivo = QMenu()

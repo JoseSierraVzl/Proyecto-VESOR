@@ -3,6 +3,14 @@
     <file>Imagenes-iconos/Usuario_negro.png</file>
     <file>Imagenes-iconos/Usuario_blanco.png</file>
   </qresource>
+  <qresource prefix="Imagenes">
+    <file>Imagenes-iconos/imagen_4.jpg</file>
+    <file>Imagenes-iconos/imagen_5.jpg</file>
+    <file>Imagenes-iconos/imagen_6.jpg</file>
+    <file>Imagenes-iconos/imagen_3.png</file>
+    <file>Imagenes-iconos/imagen_1.png</file>
+    <file>Imagenes-iconos/imagen_2.png</file>
+  </qresource>
   <qresource prefix="Icono_igualdad">
     <file>Imagenes-iconos/igualdad.png</file>
   </qresource>
