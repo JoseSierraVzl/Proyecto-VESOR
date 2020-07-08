@@ -31,6 +31,13 @@ class Login_window(QDialog):
 		self.Button_iniciar.clicked.connect(self.login_iniciar)
 			
 		self.pushButton_2.clicked.connect(self.Exit)
+
+		#Interacciones
+
+		self.lineEdit.setToolTip("Ingresa tu nombre de usuario aquí")
+		self.lineEdit_2.setToolTip("Ingresa tu contraseña aquí")
+
+		##############
 		
 			 # Funciones a llamar----------------------------------------------------------------		
 	def Information(self,info):

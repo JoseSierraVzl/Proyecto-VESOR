@@ -223,8 +223,8 @@ class Window_edit_elim_user(QDialog):
 		self.line_edit_busqueda = QLineEdit(self.frame_menu)
 		self.line_edit_busqueda.setObjectName("Enter")
 		self.line_edit_busqueda.setGeometry(QRect(5,330,111,21))
-		self.line_edit_busqueda.setToolTip("Ingresa el dato del usuario\npara la busqueda")
-		self.line_edit_busqueda.setPlaceholderText("Ingresa dato")
+		self.line_edit_busqueda.setToolTip("Ingresa el primer nombre del usuario\npara la busqueda")
+		self.line_edit_busqueda.setPlaceholderText("Ingresa nombre")
 		self.line_edit_busqueda.setStyleSheet(Style_line_edit_busqueda)
 		#self.line_edit_busqueda.setMove(1000,330)
 
@@ -247,7 +247,7 @@ class Window_edit_elim_user(QDialog):
 		self.buscar.setText("Buscar")
 		self.buscar.setGeometry(QRect(-3,355,130,21))
 		self.buscar.setStyleSheet(Style_buttons)
-		self.buscar.setToolTip("Click para motrar opciones de busqueda")
+		self.buscar.setToolTip("Click para buscar usuario")
 
 		###
 
@@ -268,6 +268,7 @@ class Window_edit_elim_user(QDialog):
 		self.eliminar.setStyleSheet(Style_buttons)
 		self.eliminar.setIcon(QIcon(":/Icono_papelera/Imagenes-iconos/Papelera_blanca.png"))
 		self.eliminar.setIconSize(QSize(17,17))
+		self.eliminar.setToolTip("Click para eliminar un usuario seleccionado")
 		###
 		
 		#Buttons opciones para buscar 
@@ -275,6 +276,7 @@ class Window_edit_elim_user(QDialog):
 		self.opciones_de_busqueda.setText("Opciones")
 		self.opciones_de_busqueda.setGeometry(QRect(-12, 210, 151, 31))
 		self.opciones_de_busqueda.setStyleSheet(Style_buttons)
+		self.opciones_de_busqueda.setToolTip("Click para mostrar opciones de búsqueda")
 		self.opciones_de_busqueda.setIcon(QIcon(":/Icono_lupa/Imagenes-iconos/Lupa_blanca.png"))
 		self.opciones_de_busqueda.setIconSize(QSize(16,16))
 		###

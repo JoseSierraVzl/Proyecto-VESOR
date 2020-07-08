@@ -60,6 +60,7 @@ class CustomWindow(QMainWindow):
 
 
 
+
 	# def paintEvent(self, event = None):
 			
 	def paintEvent(self, event):

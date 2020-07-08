@@ -162,6 +162,7 @@ class serial_validation(QDialog):
         self.lineEdit_serial.setGeometry(QRect(20, 490, 411, 32))
         self.lineEdit_serial.setAlignment(Qt.AlignCenter)
         self.lineEdit_serial.setStyleSheet(style_lineEdit_serial)
+        self.lineEdit_serial.setToolTip("Ingrese el serial para la validación del programa")
 
 
         self.buttonAceptar = QPushButton(self)
@@ -175,8 +176,8 @@ class serial_validation(QDialog):
         self.buttonCancelar.setText("Cancelar")
 
         #Label description
-        self.label_description_1 = QLabel(self.frame_carousel)
-        self.label_description_1.setGeometry(QRect(15, 15, 491, 20))
+        self.label_description_1 = QLabel(self)
+        self.label_description_1.setGeometry(QRect(20, 100, 491, 20))
         self.label_description_1.setStyleSheet(style_label_text)
         self.label_description_1.setText("")
         self.label_description_1.setAlignment(Qt.AlignCenter)
@@ -254,7 +255,7 @@ class serial_validation(QDialog):
     def Mostrar_1(self):
 
         self.animacionMostar = QPropertyAnimation(self.label_Imagen_1, b"geometry")
-        self.animacionMostar.finished.connect(lambda:(self.label_description_1.setText("Prueba_1")))
+        self.animacionMostar.finished.connect(lambda:(self.label_description_1.setText("Vista general de datos")))
 
         self.animacionMostar.setDuration(500)
         self.animacionMostar.setStartValue(QRect(590, 40, 451, 311))
@@ -272,7 +273,8 @@ class serial_validation(QDialog):
     def Mostrar_2(self):
 
         self.animacionMostar = QPropertyAnimation(self.label_Imagen_2, b"geometry")
-        self.animacionMostar.finished.connect(lambda: (self.label_description_1.setText("Prueba_2")))
+        self.animacionMostar.finished.connect(lambda: (
+            self.label_description_1.setText("Registro de usuarios de forma detallada")))
         self.animacionMostar.setDuration(500)
         self.animacionMostar.setStartValue(QRect(590, 40, 451, 311))
         self.animacionMostar.setEndValue(QRect(20, 40, 451, 311))
@@ -292,7 +294,8 @@ class serial_validation(QDialog):
     def Mostrar_3(self):
 
         self.animacionMostar = QPropertyAnimation(self.label_Imagen_3, b"geometry")
-        self.animacionMostar.finished.connect(lambda: (self.label_description_1.setText("Prueba_3")))
+        self.animacionMostar.finished.connect(lambda: (self.label_description_1.setText(
+            "Vista general de usuarios ordenados por numero de vivienda")))
         self.animacionMostar.setDuration(500)
         self.animacionMostar.setStartValue(QRect(590, 40, 451, 311))
         self.animacionMostar.setEndValue(QRect(20, 40, 451, 311))
@@ -312,7 +315,7 @@ class serial_validation(QDialog):
     def Mostrar_4(self):
 
         self.animacionMostar = QPropertyAnimation(self.label_Imagen_4, b"geometry")
-        self.animacionMostar.finished.connect(lambda: (self.label_description_1.setText("Prueba_4")))
+        self.animacionMostar.finished.connect(lambda: (self.label_description_1.setText("Opciones de búsqueda especificadas")))
         self.animacionMostar.setDuration(500)
         self.animacionMostar.setStartValue(QRect(590, 40, 451, 311))
         self.animacionMostar.setEndValue(QRect(20, 40, 451, 311))
@@ -332,7 +335,8 @@ class serial_validation(QDialog):
     def Mostrar_5(self):
 
         self.animacionMostar = QPropertyAnimation(self.label_Imagen_5, b"geometry")
-        self.animacionMostar.finished.connect(lambda: (self.label_description_1.setText("Prueba_5")))
+        self.animacionMostar.finished.connect(lambda: (self.label_description_1.setText(
+            "Visualización de fecha y hora de registro del usuario")))
         self.animacionMostar.setDuration(500)
         self.animacionMostar.setStartValue(QRect(590, 40, 451, 311))
         self.animacionMostar.setEndValue(QRect(20, 40, 451, 311))
@@ -351,7 +355,8 @@ class serial_validation(QDialog):
     def Mostrar_6(self):
 
         self.animacionMostar = QPropertyAnimation(self.label_Imagen_6, b"geometry")
-        self.animacionMostar.finished.connect(lambda: (self.label_description_1.setText("Prueba_6")))
+        self.animacionMostar.finished.connect(lambda: (
+            self.label_description_1.setText("Registro completo y detallado del usuario")))
         self.animacionMostar.setDuration(500)
         self.animacionMostar.setStartValue(QRect(590, 40, 451, 311))
         self.animacionMostar.setEndValue(QRect(20, 40, 451, 311))

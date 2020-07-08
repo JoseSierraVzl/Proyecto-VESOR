@@ -63,7 +63,28 @@ class Interface(QMainWindow):
 		self.valor_2_2.setValidator(QRegExpValidator(QRegExp("[0-9]+"),self.valor_2))
 		self._timer = QTimer()
 		self._timer.singleShot(1000, self.mostrar_datos)
+		
+		#Interacciones 
+		self.operacion_1.setToolTip("Presione aquí para realizar la operación")
+		self.operacion_2.setToolTip("Presione aquí para realizar la operación")
 
+		self.Cantidad_m.setToolTip("Cantidad total de hombres registrados")
+		self.Cantidad_f.setToolTip("Cantidad total de mujeres registradas")
+		self.Cantidad_rep.setToolTip("Cantidad total de usuarios registrados\n"
+									"en el Registro Electoral Permanente")
+		self.Cantidad_estudiante.setToolTip("Cantidad total de estudiantes registrados")
+		self.Cantidad_discapacidad.setToolTip("Cantidad total de discapacitados registrados")
+		self.Cantidad_enfermedad.setToolTip("Cantidad total de enfermos registrados")
+		self.Cantidad_pensionado.setToolTip("Cantidad total de pensionados registrados")
+		self.Cantidad_embarazo.setToolTip("Cantidad total de embarazadas registradas")
+		self.Cantidad_lactante.setToolTip("Cantidad total de lactantes registradas")
+		self.groupBox_3.setToolTip("Cantidad total de usuarios registrados, distribuidos por edades")
+		self.Button_menu_2.setToolTip("Click para actualizar la vista general de datos de usuario")
+
+
+
+
+		##############
 
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(22)
@@ -156,7 +177,7 @@ class Interface(QMainWindow):
 		self.buttonNewUser.setMenu(self.menu_usuario)
 		self.buttonNewUser.setToolTip("Click para ver opciones de usuario")
 
-		self.buttonStatus.setToolTip("Click para ver status de los usuarios")
+		self.buttonStatus.setToolTip("Click para ver estatus de los usuarios")
 		self.buttonStatus.clicked.connect(self.Abrir_ventana)
 
 		#self.buttonVoceroNew.setMenu(self.menu_vocero)
@@ -169,6 +190,7 @@ class Interface(QMainWindow):
 		#self.lineEditSearch.setToolTip("Ingresa la cedula de quien deseas buscar.")
 
 		self.Button_menu_2.clicked.connect(self.mostrar_datos)
+		self.Button_menu_2.setToolTip("Click para actualizar la vista general de datos de usuario")
 #======================================== #Funciones# ==================================================================
 
 

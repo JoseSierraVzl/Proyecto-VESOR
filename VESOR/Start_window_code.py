@@ -36,6 +36,13 @@ class Start_window(QDialog):
         self.line_password2.textChanged.connect(self.Validate_password)
         self.Button_register.clicked.connect(self.Database_users_create)
         self.Button_cancelar.clicked.connect(self.Exit)
+
+        #Interacciones
+        self.line_user.setToolTip("Ingrese un usuario")
+        self.line_password.setToolTip("Ingrese un contraseña")
+
+
+        ##############
      
         
 #============================================ #Def. Funciones# =========================================================================

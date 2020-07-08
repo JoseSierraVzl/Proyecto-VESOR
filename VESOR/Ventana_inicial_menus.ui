@@ -656,7 +656,7 @@ border-radius: 22px;
 		border-radius: 5px</string>
      </property>
      <property name="text">
-      <string>DIscapacitados:</string>
+      <string>Discapacitados:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
