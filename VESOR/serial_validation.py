@@ -1,25 +1,28 @@
 import sqlite3
-from os import getcwd, makedirs
+#from os import getcwd, makedirs
 from Source_rc import *
 import sys
 import os
-import time
+import random
+import re
+#import time
 
-from time import clock
-from random import randint
-from PyQt5 import uic
+#from time import clock
+#from random import randint
+#from PyQt5 import uic
 
-from PyQt5.QtGui import (QFont, QIcon, QResizeEvent, QPalette, QBrush, QColor, QPixmap, QRegion, QClipboard,
-                         QRegExpValidator, QImage)
-from PyQt5.QtCore import (pyqtSlot, Qt, QDir, QPoint, pyqtSignal,QTimer, QTime,QByteArray, QIODevice, QBuffer, QFile, QDate, QTime, QSize, QTimer, QRect, QRegExp, QTranslator, QLocale,
-                          QLocale, QLibraryInfo, QFileInfo, QDir, QPropertyAnimation, QTranslator, QAbstractAnimation, QLocale)
+#importaciones de encriptado
+import Crypto
+import binascii
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
 
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QTableWidget, QMenu,
-                             QTableWidgetItem, QAbstractItemView, QLineEdit, QPushButton,
-                             QActionGroup, QAction, QMessageBox, QFrame, QStyle, QGridLayout,
-                             QVBoxLayout, QHBoxLayout, QLabel, QToolButton, QGroupBox,
-                             QDateEdit, QComboBox, QCheckBox, QTextEdit, QRadioButton, QScrollArea, QFileDialog, QGraphicsEffect, QVBoxLayout,
-                             QGraphicsDropShadowEffect, QGraphicsBlurEffect, QSpinBox)
+from PyQt5 import QtGui
+from PyQt5.QtGui import (QIcon)
+                         
+from PyQt5.QtCore import (Qt, QRect, QPropertyAnimation, QAbstractAnimation, QTimer)
+
+from PyQt5.QtWidgets import (QApplication, QDialog, QLineEdit, QPushButton, QMessageBox, QFrame, QLabel)
 
 
 class serial_validation(QDialog):
@@ -28,11 +31,11 @@ class serial_validation(QDialog):
         super(serial_validation, self).__init__()
         self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
 
-        self.setWindowTitle("Validación de Vesor")
-        self.setWindowFlags(
-            Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
+        self.setWindowTitle("Validación de VESOR")
+        self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
-        self.setFixedSize(530, 542)
+        #self.setFixedSize(530, 542)
+        self.setFixedSize(800,440)
         self.setStyleSheet("QDialog{\n"
                            "background-color: qlineargradient(spread:pad, x1:0.063, y1:0.346591, x2:0.982955, y2:0.477, stop:0 rgba(85, 85, 255, 255), stop:1 rgba(0, 170, 255, 255));\n"
                            "}\n"
@@ -41,6 +44,89 @@ class serial_validation(QDialog):
         #self.Mostrar_1()
         #self.Mostrar_imagenes()
         self.time_image()
+
+
+        count = 1
+        self.crearSerial(count)
+
+    def crearSerial(self, count):
+
+        if os.path.isfile('archivito-de-pruebas/Serial.db'):
+            print("ya esta creado el serial papu")
+
+        else:
+
+            try:
+                with sqlite3.connect('archivito-de-pruebas/Serial.db') as db:
+                    cursor = db.cursor()
+                cursor.execute('CREATE TABLE IF NOT EXISTS DATA_SERIAL( SERIALES  BLOB NOT NULL)')
+                db.commit()
+                cursor.close()
+                db.close()
+
+            except Exception as e:
+                print(e)
+
+            try:
+
+                seq = "ABCDFGHJIKLMNOPQRSTUVWXYZ1234567890"
+
+                for i in range(count):
+                    serialFresca = ('-'.join(''.join(random.choice(seq) for _ in range(5)) for _ in range(5)))
+
+
+                random_generator = Crypto.Random.new().read
+
+                private_key = RSA.generate(1024, random_generator) #Llave privada 
+                public_key = private_key.publickey() #Llave publica 
+
+                private_key = private_key.exportKey(format='DER')
+                public_key = public_key.exportKey(format='DER')
+
+                private_key = binascii.hexlify(private_key).decode('utf8')
+                public_key = binascii.hexlify(public_key).decode('utf8')
+
+                with open("archivito-de-pruebas/clave.key", "w") as archivo_clave:
+                        archivo_clave.write(public_key)
+                        archivo_clave.close()
+
+                        if archivo_clave:
+                            privat = open("archivito-de-pruebas/clave2.key", "w")
+                            privat.write(private_key)
+                            privat.close()
+
+
+
+                clave = open("archivito-de-pruebas/clave.key", "rb").read()
+
+
+                mensaje = serialFresca
+
+                mensaje = mensaje.encode()
+
+                clave = RSA.importKey(binascii.unhexlify(clave))
+
+                cipher = PKCS1_OAEP.new(clave)
+                encrypt_message = cipher.encrypt(mensaje)
+                #encrypt_message = str(encrypt_message)
+
+                print("serial encriptado: ", type(encrypt_message))
+
+                with sqlite3.connect('archivito-de-pruebas/Serial.db') as db:
+
+                    cursor = db.cursor()
+
+                cursor.execute('INSERT INTO DATA_SERIAL VALUES(?)',(encrypt_message,))
+                db.commit()  
+                cursor.close()
+                db.close()
+
+
+            except Exception as e:
+                print(e)
+
+
+
 
     def initUi(self):
 
@@ -64,36 +150,37 @@ class serial_validation(QDialog):
         # Style label text
         style_label_text = ("QLabel{\n"
                             "color:#12191D;\n"
-                            "font: 12pt 'Arial';\n"
                             "border-radius: 6px;\n"
                             "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0));\n"
                             "}")
         ###
 
+        style_label_text_especial = ("QLabel{\n"
+                                     "color: rgb(255,255,255);\n"
+                                     "border-radius: 6px;\n"
+                                     "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0));\n"
+                                     "}")
+
         # Style LineEdit_serial
         style_lineEdit_serial = ("QLineEdit{\n"
-                                    "border-radius: 5px;\n"
-                                    "color:  #000000;\n"
-                                    "background-color:#ffffff;\n"
+                                    "border-radius: 7px;\n"
+                                    "color:  white;\n"
+                                    "background-color:rgba(0,0,0,0.6);\n"
                                     "}\n"
                                     "QLineEdit:hover{\n"
+                                    "color: black;\n"
+                                    "background-color: rgba(255,255,255,0.6);\n"
                                     "border: 1px solid rgb(85, 0, 127);\n"
                                     "}")
         ###
 
         #Style QPushButton
         style_QPushButton = ("QPushButton{\n"
-                            "background-color:rgb(255, 255, 255);\n"
-                            "border-radius: 5px;\n"
-                            "border: 1px solid rgb(85, 0, 255);\n"
-                            "font-size: 12px;\n"
-                            "color: #000000\n"
+                            "border: 2px solid white;"
                             "}\n"
                             "QPushButton:hover{\n"
-                            "background-color:qlineargradient(spread:pad, x1:0.068, y1:0.0854091, x2:0.915, y2:0.931818, stop:0.170455 rgba(0, 0, 0, 183), stop:0.596591 rgba(0, 0, 0, 183));\n"
+                            "background-color:rgb(0, 0, 0);\n"
                             "color:rgb(255, 255, 255);\n"
-                            "font-size: 12px;\n"
-                            "border-radius: 5px;\n"
                             "}")
         ###
 
@@ -145,42 +232,77 @@ class serial_validation(QDialog):
         #####################################################
         
         self.frame_carousel = QFrame(self)
-        self.frame_carousel.setGeometry(QRect(20, 90, 491, 361))
+        self.frame_carousel.setGeometry(QRect(20, 90, 491, 370))
         self.frame_carousel.setStyleSheet(style_frame_carousel)
+        self.frame_carousel.move(300,20)
 
         self.label_vesor = QLabel(self)
-        self.label_vesor.setGeometry(QRect(80, -55, 361, 201))
+        self.label_vesor.setGeometry(QRect(100, 100,200, 150))
         self.label_vesor.setStyleSheet(style_label_vesor)
+        self.label_vesor.move(50,-20)
+
+        self.label_encabezado = QLabel(self)
+        self.label_encabezado.setGeometry(QRect(100, 300,300, 150))
+        self.label_encabezado.setStyleSheet(style_label_text_especial)
+        self.label_encabezado.setText("Ingrese el serial para validar")
+        self.label_encabezado.setFont(QtGui.QFont("Comic Sans", 11, QtGui.QFont.Bold))
+        self.label_encabezado.move(30,50)
+
+        self.text_explicacion = QLabel(self)
+        self.text_explicacion.setGeometry(QRect(100,300,300,150))
+        self.text_explicacion.setStyleSheet(style_label_text_especial)
+        self.text_explicacion.setAlignment(Qt.AlignJustify)
+        self.text_explicacion.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))
+        self.text_explicacion.setText(" Recibirá el código de parte de X\n y a continuación podrá validar\n VESOR con facilidad para que pueda\n disfrutar de todo lo que el programa\n puede ofrecerle.")
+        self.text_explicacion.move(20,150)
+
+        self.text_encabezado = QLabel(self)
+        self.text_encabezado.setGeometry(QRect(100,300,300,150))
+        self.text_encabezado.setStyleSheet(style_label_text_especial)
+        self.text_encabezado.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))
+        self.text_encabezado.setText("El serial es similar a esto:\nSerial:\nXXXXX-XXXXX-XXXXX-XXXXX-XXXXX")
+        self.text_encabezado.move(20,190)
 
         self.label_text = QLabel(self)
         self.label_text.setGeometry(QRect(20, 460, 411, 20))
-        self.label_text.setStyleSheet(style_label_text)
-        self.label_text.setText("Ingrese el serial para validar el programa")
-        self.label_text.setAlignment(Qt.AlignCenter)
+        self.label_text.setStyleSheet(style_label_text_especial)
+        self.label_text.setText("Serial del producto:")
+        self.label_text.setFont(QtGui.QFont("Comic Sans", 11, QtGui.QFont.Bold))
+        self.label_text.move(20,380)
 
         self.lineEdit_serial = QLineEdit(self)
-        self.lineEdit_serial.setGeometry(QRect(20, 490, 411, 32))
+        self.lineEdit_serial.setGeometry(QRect(10, 200, 300, 20))
         self.lineEdit_serial.setAlignment(Qt.AlignCenter)
+        self.lineEdit_serial.setMaxLength(29)
+        self.lineEdit_serial.setInputMask('XXXXX-XXXXX-XXXXX-XXXXX-XXXXX')
         self.lineEdit_serial.setStyleSheet(style_lineEdit_serial)
+        self.lineEdit_serial.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))
         self.lineEdit_serial.setToolTip("Ingrese el serial para la validación del programa")
+        self.lineEdit_serial.move(20,400)
 
 
         self.buttonAceptar = QPushButton(self)
-        self.buttonAceptar.setGeometry(QRect(450,460,61,31))
+        self.buttonAceptar.setGeometry(QRect(450,500,80,31))
         self.buttonAceptar.setStyleSheet(style_QPushButton)
         self.buttonAceptar.setText("Aceptar")
+        self.buttonAceptar.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))        
+        self.buttonAceptar.move(350,400)
 
         self.buttonCancelar = QPushButton(self)
-        self.buttonCancelar.setGeometry(QRect(450,500,61,31))
+        self.buttonCancelar.setGeometry(QRect(450,500,80,31))
         self.buttonCancelar.setStyleSheet(style_QPushButton)
         self.buttonCancelar.setText("Cancelar")
+        self.buttonCancelar.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))
+        self.buttonCancelar.move(700,400)
 
         #Label description
         self.label_description_1 = QLabel(self)
         self.label_description_1.setGeometry(QRect(20, 100, 491, 20))
         self.label_description_1.setStyleSheet(style_label_text)
         self.label_description_1.setText("")
+        self.label_description_1.setFont(QtGui.QFont("Arial", 12, QtGui.QFont.Bold))
         self.label_description_1.setAlignment(Qt.AlignCenter)
+        self.label_description_1.move(300,30)
         ###
 
         # Imagen_1
@@ -220,6 +342,12 @@ class serial_validation(QDialog):
         self.label_Imagen_6.setStyleSheet(style_labelImagen_6)
         ###
 
+
+        self.buttonAceptar.clicked.connect(self.Encriptar)
+        self.buttonCancelar.clicked.connect(self.cancelar)
+
+
+
     def time_image(self):
         self.timer_imagen = QTimer()
         self.timer_imagen.singleShot(500, self.Mostrar_imagenes)
@@ -247,9 +375,6 @@ class serial_validation(QDialog):
 
         self.timer.singleShot(57500, self.Mostrar_6)
         self.timer.singleShot(67500, self.Ocultar_6)
-
-
-
 
 
     def Mostrar_1(self):
@@ -295,7 +420,7 @@ class serial_validation(QDialog):
 
         self.animacionMostar = QPropertyAnimation(self.label_Imagen_3, b"geometry")
         self.animacionMostar.finished.connect(lambda: (self.label_description_1.setText(
-            "Vista general de usuarios ordenados por numero de vivienda")))
+            "Vista general de usuarios ordenados por número de vivienda")))
         self.animacionMostar.setDuration(500)
         self.animacionMostar.setStartValue(QRect(590, 40, 451, 311))
         self.animacionMostar.setEndValue(QRect(20, 40, 451, 311))
@@ -373,18 +498,58 @@ class serial_validation(QDialog):
         self.animacionMostar.start(QAbstractAnimation.DeleteWhenStopped)
 
 
+    def Encriptar(self):
+        
+
+
+        serial = str(self.lineEdit_serial.text())
+
+        with sqlite3.connect('archivito-de-pruebas/Serial.db') as db:
+            cursor = db.cursor()
+
+        cursor.execute('SELECT * FROM DATA_SERIAL') 
+        dato = cursor.fetchone()
+        db.close()
+        print(dato)
+
+        #Desencriptar mensaje 
+        clave_2 = open("archivito-de-pruebas/clave2.key", "rb").read()
+
+        clave_2 = RSA.importKey(binascii.unhexlify(clave_2)) 
+
+        cipher_2 = PKCS1_OAEP.new(clave_2)
+
+        dato_desencriptado = cipher_2.decrypt(dato)
+
+        print("Este es el mensaje descriptado: ",dato_desencriptado)
+
+
+        # if dato != None:
+        #     print("todo bien")
+
+        # else:
+        #     QMessageBox.information(self, "Error", "Serial no válido", QMessageBox.Yes)
 
 
 
+    def cancelar(self):
+
+        cerrar = QMessageBox(self)
+        cerrar.setWindowTitle("¿Salir de validación?")
+        cerrar.setIcon(QMessageBox.Question)
+        cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
+        botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
+        botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
+                
+        cerrar.exec_()
+                
+        if cerrar.clickedButton() == botonSalir:
+            self.destroy()
+        else:
+            pass
 
 
-
-
-
-
-
-
-
+        
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     interface = serial_validation()

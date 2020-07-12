@@ -115,6 +115,7 @@ class Login_window(QDialog):
 		cursor.execute('SELECT * FROM DATA_USERS WHERE USERS = ? and PASSWORD = ?',(User,Password))
 		data = cursor.fetchone()
 
+		print(data)
 		if data != None:
 			info = '''
 				   ¡Bienvenido! %s,
