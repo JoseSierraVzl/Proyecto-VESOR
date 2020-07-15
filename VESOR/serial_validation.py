@@ -1,16 +1,7 @@
-import sqlite3
-#from os import getcwd, makedirs
 from Source_rc import *
+from Interface import *
 import sys
 import os
-import random
-import re
-#import time
-
-#from time import clock
-#from random import randint
-#from PyQt5 import uic
-
 #importaciones de encriptado
 import Crypto
 import binascii
@@ -30,11 +21,8 @@ class serial_validation(QDialog):
 	def __init__(self, parent=None):
 		super(serial_validation, self).__init__()
 		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
-
 		self.setWindowTitle("Validación de VESOR")
 		self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
-
-		#self.setFixedSize(530, 542)
 		self.setFixedSize(800,440)
 		self.setStyleSheet("QDialog{\n"
 						   "background-color: qlineargradient(spread:pad, x1:0.063, y1:0.346591, x2:0.982955, y2:0.477, stop:0 rgba(85, 85, 255, 255), stop:1 rgba(0, 170, 255, 255));\n"
@@ -45,20 +33,23 @@ class serial_validation(QDialog):
 		#self.Mostrar_imagenes()
 		self.time_image()
 
+		self.crearSerial()
 
-		count = 1
-		self.crearSerial(count)
-
-	def crearSerial(self, count):
+	def crearSerial(self):
 		serial = ("LPQO0-PCZDU-BXZZZ-JG9U1-UT08A")
 		if os.path.isfile('archivito-de-pruebas/Serial.txt'):
 			print("ya esta creado el serial papu")
 
 		else:
+			
 			try:
-				archivo_serial = open("archivito-de-pruebas/Serial.txt", "w")
-				archivo_serial.write(serial)
-				archivo_serial.close()
+				os.mkdir("archivito-de-pruebas")
+
+				with open("archivito-de-pruebas/Serial.txt", "w") as archivo_serial:
+					archivo_serial.write(serial)
+					archivo_serial.close()
+
+
 
 			except Exception as e:
 				print("Error 1: ", e)
@@ -89,7 +80,6 @@ class serial_validation(QDialog):
 
 				clave = open("archivito-de-pruebas/clave.key", "rb").read()
 
-				#encrypt_message = str(encrypt_message)
 				archivo_serial = open("archivito-de-pruebas/Serial.txt", "r").read()
 				archivo_serial = archivo_serial.encode()
 
@@ -107,8 +97,6 @@ class serial_validation(QDialog):
 
 			except Exception as e:
 				print(e)
-
-
 
 
 	def initUi(self):
@@ -483,7 +471,7 @@ class serial_validation(QDialog):
 
 	def Encriptar(self):
 		
-		serial = str(self.lineEdit_serial.text())
+		serial = str(self.lineEdit_serial.text()).upper()
 
 		archivo_serial = open("archivito-de-pruebas/Serial.txt", "rb").read()
 
@@ -500,19 +488,14 @@ class serial_validation(QDialog):
 		serial_line = ("b"+"'"+serial+"'")
 		dato_desencriptado = str(dato_desencriptado)
 
-		print("ESTE ES EL LINE: ", serial_line)
-
 		if dato_desencriptado == serial_line:
+			self.interface = interface()
+			self.interface.show()
+			self.destroy()
 			print("Funciono, arranco la siguiente ventana")
 
 		else:
-			print("No ha escrito nada")
-
-		# if dato != None:
-		#     print("todo bien")
-
-		# else:
-		#     QMessageBox.information(self, "Error", "Serial no válido", QMessageBox.Yes)
+			QMessageBox.information(self, "Error", "Serial no válido", QMessageBox.Yes)
 
 
 

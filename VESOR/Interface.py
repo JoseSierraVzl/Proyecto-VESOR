@@ -7,7 +7,6 @@ from Source_rc import *
 from Window_editar_eliminar_user import*
 
 
-
 #from Window_visor_de_imagenes import *
 
 #from Window_reparacion import *

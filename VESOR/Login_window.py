@@ -1,8 +1,7 @@
 import sys
 from PyQt5 import uic
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import (QApplication, QDialog, QMessageBox, QLineEdit,
-QMainWindow, QAction, QLabel, QFrame)
+from PyQt5 import QtGui
+from PyQt5.QtWidgets import (QApplication, QDialog, QMessageBox)
 from Source_rc import *
 from Interface import *
 import sqlite3
@@ -11,7 +10,7 @@ class Login_window(QDialog):
 	def __init__(self):
 		QDialog.__init__(self)
 		uic.loadUi("Login_window.ui", self)
-		self.setWindowTitle("Iniciar sección")
+		self.setWindowTitle("Iniciar sesión")
 		self.setWindowIcon(QtGui.QIcon('Imagenes-iconos/Icono_window.png'))
 		
 		self.shadow  = QGraphicsDropShadowEffect()        
@@ -83,26 +82,19 @@ class Login_window(QDialog):
 		msg.exec_()
 
 	def Exit(self):
-		msg = QMessageBox()
-
-		msg.setWindowIcon(QtGui.QIcon('Imagenes-iconos/Icono_window.png'))
-		msg.setText("Salir")
-		msg.setInformativeText("Está seguro de que desea salir?")
-		msg.setWindowTitle("¡Advertencia!")
-		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-		msg.setStyleSheet("QDialog{\n"
-			"background-color: rgb(243,243,243);\n"
-			"border-image: url(:/FONDO/Fondo.jpg);\n"
-			"\n"
-			"}\n"
-			"\n"
-			"")
-		if (msg.exec_() == QMessageBox.Yes):
-			exit()
+		cerrar = QMessageBox(self)
+		cerrar.setWindowTitle("¿Salir de VESOR?")
+		cerrar.setIcon(QMessageBox.Question)
+		cerrar.setText("¿Estás seguro que desea cerrar esta ventana?")
+		botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
+		botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
+            
+		cerrar.exec_()
+            
+		if cerrar.clickedButton() == botonSalir:
+			self.close()
 		else:
 			pass
-
-
 
 		# Fin de funciones llamadas-----------------------------------------------------------------
 	def login_iniciar(self):
@@ -126,7 +118,7 @@ class Login_window(QDialog):
 			self.Warning()
 
 if __name__ == "__main__":
-	app = QtWidgets.QApplication([]) 
+	app = QApplication(sys.argv)
 	login_window = Login_window()
 	login_window.show() 
 	app.exec_() 
