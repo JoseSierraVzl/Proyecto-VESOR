@@ -36,68 +36,77 @@ class serial_validation(QDialog):
 		self.crearSerial()
 
 	def crearSerial(self):
-		serial = ("LPQO0-PCZDU-BXZZZ-JG9U1-UT08A")
-		if os.path.isfile('archivito-de-pruebas/Serial.txt'):
-			print("ya esta creado el serial papu")
+		#serial_VA = ["LPQO0-PCZDU-BXZZZ-JG9U1-UT08A"]
+		#serial = serial_VA.pop(0)
+		if os.path.isfile("seriales.txt"):
+			serial = open("seriales.txt","r").read()
+			if serial == "":
+				print("No existe el archivo")
+			else:
+				serial =  open("seriales.txt","r").read()
+				serial = serial.rstrip('\n')
+				print(serial)
 
-		else:
-			
-			try:
-				os.mkdir("archivito-de-pruebas")
+				if os.path.isfile('archivito-de-pruebas/Serial.txt'):					
+					print("ya esta creado el serial")
 
-				with open("archivito-de-pruebas/Serial.txt", "w") as archivo_serial:
-					archivo_serial.write(serial)
-					archivo_serial.close()
+				else:	
+
+					try:
+						os.mkdir("archivito-de-pruebas")
+						with open("archivito-de-pruebas/Serial.txt", "w") as archivo_serial:
+							archivo_serial.write(serial)
+							archivo_serial.close()
+						
+
+					except Exception as e:
+						print("Error 1: ", e)
+
+					try:
+
+						random_generator = Crypto.Random.new().read
+
+						private_key = RSA.generate(1024, random_generator) #Llave privada 
+						public_key = private_key.publickey() #Llave publica 
+
+						private_key = private_key.exportKey(format='DER')
+						public_key = public_key.exportKey(format='DER')
+
+						private_key = binascii.hexlify(private_key).decode('utf8')
+						public_key = binascii.hexlify(public_key).decode('utf8')
+
+						with open("archivito-de-pruebas/clave.key", "w") as archivo_clave:
+								archivo_clave.write(public_key)
+								archivo_clave.close()
+
+								if archivo_clave:
+									privat = open("archivito-de-pruebas/clave2.key", "w")
+									privat.write(private_key)
+									privat.close()
 
 
 
-			except Exception as e:
-				print("Error 1: ", e)
+						clave = open("archivito-de-pruebas/clave.key", "rb").read()
 
-			try:
+						archivo_serial = open("archivito-de-pruebas/Serial.txt", "r").read()
+						archivo_serial = archivo_serial.encode()
 
-				random_generator = Crypto.Random.new().read
+						clave = RSA.importKey(binascii.unhexlify(clave))
 
-				private_key = RSA.generate(1024, random_generator) #Llave privada 
-				public_key = private_key.publickey() #Llave publica 
+						cipher = PKCS1_OAEP.new(clave)
 
-				private_key = private_key.exportKey(format='DER')
-				public_key = public_key.exportKey(format='DER')
+						encrypt_message = cipher.encrypt(archivo_serial)
+						print("Este es el mensaje encriptado: ", encrypt_message)
 
-				private_key = binascii.hexlify(private_key).decode('utf8')
-				public_key = binascii.hexlify(public_key).decode('utf8')
-
-				with open("archivito-de-pruebas/clave.key", "w") as archivo_clave:
-						archivo_clave.write(public_key)
-						archivo_clave.close()
-
-						if archivo_clave:
-							privat = open("archivito-de-pruebas/clave2.key", "w")
-							privat.write(private_key)
-							privat.close()
-
-
-
-				clave = open("archivito-de-pruebas/clave.key", "rb").read()
-
-				archivo_serial = open("archivito-de-pruebas/Serial.txt", "r").read()
-				archivo_serial = archivo_serial.encode()
-
-				clave = RSA.importKey(binascii.unhexlify(clave))
-
-				cipher = PKCS1_OAEP.new(clave)
-
-				encrypt_message = cipher.encrypt(archivo_serial)
-				print("Este es el mensaje encriptado: ", encrypt_message)
-
-				if encrypt_message:
-					archivo_serial = open("archivito-de-pruebas/Serial.txt", "wb")
-					archivo_serial.write(encrypt_message)
-					archivo_serial.close()
-
-			except Exception as e:
-				print(e)
-
+						if encrypt_message:
+							archivo_serial = open("archivito-de-pruebas/Serial.txt", "wb")
+							archivo_serial.write(encrypt_message)
+							archivo_serial.close()
+					except Exception as e:
+						print(e)
+		serial = open('seriales.txt', 'w')
+		serial.write("")
+		serial.close()
 
 	def initUi(self):
 
@@ -473,29 +482,32 @@ class serial_validation(QDialog):
 		
 		serial = str(self.lineEdit_serial.text()).upper()
 
-		archivo_serial = open("archivito-de-pruebas/Serial.txt", "rb").read()
 
-		#Desencriptar mensaje 
-		clave_2 = open("archivito-de-pruebas/clave2.key", "rb").read()
+		if os.path.isfile("archivito-de-pruebas/Serial.txt"):
+			archivo_serial = open("archivito-de-pruebas/Serial.txt", "rb").read()
+			#Desencriptar mensaje 
+			clave_2 = open("archivito-de-pruebas/clave2.key", "rb").read()
 
-		clave_2 = RSA.importKey(binascii.unhexlify(clave_2)) 
+			clave_2 = RSA.importKey(binascii.unhexlify(clave_2)) 
 
-		cipher_2 = PKCS1_OAEP.new(clave_2)
+			cipher_2 = PKCS1_OAEP.new(clave_2)
 
-		dato_desencriptado = cipher_2.decrypt(archivo_serial)
-		print(dato_desencriptado)
+			dato_desencriptado = cipher_2.decrypt(archivo_serial)
+			print("E",dato_desencriptado)
 
-		serial_line = ("b"+"'"+serial+"'")
-		dato_desencriptado = str(dato_desencriptado)
+			serial_line = ("b"+"'"+serial+"'")
+			dato_desencriptado = str(dato_desencriptado)
 
-		if dato_desencriptado == serial_line:
-			self.interface = interface()
-			self.interface.show()
-			self.destroy()
-			print("Funciono, arranco la siguiente ventana")
+			if dato_desencriptado == serial_line:
+				self.Interface = Interface()
+				self.Interface.show()
+				self.destroy()
+				print("Funciono, arranco la siguiente ventana")
 
-		else:
-			QMessageBox.information(self, "Error", "Serial no válido", QMessageBox.Yes)
+			else:
+				QMessageBox.information(self, "Error", "Serial no válido", QMessageBox.Yes)
+		else:			
+			QMessageBox.information(self, "Error", "Contacte a los creadores de VESOR\npara adquirir el programa", QMessageBox.Yes)
 
 
 

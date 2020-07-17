@@ -80,9 +80,6 @@ class Interface(QMainWindow):
 		self.groupBox_3.setToolTip("Cantidad total de usuarios registrados, distribuidos por edades")
 		self.Button_menu_2.setToolTip("Click para actualizar la vista general de datos de usuario")
 
-
-
-
 		##############
 
 		self.shadow  = QGraphicsDropShadowEffect()        
