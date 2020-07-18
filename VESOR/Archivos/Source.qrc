@@ -1,0 +1,117 @@
+<RCC>
+  <qresource prefix="Icono_usuario">
+    <file>Imagenes-iconos/Usuario_negro.png</file>
+    <file>Imagenes-iconos/Usuario_blanco.png</file>
+  </qresource>
+  <qresource prefix="Imagenes">
+    <file>Imagenes-iconos/imagen_4.jpg</file>
+    <file>Imagenes-iconos/imagen_5.jpg</file>
+    <file>Imagenes-iconos/imagen_6.jpg</file>
+    <file>Imagenes-iconos/imagen_3.png</file>
+    <file>Imagenes-iconos/imagen_1.png</file>
+    <file>Imagenes-iconos/imagen_2.png</file>
+  </qresource>
+  <qresource prefix="Icono_igualdad">
+    <file>Imagenes-iconos/igualdad.png</file>
+  </qresource>
+  <qresource prefix="Icono_reloj">
+    <file>Imagenes-iconos/reloj.png</file>
+  </qresource>
+  <qresource prefix="Icono_buscar">
+    <file>Imagenes-iconos/Buscar.png</file>
+  </qresource>
+  <qresource prefix="Icono_edicacion">
+    <file>Imagenes-iconos/educacion.png</file>
+  </qresource>
+  <qresource prefix="Icono_descipcion">
+    <file>Imagenes-iconos/descripcion.png</file>
+  </qresource>
+  <qresource prefix="Icono_flecha_izquierda">
+    <file>Imagenes-iconos/Flecha_izquierda.png</file>
+  </qresource>
+  <qresource prefix="Icono_enfermedad">
+    <file>Imagenes-iconos/Enfermedad.png</file>
+  </qresource>
+  <qresource prefix="Icono_Discapacidad">
+    <file>Imagenes-iconos/discapacidad_blanco.png</file>
+  </qresource>
+  <qresource prefix="Icono_ubicacion">
+    <file>Imagenes-iconos/ubicacion.png</file>
+  </qresource>
+  <qresource prefix="Icono_casa">
+    <file>Imagenes-iconos/casa_blanco.png</file>
+  </qresource>
+  <qresource prefix="Icono_recargar">
+    <file>Imagenes-iconos/Recargar.png</file>
+  </qresource>
+  <qresource prefix="Acercade_imagen">
+    <file>Imagenes-iconos/Acerca_de_imagen.png</file>
+  </qresource>
+  <qresource prefix="Icono_github">
+    <file>Imagenes-iconos/Githup.png</file>
+  </qresource>
+  <qresource prefix="Icono_instagram">
+    <file>Imagenes-iconos/Instagram.png</file>
+  </qresource>
+  <qresource prefix="Icono_facebook">
+    <file>Imagenes-iconos/Facebook.png</file>
+  </qresource>
+  <qresource prefix="Icono_gmail">
+    <file>Imagenes-iconos/gmail.png</file>
+  </qresource>
+  <qresource prefix="Acerca_de">
+    <file>Imagenes-iconos/Acerca de .png</file>
+  </qresource>
+  <qresource prefix="Logo_vesor">
+    <file>Imagenes-iconos/Icono_window.png</file>
+  </qresource>
+  <qresource prefix="Titulo_vesor">
+    <file>Imagenes-iconos/VESOR.png</file>
+  </qresource>
+  <qresource prefix="Menu_icono">
+    <file>Imagenes-iconos/Menu.png</file>
+  </qresource>
+  <qresource prefix="Icono_guardar">
+    <file>Imagenes-iconos/Guardar_blanco.png</file>
+  </qresource>
+  <qresource prefix="Icono_registrar">
+    <file>Imagenes-iconos/Registrar.png</file>
+  </qresource>
+  <qresource prefix="Icono_cancelar">
+    <file>Imagenes-iconos/Cancelar_rojo.png</file>
+    <file>Imagenes-iconos/Cancelar_blanco.png</file>
+    <file>Imagenes-iconos/Cancelar_negro.png</file>
+  </qresource>
+  <qresource prefix="Icono_aceptar">
+    <file>Imagenes-iconos/Check_azul.png</file>
+    <file>Imagenes-iconos/Check_blanco.png</file>
+    <file>Imagenes-iconos/Check_negro.png</file>
+  </qresource>
+  <qresource prefix="FONDO">
+    <file>Imagenes-iconos/Fondo.jpg</file>
+  </qresource>
+  <qresource prefix="Icono_password">
+    <file>Imagenes-iconos/Candado_blanco.png</file>
+    <file>Imagenes-iconos/Candado_negro.png</file>
+  </qresource>
+  <qresource prefix="Icono_lapiz">
+    <file>Imagenes-iconos/Lapiz_blanco.png</file>
+    <file>Imagenes-iconos/Lapiz_negro.png</file>
+  </qresource>
+  <qresource prefix="Icono_papelera">
+    <file>Imagenes-iconos/Papelera_blanca.png</file>
+    <file>Imagenes-iconos/Papelera_negro.png</file>
+  </qresource>
+  <qresource prefix="Icono_lupa">
+    <file>Imagenes-iconos/Lupa_blanca.png</file>
+    <file>Imagenes-iconos/Lupa_negra.png</file>
+  </qresource>
+  <qresource prefix="Icono_vocero">
+    <file>Imagenes-iconos/Vocero_negro.png</file>
+    <file>Imagenes-iconos/Vocero_blanco.png</file>
+  </qresource>
+  <qresource prefix="Icono_engranaje">
+    <file>Imagenes-iconos/Engranaje_blanco.png</file>
+    <file>Imagenes-iconos/Engranaje_negro.png</file>
+  </qresource>
+</RCC>
