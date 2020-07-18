@@ -1,45 +1,24 @@
 #======================================================================================================
 import sqlite3
-from os import getcwd, makedirs
 from Source_rc import *
 
 #=============================== Ventans importadas =======================================================
 from Window_editar_eliminar_user import*
 
-
-#from Window_visor_de_imagenes import *
-
-#from Window_reparacion import *
-
-#from Window_enfermedad import * 
-
-#rom Window_discapacidad import *
 from Window_status_user import *
 
 from Window_nv_user import *
 
 from Window_acerda_de_vesor import *
 
-#rom Window_gas_bombona import *
-
-from Window_vocero import*
-
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
-import sys, os
-from random import randint
+import sys
 from PyQt5 import  uic 
 
-from PyQt5.QtGui import (QFont, QIcon, QPalette, QBrush, QColor, QPixmap, QRegion, QClipboard,
-						 QRegExpValidator, QImage)
-from PyQt5.QtCore import (Qt, QDir, pyqtSignal, QFile, QDate, QTime, QSize, QTimer, QRect, QRegExp, QTranslator,QLocale,
-						  QLocale, QLibraryInfo, QFileInfo, QDir,QPropertyAnimation,QTranslator,QAbstractAnimation, QLocale)
+from PyQt5.QtGui import (QIcon,QRegExpValidator)
+from PyQt5.QtCore import (Qt,QFile, QTimer,QRegExp)
 
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QTableWidget, QMenu, 
-							 QTableWidgetItem, QAbstractItemView, QLineEdit, QPushButton,
-							 QActionGroup, QAction, QMessageBox, QFrame, QStyle, QGridLayout,
-							 QVBoxLayout, QHBoxLayout, QLabel, QToolButton, QGroupBox,
-							 QDateEdit, QComboBox, QCheckBox, QTextEdit, QRadioButton, QScrollArea, QFileDialog,QGraphicsEffect, QVBoxLayout, 
-							 QGraphicsDropShadowEffect, QGraphicsBlurEffect,)
+from PyQt5.QtWidgets import (QApplication, QMainWindow,QMenu,QMessageBox, QGraphicsDropShadowEffect)
 
 
 #======================================================================================================

@@ -1,14 +1,12 @@
 import sys, re
 import sqlite3
-import os
 from Source_rc import *
 from Interface import *
 from Login_window import *
-from PyQt5.QtWidgets import (QApplication, QDialog, QMessageBox, QLineEdit,
-QMainWindow, QAction, QLabel, QFrame,)
+from PyQt5.QtWidgets import (QApplication, QDialog, QMessageBox)
 from PyQt5 import  uic
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon,QImage, QColor, QPixmap
+from PyQt5.QtGui import *
 
 
 
@@ -91,7 +89,7 @@ class Start_window(QDialog):
 
             self.interface = Interface()
             self.interface.show()
-            self.destroy()
+            self.close()
 
 #===================================================== #Def. Funciones# ========================================================
             

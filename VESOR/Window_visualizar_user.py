@@ -3,8 +3,6 @@ from os import getcwd, makedirs
 from Source_rc import *
 
 
-from Window_visualizador_discapacidad import *
-
 import sys, os, time
 from random import randint
 from PyQt5 import  uic 
@@ -4177,7 +4175,7 @@ class Window_visualizar_users(QDialog):
 												   QMessageBox.Ok)
 
 
-		self.destroy()
+		self.close()
 
 
 
@@ -5824,7 +5822,7 @@ class Window_visualizar_users(QDialog):
 
 		if (msg.exec_() == QMessageBox.Yes):
 
-			self.destroy()
+			self.close()
 
 		else:
 			pass	

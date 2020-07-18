@@ -4817,7 +4817,7 @@ class Window_nv_users(QDialog):
 
 		if (msg.exec_() == QMessageBox.Yes):
 
-			self.destroy()
+			self.close()
 
 		else:
 			pass	
@@ -5420,7 +5420,7 @@ class Window_nv_users(QDialog):
 			cerrar.exec_()
 	            
 			if cerrar.clickedButton() == botonSalir:
-				self.destroy()
+				self.close()
 			else:
 				event.ignore()
 

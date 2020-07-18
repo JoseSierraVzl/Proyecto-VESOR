@@ -1,18 +1,15 @@
 from Source_rc import *
 import webbrowser
-import sys, os
-from PyQt5 import  uic 
+import sys
+#from PyQt5 import  uic 
 
-from PyQt5.QtGui import (QFont, QIcon, QPalette, QBrush, QColor, QPixmap, QRegion, QClipboard,
-						 QRegExpValidator, QImage)
-from PyQt5.QtCore import (Qt, QDir, pyqtSignal, QFile, QDate, QTime, QSize, QTimer, QRect, QRegExp, QTranslator,QLocale,
-						  QLocale, QLibraryInfo, QFileInfo, QDir,QPropertyAnimation,QTranslator,QAbstractAnimation, QLocale)
-
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QTableWidget, QMenu, 
+from PyQt5.QtGui import (QIcon)
+from PyQt5.QtCore import (Qt,QSize, QRect)
+from PyQt5.QtWidgets import (QApplication,QWidget, QDialog, QTableWidget, QMenu, 
 							 QTableWidgetItem, QAbstractItemView, QLineEdit, QPushButton,
 							 QActionGroup, QAction, QMessageBox, QFrame, QStyle, QGridLayout,
-							 QVBoxLayout, QHBoxLayout, QLabel, QToolButton, QGroupBox,
-							 QDateEdit, QComboBox, QCheckBox, QTextEdit, QRadioButton, QScrollArea, QFileDialog,QGraphicsEffect, QVBoxLayout, 
+							 QHBoxLayout, QLabel, QToolButton, QGroupBox,
+							 QDateEdit,QCheckBox, QTextEdit,QScrollArea, QFileDialog,QGraphicsEffect, QVBoxLayout, 
 							 QGraphicsDropShadowEffect, QGraphicsBlurEffect,QTextBrowser)
 
 

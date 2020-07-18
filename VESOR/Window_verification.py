@@ -107,13 +107,13 @@ class CustomWindow(QMainWindow):
 
 	def ValidarSerial(self):
 
-		if os.path.isfile('archivito-de-pruebas/Serial.txt'):
+		if os.path.isfile('verification_vesor/Serial.txt'):
 
 			if os.path.isfile('Users_database.db'):
 
 				self.login_window = Login_window()
 				self.login_window.show()
-				self.destroy()
+				self.close()
 			else:
 				self.startwindow = Start_window()
 				self.startwindow.show()
@@ -122,7 +122,7 @@ class CustomWindow(QMainWindow):
 		else:
 			self.serial_validar = serial_validation()
 			self.serial_validar.show()
-			self.destroy()
+			self.close()
 
 
 if __name__ == '__main__':

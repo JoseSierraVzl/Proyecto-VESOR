@@ -1126,7 +1126,7 @@ class Window_edit_elim_user(QDialog):
 			cerrar.exec_()
 	            
 			if cerrar.clickedButton() == botonSalir:
-				self.destroy()
+				self.close()
 			else:
 				event.ignore()
 

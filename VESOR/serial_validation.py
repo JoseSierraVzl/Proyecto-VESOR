@@ -47,14 +47,14 @@ class serial_validation(QDialog):
 				serial = serial.rstrip('\n')
 				print(serial)
 
-				if os.path.isfile('archivito-de-pruebas/Serial.txt'):					
+				if os.path.isfile('verification_vesor/Serial.txt'):					
 					print("ya esta creado el serial")
 
 				else:	
 
 					try:
-						os.mkdir("archivito-de-pruebas")
-						with open("archivito-de-pruebas/Serial.txt", "w") as archivo_serial:
+						os.mkdir('verification_vesor')
+						with open("verification_vesor/Serial.txt", "w") as archivo_serial:
 							archivo_serial.write(serial)
 							archivo_serial.close()
 						
@@ -75,20 +75,20 @@ class serial_validation(QDialog):
 						private_key = binascii.hexlify(private_key).decode('utf8')
 						public_key = binascii.hexlify(public_key).decode('utf8')
 
-						with open("archivito-de-pruebas/clave.key", "w") as archivo_clave:
+						with open("verification_vesor/clave.key", "w") as archivo_clave:
 								archivo_clave.write(public_key)
 								archivo_clave.close()
 
 								if archivo_clave:
-									privat = open("archivito-de-pruebas/clave2.key", "w")
+									privat = open("verification_vesor/clave2.key", "w")
 									privat.write(private_key)
 									privat.close()
 
 
 
-						clave = open("archivito-de-pruebas/clave.key", "rb").read()
+						clave = open("verification_vesor/clave.key", "rb").read()
 
-						archivo_serial = open("archivito-de-pruebas/Serial.txt", "r").read()
+						archivo_serial = open("verification_vesor/Serial.txt", "r").read()
 						archivo_serial = archivo_serial.encode()
 
 						clave = RSA.importKey(binascii.unhexlify(clave))
@@ -99,7 +99,7 @@ class serial_validation(QDialog):
 						print("Este es el mensaje encriptado: ", encrypt_message)
 
 						if encrypt_message:
-							archivo_serial = open("archivito-de-pruebas/Serial.txt", "wb")
+							archivo_serial = open("verification_vesor/Serial.txt", "wb")
 							archivo_serial.write(encrypt_message)
 							archivo_serial.close()
 					except Exception as e:
@@ -483,10 +483,10 @@ class serial_validation(QDialog):
 		serial = str(self.lineEdit_serial.text()).upper()
 
 
-		if os.path.isfile("archivito-de-pruebas/Serial.txt"):
-			archivo_serial = open("archivito-de-pruebas/Serial.txt", "rb").read()
+		if os.path.isfile("verification_vesor/Serial.txt"):
+			archivo_serial = open("verification_vesor/Serial.txt", "rb").read()
 			#Desencriptar mensaje 
-			clave_2 = open("archivito-de-pruebas/clave2.key", "rb").read()
+			clave_2 = open("verification_vesor/clave2.key", "rb").read()
 
 			clave_2 = RSA.importKey(binascii.unhexlify(clave_2)) 
 
@@ -523,7 +523,7 @@ class serial_validation(QDialog):
 		cerrar.exec_()
 				
 		if cerrar.clickedButton() == botonSalir:
-			self.destroy()
+			self.close()
 		else:
 			pass
 
