@@ -1,18 +1,23 @@
-'''
-Creado en el año 2020
-@Creadores: José Alejandro y Cristian Cala
-@descripción: Programa de control y registro de usuario
+# -*- coding: utf-8 -*-
+# ----------------------------------------------------------------------------
+# Nombre:       Programa.py
+# Autores:      Cristian Cala Sierra / Jose Alejandro Sierra Mendez (Fundadores de CODELOID)
+# Creado:       21 de Julio del 2020
+# Modificado:   21 de Julio del 2020
+# Copyright:    (c) 2020 CODELOID
+# License:      MIT License
+# ----------------------------------------------------------------------------
+__version__ = "1.0"
 
-	----VESOR----
-	Versión: 1.0
-'''
-
-import sys, re
-import os, time
+import sys
+import re
+import os
+import time
 import sqlite3
 import webbrowser
+import platform
 
-#Encriptación
+# Encriptación
 import Crypto
 import binascii
 from Crypto.PublicKey import RSA
@@ -28,14 +33,13 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtGui, QtWidgets, uic
 
 
-
-#Primera clase y verificador
+# Primera clase y verificador
 class CustomWindow(QMainWindow):
 
 	Color = QColor(227, 0, 112)
 	Clockwise = True
 	Delta = 36
-	Color2 = QColor(255,120,52)
+	Color2 = QColor(255, 120, 52)
 
 	def __init__(self, color=None, clockwise=True, **kwargs):
 		super(CustomWindow, self).__init__(**kwargs)
@@ -44,7 +48,6 @@ class CustomWindow(QMainWindow):
 		self.setAttribute(Qt.WA_NoSystemBackground, True)
 		self.setAttribute(Qt.WA_TranslucentBackground, True)
 
-
 		self.Label = QtWidgets.QLabel(self)
 		self.Label.setGeometry(QRect(390, 300, 200, 100))
 		self.Label.setText("Bienvenidos a ")
@@ -52,10 +55,10 @@ class CustomWindow(QMainWindow):
 				"font: 75 14pt \"MS Shell Dlg 2\";\n"
 				"color: rgb(255, 255, 255);")
 
-
 		self.label_tres = QtWidgets.QLabel(self)
 		self.label_tres.setGeometry(QRect(420, 290, 341, 251))
-		self.label_tres.setStyleSheet("QLabel{border-image: url(:/Titulo_vesor/Imagenes-iconos/VESOR.png);}")
+		self.label_tres.setStyleSheet(
+		    "QLabel{border-image: url(:/Titulo_vesor/Imagenes-iconos/VESOR.png);}")
 
 		self.Label_cuatro = QtWidgets.QLabel(self)
 		self.Label_cuatro.setGeometry(QRect(590, 430, 340, 100))
@@ -64,24 +67,21 @@ class CustomWindow(QMainWindow):
 				"font: 75 13pt \"MS Shell Dlg 2\";\n"
 				"color: rgb(255, 255, 255);")
 
-
 		self._timer = QTimer()
 		self._timer.singleShot(5000, self.ValidarSerial)
 
-		self.angle	= 0
+		self.angle = 0
 		self.Clockwise = clockwise
 		if color:
 			self.Color = color
-		self._timer = QTimer(self, timeout = self.update)
+		self._timer = QTimer(self, timeout=self.update)
 		self._timer.start(100)
 
-
-			
 	def paintEvent(self, event):
 
 		pinturito = QPainter(self)
 		pinturito.setRenderHint(QPainter.Antialiasing)
-		pinturito.translate(620,650)
+		pinturito.translate(620, 650)
 		side = min(self.width(), self.height())
 		pinturito.scale(side / 100.0, side / 100.0)
 		pinturito.rotate(self.angle)
@@ -91,7 +91,7 @@ class CustomWindow(QMainWindow):
 		for i in range(11):
 			color.setAlphaF(1.0 * i / 10)
 			pinturito.setBrush(color)
-			pinturito.drawEllipse(3,-3,5,3)
+			pinturito.drawEllipse(3, -3, 5, 3)
 			pinturito.rotate(36)
 		pinturito.restore()
 		self.angle += self.Delta if self.Clockwise else -self.Delta
@@ -99,7 +99,7 @@ class CustomWindow(QMainWindow):
 
 		pinturito2 = QPainter(self)
 		pinturito2.setRenderHint(QPainter.Antialiasing)
-		pinturito2.translate(620,650)
+		pinturito2.translate(620, 650)
 		side = min(self.width(), self.height())
 		pinturito2.scale(side / 200.0, side / 200.0)
 		pinturito2.rotate(self.angle)
@@ -109,27 +109,32 @@ class CustomWindow(QMainWindow):
 		for i in range(11):
 			color.setAlphaF(1.0 * i / 10)
 			pinturito2.setBrush(color)
-			pinturito2.drawEllipse(3,-3,5,3)
+			pinturito2.drawEllipse(3, -3, 5, 3)
 			pinturito2.rotate(36)
 		pinturito2.restore()
 		self.angle += self.Delta if self.Clockwise else -self.Delta
 		self.angle %= 360
 
-		painter = QtGui.QPainter(self) 
+		painter = QtGui.QPainter(self)
 		painter.setOpacity(0.3)
 		painter.setBrush(Qt.black)
-		painter.setPen(QPen(Qt.black))   
+		painter.setPen(QPen(Qt.black))
 		painter.drawRect(self.rect())
-
-
-
 
 	def ValidarSerial(self):
 
-		if os.path.isfile('verification_vesor/Serial.txt'):
+		sistema = platform.system()
+		ruta = ""
 
+		if sistema == "Linux":
+			ruta = ('//')
+			print(ruta)
+		else:
+			ruta = ('C:/Windows/')
+			print(ruta)
+
+		if os.path.isfile(ruta + 'verification_vesor/Serial.txt'):
 			if os.path.isfile('Users_database.db'):
-
 				self.login_window = Login_window()
 				self.login_window.show()
 				self.close()
@@ -143,44 +148,44 @@ class CustomWindow(QMainWindow):
 			self.serial_validar.show()
 			self.close()
 
+   # Clase del Login
 
 
-
-   #Clase del Login
 class Login_window(QDialog):
 	def __init__(self):
 		QDialog.__init__(self)
 		uic.loadUi("Login_window.ui", self)
 		self.setWindowTitle("Iniciar sesión")
 		self.setWindowIcon(QtGui.QIcon('Imagenes-iconos/Icono_window.png'))
-		
-		self.shadow  = QGraphicsDropShadowEffect()        
+
+		self.shadow = QGraphicsDropShadowEffect()
 		self.shadow.setBlurRadius(16)
 		self.frame.setGraphicsEffect(self.shadow)
 
-		self.shadow  = QGraphicsDropShadowEffect()        
+		self.shadow = QGraphicsDropShadowEffect()
 		self.shadow.setBlurRadius(16)
 		self.Button_iniciar.setGraphicsEffect(self.shadow)
 
-		self.shadow  = QGraphicsDropShadowEffect()        
+		self.shadow = QGraphicsDropShadowEffect()
 		self.shadow.setBlurRadius(16)
 		self.pushButton_2.setGraphicsEffect(self.shadow)
-		
-		self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
+
+		self.setWindowFlags(Qt.WindowTitleHint |
+		                    Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
 		self.Button_iniciar.clicked.connect(self.login_iniciar)
-			
+
 		self.pushButton_2.clicked.connect(self.Exit)
 
-		#Interacciones
+		# Interacciones
 
 		self.lineEdit.setToolTip("Ingresa tu nombre de usuario aquí")
 		self.lineEdit_2.setToolTip("Ingresa tu contraseña aquí")
 
 		##############
-		
-			 # Funciones a llamar----------------------------------------------------------------		
-	def Information(self,info):
+
+			 # Funciones a llamar----------------------------------------------------------------
+	def Information(self, info):
 		msg = QMessageBox()
 
 		msg.setWindowIcon(QtGui.QIcon('Imagenes-iconos/Icono_window.png'))
@@ -200,7 +205,7 @@ class Login_window(QDialog):
 		if (msg.exec_() == QMessageBox.Yes):
 			self.interface = Interface()
 			self.interface.show()
-			self.destroy() 	            
+			self.close()
 
 	def Warning(self):
 		msg = QMessageBox()
@@ -211,7 +216,7 @@ class Login_window(QDialog):
 		msg.setInformativeText("Usuario o contraseña incorrectos")
 		msg.setWindowTitle("¡¡Advertencia!!")
 
-		msg.setStandardButtons(QMessageBox.Discard)			 
+		msg.setStandardButtons(QMessageBox.Discard)
 		msg.setStyleSheet("QDialog{\n"
 			"background-color: rgb(243,243,243);\n"
 			"border-image: url(:/FONDO/Fondo.jpg);\n"
@@ -229,9 +234,9 @@ class Login_window(QDialog):
 		cerrar.setText("¿Estás seguro que desea cerrar esta ventana?")
 		botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
 		botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
-            
+
 		cerrar.exec_()
-            
+
 		if cerrar.clickedButton() == botonSalir:
 			self.close()
 		else:
@@ -242,10 +247,11 @@ class Login_window(QDialog):
 
 		with sqlite3.connect('Users_database.db') as db:
 			cursor = db.cursor()
-					
+
 		User = str(self.lineEdit.text())
 		Password = str(self.lineEdit_2.text())
-		cursor.execute('SELECT * FROM DATA_USERS WHERE USERS = ? and PASSWORD = ?',(User,Password))
+		cursor.execute(
+		    'SELECT * FROM DATA_USERS WHERE USERS = ? and PASSWORD = ?', (User, Password))
 		data = cursor.fetchone()
 
 		print(data)
@@ -253,264 +259,274 @@ class Login_window(QDialog):
 			info = '''
 				   ¡Bienvenido! %s,
 				   Presione Yes para continuar...
-				   ''' %(data[0])
+				   ''' % (data[0])
 			self.Information(info)
 		else:
 			self.Warning()
 
+	# clase de la ventana de Registro
 
-	#clase de la ventana de Registro
+
 class Start_window(QDialog):
-    def __init__(self):
-        QDialog.__init__(self)
-        uic.loadUi("Start_window.ui", self)
-        self.setWindowTitle("Registro")
-        self.setWindowIcon(QtGui.QIcon('Imagenes-iconos/Icono_window.png'))
-        self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
-        self.shadow  = QGraphicsDropShadowEffect()        
-        self.shadow.setBlurRadius(16)
-        self.frame.setGraphicsEffect(self.shadow)
+	def __init__(self):
+		QDialog.__init__(self)
+		uic.loadUi("Start_window.ui", self)
+		self.setWindowTitle("Registro")
+		self.setWindowIcon(QtGui.QIcon('Imagenes-iconos/Icono_window.png'))
+		self.setWindowFlags(Qt.WindowTitleHint |
+		                    Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
+		self.shadow = QGraphicsDropShadowEffect()
+		self.shadow.setBlurRadius(16)
+		self.frame.setGraphicsEffect(self.shadow)
 
-        self.shadow  = QGraphicsDropShadowEffect()        
-        self.shadow.setBlurRadius(16)
-        self.Button_register.setGraphicsEffect(self.shadow)
+		self.shadow = QGraphicsDropShadowEffect()
+		self.shadow.setBlurRadius(16)
+		self.Button_register.setGraphicsEffect(self.shadow)
 
-        self.shadow  = QGraphicsDropShadowEffect()        
-        self.shadow.setBlurRadius(16)
-        self.Button_cancelar.setGraphicsEffect(self.shadow)
+		self.shadow = QGraphicsDropShadowEffect()
+		self.shadow.setBlurRadius(16)
+		self.Button_cancelar.setGraphicsEffect(self.shadow)
 
-        self.line_user.textChanged.connect(self.Data_user)
-        self.line_password.textChanged.connect(self.Data_password)
-        self.line_password2.textChanged.connect(self.Validate_password)
-        self.Button_register.clicked.connect(self.Database_users_create)
-        self.Button_cancelar.clicked.connect(self.Exit)
+		self.line_user.textChanged.connect(self.Data_user)
+		self.line_password.textChanged.connect(self.Data_password)
+		self.line_password2.textChanged.connect(self.Validate_password)
+		self.Button_register.clicked.connect(self.Database_users_create)
+		self.Button_cancelar.clicked.connect(self.Exit)
 
-        #Interacciones
-        self.line_user.setToolTip("Ingrese un usuario")
-        self.line_password.setToolTip("Ingrese un contraseña")
+		# Interacciones
+		self.line_user.setToolTip("Ingrese un usuario")
+		self.line_password.setToolTip("Ingrese un contraseña")
 
-
-        ##############
-     
-        
-#============================================ #Def. Funciones# =========================================================================
+		##############
 
 
-    def Database_users_create(self):
-       
-        if self.Data_user() and self.Data_password() and self.Validate_password():
+# ============================================ #Def. Funciones# =========================================================================
 
-            try:
+	def Database_users_create(self):
 
-                with sqlite3.connect('Users_database.db') as db:
-                    cursor = db.cursor()
-                cursor.execute('CREATE TABLE IF NOT EXISTS DATA_USERS( USERS     TEXT   NOT NULL, PASSWORD     TEXT      NOT NULL)')
-                db.commit()
-                cursor.close()
-                db.close()
+		if self.Data_user() and self.Data_password() and self.Validate_password():
 
-            except Exception as e:
-                    print(e)
+			try:
 
-            try:
-                User =  str(self.Data_user())
-                Password = str(self.Data_password())
+				with sqlite3.connect('Users_database.db') as db:
+					cursor = db.cursor()
+				cursor.execute(
+				    'CREATE TABLE IF NOT EXISTS DATA_USERS( USERS     TEXT   NOT NULL, PASSWORD     TEXT      NOT NULL)')
+				db.commit()
+				cursor.close()
+				db.close()
 
-                with sqlite3.connect('Users_database.db') as db:
+			except Exception as e:
+					print(e)
 
-                    cursor = db.cursor()
+			try:
+				User = str(self.Data_user())
+				Password = str(self.Data_password())
 
-                cursor.execute('INSERT INTO DATA_USERS VALUES(?,?)',(User,Password))
-                db.commit()  
+				with sqlite3.connect('Users_database.db') as db:
 
-                cursor.execute('SELECT * FROM DATA_USERS')
-                db.commit()
-                cursor.close()
-                db.close()
+					cursor = db.cursor()
+
+				cursor.execute('INSERT INTO DATA_USERS VALUES(?,?)', (User, Password))
+				db.commit()
+
+				cursor.execute('SELECT * FROM DATA_USERS')
+				db.commit()
+				cursor.close()
+				db.close()
+
+			except Exception as e:
+				print(e)
+				pass
+
+			QMessageBox.information(
+			    self, "Registro", "Registro exitoso", QMessageBox.Yes)
+
+# ============================================== ###Llamando a la ventana Login### =====================================================
+
+			self.interface = Interface()
+			self.interface.show()
+			self.close()
+
+# ===================================================== #Def. Funciones# ========================================================
+
+			return True
+
+		else:
+
+			QMessageBox.warning(self, "Error", "Datos incorrectos", QMessageBox.Discard)
+
+	def Data_user(self):
+
+		User = self.line_user.text()
+
+		validate = re.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$', User, re.I)
+
+		if len(User) < 8 or len(User) > 16:
+			self.line_user.setStyleSheet("border: 1px solid red;")
+			self.label_register_status.setText(
+			    "Su usuario tiene que ser mayor a 8 \n y menor a 16 caracteres")
+			return False
+
+		elif not validate:
+
+			self.line_user.setStyleSheet("border: 1px solid red;")
+			self.label_register_status.setText(
+			    "El Usuario tiene que ser alfanumérico \n (Ejemplo: Usuario123)")
+			return False
+
+		else:
+			self.line_user.setStyleSheet("border: 1px solid green;")
+			self.label_register_status.setText(" ")
+			return User
+
+	def Data_password(self):
+
+		Password = self.line_password.text()
+
+		validate = re.match(
+		    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$', Password)
+
+		if len(Password) < 8 or len(Password) > 12:
+			self.line_password.setStyleSheet("border: 1px solid red;")
+			self.label_register_status.setText(
+			    "Su contraseña tiene que ser mayor 8 \n y menor a 12 caracteres")
+			return False
+
+		elif not validate:
+			self.line_password.setStyleSheet("border: 1px solid red;")
+			self.label_register_status.setText(
+			    "Tiene que tener: caracteres en minúscula, \n mayúscula, números y especiales(*+?!)")
+
+			return False
+
+		else:
+			self.line_password.setStyleSheet("border: 1px solid green;")
+			self.label_register_status.setText(" ")
+
+			return Password
+
+	def Validate_password(self):
+
+		Password2 = self.line_password2.text()
+
+		if Password2 == self.Data_password():
+			self.line_password2.setStyleSheet("border: 1px solid green;")
+			self.label_register_status.setText(" ")
+			return Password2
+
+		else:
+			self.line_password2.setStyleSheet("border: 1px solid red;")
+			self.label_register_status.setText("¡Contraseña no coincide!")
+			return False
+
+	def Exit(self):
+		Question = QMessageBox.question(self, "¡¡Advertencia!!", "¿Seguro que desea salir?",
+		 QMessageBox.Yes | QMessageBox.No)
+		if Question == QMessageBox.Yes:
+			exit()
+		else: pass
+
+	 # Clase de la ventana Seriales
 
 
-            except Exception as e:
-                print(e)
-                pass
-
-            QMessageBox.information(self, "Registro", "Registro exitoso", QMessageBox.Yes)
-
-#============================================== ###Llamando a la ventana Login### =====================================================
-
-            self.interface = Interface()
-            self.interface.show()
-            self.close()
-
-#===================================================== #Def. Funciones# ========================================================
-            
-            return True
-
-
-        else:
-
-            QMessageBox.warning(self, "Error", "Datos incorrectos", QMessageBox.Discard)
-
-
-
-
-
-    def Data_user(self):
-
-        User = self.line_user.text()
-
-        validate = re.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$', User, re.I)
-
-        if len(User)<8 or len(User)>16 :
-            self.line_user.setStyleSheet("border: 1px solid red;")
-            self.label_register_status.setText("Su usuario tiene que ser mayor a 8 \n y menor a 16 caracteres")
-            return False
-
-        elif not validate:
-
-            self.line_user.setStyleSheet("border: 1px solid red;")
-            self.label_register_status.setText("El Usuario tiene que ser alfanumérico \n (Ejemplo: Usuario123)")
-            return False
-
-        else:
-            self.line_user.setStyleSheet("border: 1px solid green;")
-            self.label_register_status.setText(" ")
-            return User
-
-
-    def Data_password(self):
-
-        Password = self.line_password.text()
-        
-        validate = re.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$',Password)
-
-        if len(Password)<8 or len(Password)>12:
-            self.line_password.setStyleSheet("border: 1px solid red;")
-            self.label_register_status.setText("Su contraseña tiene que ser mayor 8 \n y menor a 12 caracteres")
-            return False
-
-        elif not validate:
-            self.line_password.setStyleSheet("border: 1px solid red;")
-            self.label_register_status.setText("Tiene que tener: caracteres en minúscula, \n mayúscula, números y especiales(*+?!)")
-
-            return False
-
-        else:
-            self.line_password.setStyleSheet("border: 1px solid green;")  
-            self.label_register_status.setText(" ")
-
-            return Password
-
-
-    def Validate_password(self):
-        
-        Password2 = self.line_password2.text()
-
-        if Password2 == self.Data_password():
-            self.line_password2.setStyleSheet("border: 1px solid green;")
-            self.label_register_status.setText(" ")
-            return Password2
-
-        else:
-            self.line_password2.setStyleSheet("border: 1px solid red;")
-            self.label_register_status.setText("¡Contraseña no coincide!")
-            return False
-
-    def Exit(self):
-        Question = QMessageBox.question(self, "¡¡Advertencia!!", "¿Seguro que desea salir?",
-         QMessageBox.Yes | QMessageBox.No)
-        if Question == QMessageBox.Yes:
-            exit()
-        else: pass    
-
-     #Clase de la ventana Seriales
 class serial_validation(QDialog):
 
 	def __init__(self, parent=None):
 		super(serial_validation, self).__init__()
 		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
 		self.setWindowTitle("Validación de VESOR")
-		self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
-		self.setFixedSize(800,440)
+		self.setWindowFlags(Qt.WindowTitleHint |
+		                    Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
+		self.setFixedSize(800, 440)
 		self.setStyleSheet("QDialog{\n"
 						   "background-color: qlineargradient(spread:pad, x1:0.063, y1:0.346591, x2:0.982955, y2:0.477, stop:0 rgba(85, 85, 255, 255), stop:1 rgba(0, 170, 255, 255));\n"
 						   "}\n"
 						   "")
 		self.initUi()
-		#self.Mostrar_1()
-		#self.Mostrar_imagenes()
+		# self.Mostrar_1()
+		# self.Mostrar_imagenes()
 		self.time_image()
 
 		self.crearSerial()
 
 	def crearSerial(self):
-		#serial_VA = ["LPQO0-PCZDU-BXZZZ-JG9U1-UT08A"]
-		#serial = serial_VA.pop(0)
+		# serial_VA = ["LPQO0-PCZDU-BXZZZ-JG9U1-UT08A"]
+		# serial = serial_VA.pop(0)
+		sistema = platform.system()
+		ruta = ""
+
+		if sistema == "Linux":
+			ruta = ('//')
+			print(ruta)
+		else:
+			ruta = ('C:/Windows/')
+			print(ruta)
+
 		if os.path.isfile("seriales.txt"):
-			serial = open("seriales.txt","r").read()
+			serial = open("seriales.txt", "r").read()
 			if serial == "":
 				print("No existe el archivo")
 			else:
-				serial =  open("seriales.txt","r").read()
+				serial = open("seriales.txt", "r").read()
 				serial = serial.rstrip('\n')
 				print(serial)
 
-				if os.path.isfile('verification_vesor/Serial.txt'):					
+				if os.path.isfile(ruta + 'verification_vesor/Serial.txt'):
 					print("ya esta creado el serial")
 
-				else:	
+				else:
 
-					try:
-						os.mkdir('verification_vesor')
-						with open("verification_vesor/Serial.txt", "w") as archivo_serial:
-							archivo_serial.write(serial)
-							archivo_serial.close()
-						
+						try:
+							os.mkdir(ruta + 'verification_vesor')
+							with open(ruta + "verification_vesor/Serial.txt", "w") as archivo_serial:
+								archivo_serial.write(serial)
+								archivo_serial.close()
 
-					except Exception as e:
-						print("Error 1: ", e)
+						except Exception as e:
+							print("Error 1: ", e)
 
-					try:
+						try:
 
-						random_generator = Crypto.Random.new().read
+							random_generator = Crypto.Random.new().read
 
-						private_key = RSA.generate(1024, random_generator) #Llave privada 
-						public_key = private_key.publickey() #Llave publica 
+							private_key = RSA.generate(1024, random_generator)  # Llave privada
+							public_key = private_key.publickey()  # Llave publica
 
-						private_key = private_key.exportKey(format='DER')
-						public_key = public_key.exportKey(format='DER')
+							private_key = private_key.exportKey(format='DER')
+							public_key = public_key.exportKey(format='DER')
 
-						private_key = binascii.hexlify(private_key).decode('utf8')
-						public_key = binascii.hexlify(public_key).decode('utf8')
+							private_key = binascii.hexlify(private_key).decode('utf8')
+							public_key = binascii.hexlify(public_key).decode('utf8')
 
-						with open("verification_vesor/clave.key", "w") as archivo_clave:
-								archivo_clave.write(public_key)
-								archivo_clave.close()
+							with open(ruta + "verification_vesor/clave.key", "w") as archivo_clave:
+									archivo_clave.write(public_key)
+									archivo_clave.close()
 
-								if archivo_clave:
-									privat = open("verification_vesor/clave2.key", "w")
-									privat.write(private_key)
-									privat.close()
+									if archivo_clave:
+										privat = open(ruta + "verification_vesor/clave2.key", "w")
+										privat.write(private_key)
+										privat.close()
 
+							clave = open(ruta + "verification_vesor/clave.key", "rb").read()
 
+							archivo_serial = open(
+							    ruta + "verification_vesor/Serial.txt", "r").read()
+							archivo_serial = archivo_serial.encode()
 
-						clave = open("verification_vesor/clave.key", "rb").read()
+							clave = RSA.importKey(binascii.unhexlify(clave))
 
-						archivo_serial = open("verification_vesor/Serial.txt", "r").read()
-						archivo_serial = archivo_serial.encode()
+							cipher = PKCS1_OAEP.new(clave)
 
-						clave = RSA.importKey(binascii.unhexlify(clave))
+							encrypt_message = cipher.encrypt(archivo_serial)
+							print("Este es el mensaje encriptado: ", encrypt_message)
 
-						cipher = PKCS1_OAEP.new(clave)
-
-						encrypt_message = cipher.encrypt(archivo_serial)
-						print("Este es el mensaje encriptado: ", encrypt_message)
-
-						if encrypt_message:
-							archivo_serial = open("verification_vesor/Serial.txt", "wb")
-							archivo_serial.write(encrypt_message)
-							archivo_serial.close()
-					except Exception as e:
-						print(e)
+							if encrypt_message:
+								archivo_serial = open(ruta + "verification_vesor/Serial.txt", "wb")
+								archivo_serial.write(encrypt_message)
+								archivo_serial.close()
+						except Exception as e:
+							print(e)
 
 	def initUi(self):
 
@@ -558,7 +574,7 @@ class serial_validation(QDialog):
 									"}")
 		###
 
-		#Style QPushButton
+		# Style QPushButton
 		style_QPushButton = ("QPushButton{\n"
 							"border: 2px solid white;"
 							"}\n"
@@ -614,45 +630,48 @@ class serial_validation(QDialog):
 							   "}")
 		###
 		#####################################################
-		
+
 		self.frame_carousel = QFrame(self)
 		self.frame_carousel.setGeometry(QRect(20, 90, 491, 370))
 		self.frame_carousel.setStyleSheet(style_frame_carousel)
-		self.frame_carousel.move(300,20)
+		self.frame_carousel.move(300, 20)
 
 		self.label_vesor = QLabel(self)
-		self.label_vesor.setGeometry(QRect(100, 100,200, 150))
+		self.label_vesor.setGeometry(QRect(100, 100, 200, 150))
 		self.label_vesor.setStyleSheet(style_label_vesor)
-		self.label_vesor.move(50,-20)
+		self.label_vesor.move(50, -20)
 
 		self.label_encabezado = QLabel(self)
-		self.label_encabezado.setGeometry(QRect(100, 300,300, 150))
+		self.label_encabezado.setGeometry(QRect(100, 300, 300, 150))
 		self.label_encabezado.setStyleSheet(style_label_text_especial)
 		self.label_encabezado.setText("Ingrese el serial para validar")
-		self.label_encabezado.setFont(QtGui.QFont("Comic Sans", 11, QtGui.QFont.Bold))
-		self.label_encabezado.move(30,50)
+		self.label_encabezado.setFont(
+		    QtGui.QFont("Comic Sans", 11, QtGui.QFont.Bold))
+		self.label_encabezado.move(30, 50)
 
 		self.text_explicacion = QLabel(self)
-		self.text_explicacion.setGeometry(QRect(100,300,300,150))
+		self.text_explicacion.setGeometry(QRect(100, 300, 300, 150))
 		self.text_explicacion.setStyleSheet(style_label_text_especial)
 		self.text_explicacion.setAlignment(Qt.AlignJustify)
 		self.text_explicacion.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))
-		self.text_explicacion.setText(" Recibirá el código de parte de X\n y a continuación podrá validar\n VESOR con facilidad para que pueda\n disfrutar de todo lo que el programa\n puede ofrecerle.")
-		self.text_explicacion.move(20,150)
+		self.text_explicacion.setText(
+		    " Recibirá el código de parte de X\n y a continuación podrá validar\n VESOR con facilidad para que pueda\n disfrutar de todo lo que el programa\n puede ofrecerle.")
+		self.text_explicacion.move(20, 150)
 
 		self.text_encabezado = QLabel(self)
-		self.text_encabezado.setGeometry(QRect(100,300,300,150))
+		self.text_encabezado.setGeometry(QRect(100, 300, 300, 150))
 		self.text_encabezado.setStyleSheet(style_label_text_especial)
 		self.text_encabezado.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))
-		self.text_encabezado.setText("El serial es similar a esto:\nSerial:\nXXXXX-XXXXX-XXXXX-XXXXX-XXXXX")
-		self.text_encabezado.move(20,190)
+		self.text_encabezado.setText(
+		    "El serial es similar a esto:\nSerial:\nXXXXX-XXXXX-XXXXX-XXXXX-XXXXX")
+		self.text_encabezado.move(20, 190)
 
 		self.label_text = QLabel(self)
 		self.label_text.setGeometry(QRect(20, 460, 411, 20))
 		self.label_text.setStyleSheet(style_label_text_especial)
 		self.label_text.setText("Serial del producto:")
 		self.label_text.setFont(QtGui.QFont("Comic Sans", 11, QtGui.QFont.Bold))
-		self.label_text.move(20,380)
+		self.label_text.move(20, 380)
 
 		self.lineEdit_serial = QLineEdit(self)
 		self.lineEdit_serial.setGeometry(QRect(10, 200, 300, 20))
@@ -661,32 +680,32 @@ class serial_validation(QDialog):
 		self.lineEdit_serial.setInputMask('XXXXX-XXXXX-XXXXX-XXXXX-XXXXX')
 		self.lineEdit_serial.setStyleSheet(style_lineEdit_serial)
 		self.lineEdit_serial.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))
-		self.lineEdit_serial.setToolTip("Ingrese el serial para la validación del programa")
-		self.lineEdit_serial.move(20,400)
-
+		self.lineEdit_serial.setToolTip(
+		    "Ingrese el serial para la validación del programa")
+		self.lineEdit_serial.move(20, 400)
 
 		self.buttonAceptar = QPushButton(self)
-		self.buttonAceptar.setGeometry(QRect(450,500,80,31))
+		self.buttonAceptar.setGeometry(QRect(450, 500, 80, 31))
 		self.buttonAceptar.setStyleSheet(style_QPushButton)
 		self.buttonAceptar.setText("Aceptar")
-		self.buttonAceptar.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))        
-		self.buttonAceptar.move(350,400)
+		self.buttonAceptar.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))
+		self.buttonAceptar.move(350, 400)
 
 		self.buttonCancelar = QPushButton(self)
-		self.buttonCancelar.setGeometry(QRect(450,500,80,31))
+		self.buttonCancelar.setGeometry(QRect(450, 500, 80, 31))
 		self.buttonCancelar.setStyleSheet(style_QPushButton)
 		self.buttonCancelar.setText("Cancelar")
 		self.buttonCancelar.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))
-		self.buttonCancelar.move(700,400)
+		self.buttonCancelar.move(700, 400)
 
-		#Label description
+		# Label description
 		self.label_description_1 = QLabel(self)
 		self.label_description_1.setGeometry(QRect(20, 100, 491, 20))
 		self.label_description_1.setStyleSheet(style_label_text)
 		self.label_description_1.setText("")
 		self.label_description_1.setFont(QtGui.QFont("Arial", 12, QtGui.QFont.Bold))
 		self.label_description_1.setAlignment(Qt.AlignCenter)
-		self.label_description_1.move(300,30)
+		self.label_description_1.move(300, 30)
 		###
 
 		# Imagen_1
@@ -695,42 +714,40 @@ class serial_validation(QDialog):
 		self.label_Imagen_1.setStyleSheet(style_labelImagen_1)
 		###
 
-
 		# Imagen_2
 		self.label_Imagen_2 = QLabel(self.frame_carousel)
 		self.label_Imagen_2.setGeometry(QRect(-520, 40, 451, 311))
 		self.label_Imagen_2.setStyleSheet(style_labelImagen_2)
 		###
 
-		#Imagen_3
+		# Imagen_3
 		self.label_Imagen_3 = QLabel(self.frame_carousel)
 		self.label_Imagen_3.setGeometry(QRect(-520, 40, 451, 311))
 		self.label_Imagen_3.setStyleSheet(style_labelImagen_3)
 		###
-  
-		#Imagen_4
+
+		# Imagen_4
 		self.label_Imagen_4 = QLabel(self.frame_carousel)
 		self.label_Imagen_4.setGeometry(QRect(-520, 40, 451, 311))
 		self.label_Imagen_4.setStyleSheet(style_labelImagen_4)
 		###
 
-		#Imagen_5
+		# Imagen_5
 		self.label_Imagen_5 = QLabel(self.frame_carousel)
 		self.label_Imagen_5.setGeometry(QRect(-520, 40, 451, 311))
 		self.label_Imagen_5.setStyleSheet(style_labelImagen_5)
 		###
 
-		#Imagen_6
+		# Imagen_6
 		self.label_Imagen_6 = QLabel(self.frame_carousel)
 		self.label_Imagen_6.setGeometry(QRect(-520, 40, 451, 311))
 		self.label_Imagen_6.setStyleSheet(style_labelImagen_6)
 		###
 
-		#Eventos #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
+		# Eventos #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 		self.buttonAceptar.clicked.connect(self.Encriptar)
 		self.buttonCancelar.clicked.connect(self.cancelar)
 		#########################################################################
-
 
 	def time_image(self):
 		self.timer_imagen = QTimer()
@@ -738,11 +755,11 @@ class serial_validation(QDialog):
 		self.timer_imagen.singleShot(69000, self.Mostrar_imagenes)
 		self.timer_imagen.singleShot(138000, self.Mostrar_imagenes)
 		self.timer_imagen.singleShot(276000, self.Mostrar_imagenes)
-	
+
 	def Mostrar_imagenes(self):
 
 		self.timer = QTimer()
-		self.timer.singleShot(500, self.Mostrar_1)        
+		self.timer.singleShot(500, self.Mostrar_1)
 		self.timer.singleShot(10000, self.Ocultar_1)
 
 		self.timer.singleShot(11500, self.Mostrar_2)
@@ -760,20 +777,22 @@ class serial_validation(QDialog):
 		self.timer.singleShot(57500, self.Mostrar_6)
 		self.timer.singleShot(67500, self.Ocultar_6)
 
-
 	def Mostrar_1(self):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_1, b"geometry")
-		self.animacionMostar.finished.connect(lambda:(self.label_description_1.setText("Vista general de datos")))
+		self.animacionMostar.finished.connect(
+		    lambda: (self.label_description_1.setText("Vista general de datos")))
 
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(590, 40, 451, 311))
 		self.animacionMostar.setEndValue(QRect(20, 40, 451, 311))
 		self.animacionMostar.start(QAbstractAnimation.DeleteWhenStopped)
+
 	def Ocultar_1(self):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_1, b"geometry")
-		self.animacionMostar.finished.connect(lambda:(self.label_description_1.setText("")))
+		self.animacionMostar.finished.connect(
+		    lambda: (self.label_description_1.setText("")))
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(20, 40, 451, 311))
 		self.animacionMostar.setEndValue(QRect(-590, 40, 451, 311))
@@ -792,13 +811,13 @@ class serial_validation(QDialog):
 	def Ocultar_2(self):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_2, b"geometry")
-		self.animacionMostar.finished.connect(lambda:(self.label_description_1.setText("")))
+		self.animacionMostar.finished.connect(
+		    lambda: (self.label_description_1.setText("")))
 
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(20, 40, 451, 311))
 		self.animacionMostar.setEndValue(QRect(-590, 40, 451, 311))
 		self.animacionMostar.start(QAbstractAnimation.DeleteWhenStopped)
-
 
 	def Mostrar_3(self):
 
@@ -813,18 +832,19 @@ class serial_validation(QDialog):
 	def Ocultar_3(self):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_3, b"geometry")
-		self.animacionMostar.finished.connect(lambda:(self.label_description_1.setText("")))
+		self.animacionMostar.finished.connect(
+		    lambda: (self.label_description_1.setText("")))
 
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(20, 40, 451, 311))
 		self.animacionMostar.setEndValue(QRect(-590, 40, 451, 311))
 		self.animacionMostar.start(QAbstractAnimation.DeleteWhenStopped)
 
-
 	def Mostrar_4(self):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_4, b"geometry")
-		self.animacionMostar.finished.connect(lambda: (self.label_description_1.setText("Opciones de búsqueda especificadas")))
+		self.animacionMostar.finished.connect(lambda: (
+		    self.label_description_1.setText("Opciones de búsqueda especificadas")))
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(590, 40, 451, 311))
 		self.animacionMostar.setEndValue(QRect(20, 40, 451, 311))
@@ -833,13 +853,13 @@ class serial_validation(QDialog):
 	def Ocultar_4(self):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_4, b"geometry")
-		self.animacionMostar.finished.connect(lambda:(self.label_description_1.setText("")))
+		self.animacionMostar.finished.connect(
+		    lambda: (self.label_description_1.setText("")))
 
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(20, 40, 451, 311))
 		self.animacionMostar.setEndValue(QRect(-590, 40, 451, 311))
 		self.animacionMostar.start(QAbstractAnimation.DeleteWhenStopped)
-
 
 	def Mostrar_5(self):
 
@@ -854,7 +874,8 @@ class serial_validation(QDialog):
 	def Ocultar_5(self):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_5, b"geometry")
-		self.animacionMostar.finished.connect(lambda:(self.label_description_1.setText("")))
+		self.animacionMostar.finished.connect(
+		    lambda: (self.label_description_1.setText("")))
 
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(20, 40, 451, 311))
@@ -874,26 +895,35 @@ class serial_validation(QDialog):
 	def Ocultar_6(self):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_6, b"geometry")
-		self.animacionMostar.finished.connect(lambda:(self.label_description_1.setText("")))
+		self.animacionMostar.finished.connect(
+		    lambda: (self.label_description_1.setText("")))
 
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(20, 40, 451, 311))
 		self.animacionMostar.setEndValue(QRect(-590, 40, 451, 311))
 		self.animacionMostar.start(QAbstractAnimation.DeleteWhenStopped)
 
-
 	def Encriptar(self):
 		serial_archivo = open('seriales.txt', 'w')
 		serial_archivo.write("")
 		serial_archivo.close()
-		
+
 		serial = str(self.lineEdit_serial.text()).upper()
 
+		sistema = platform.system()
+		ruta = ""
 
-		if os.path.isfile("verification_vesor/Serial.txt"):
-			archivo_serial = open("verification_vesor/Serial.txt", "rb").read()
-			#Desencriptar mensaje 
-			clave_2 = open("verification_vesor/clave2.key", "rb").read()
+		if sistema == "Linux":
+			ruta = ('//')
+			print(ruta)
+		else:
+			ruta = ('C:/Windows/')
+			print(ruta)
+
+		if os.path.isfile(ruta + "verification_vesor/Serial.txt"):
+			archivo_serial = open(ruta + "verification_vesor/Serial.txt", "rb").read()
+			# Desencriptar mensaje 
+			clave_2 = open(ruta + "verification_vesor/clave2.key", "rb").read()
 
 			clave_2 = RSA.importKey(binascii.unhexlify(clave_2)) 
 
@@ -908,7 +938,7 @@ class serial_validation(QDialog):
 			if dato_desencriptado == serial_line:
 				self.Interface = Interface()
 				self.Interface.show()
-				self.destroy()
+				self.close()
 				print("Funciono, arranco la siguiente ventana")
 
 			else:
@@ -935,7 +965,7 @@ class serial_validation(QDialog):
 			pass
 
 
-	#Clase de ventana principal
+	# Clase de ventana principal
 class Interface(QMainWindow):
 
 	def __init__(self):
@@ -953,7 +983,7 @@ class Interface(QMainWindow):
 		self._timer = QTimer()
 		self._timer.singleShot(1000, self.mostrar_datos)
 		
-		#Interacciones 
+		# Interacciones 
 		self.operacion_1.setToolTip("Presione aquí para realizar la operación")
 		self.operacion_2.setToolTip("Presione aquí para realizar la operación")
 
@@ -987,7 +1017,7 @@ class Interface(QMainWindow):
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(22)
 		self.groupBox_5.setGraphicsEffect(self.shadow)
-		#Menu 1 =====================================================================================================	
+		# Menu 1 =====================================================================================================	
 
 		self.menuArchivo = QMenu()
 		self.menuArchivo.setStyleSheet("QMenu{background-color:#12191D;\n"
@@ -1007,9 +1037,9 @@ class Interface(QMainWindow):
 		self.acercade = self.menuArchivo.addAction("Acerca de VESOR", self.Abrir_window)
 		
 		self.ayuda = self.menuArchivo.addAction("Ayuda")
-		#======================================================================================================
+		# ======================================================================================================
 
-		#Menu de opcionesde usuario =====================================================================================================	
+		# Menu de opcionesde usuario =====================================================================================================	
 
 		self.menu_usuario = QMenu()
 		self.menu_usuario.setStyleSheet("QMenu{background-color:#12191D;\n"
@@ -1030,7 +1060,7 @@ class Interface(QMainWindow):
 		self.Registrar_user = self.menu_usuario.addAction(QIcon(":/Icono_registrar/Imagenes-iconos/Registrar.png"),"Registrar usuario", self.Nuevo_user)
 		self.Editar_usuario = self.menu_usuario.addAction(QIcon(":/Icono_papelera/Imagenes-iconos/Papelera_blanca.png"),"Editar o Eliminar usuario", self.Editar_usuario)
 
-		#Menu de opciones de vocero =====================================================================================================	
+		# Menu de opciones de vocero =====================================================================================================	
 
 		self.menu_vocero = QMenu()
 		self.menu_vocero.setStyleSheet("QMenu{background-color:#12191D;\n"
@@ -1054,7 +1084,7 @@ class Interface(QMainWindow):
 
 
 
-#========================================= #Eventos# ==================================================================
+# ========================================= #Eventos# ==================================================================
 		self.operacion_1.clicked.connect(self.realizar_operacion_1)
 		self.operacion_2.clicked.connect(self.realizar_operacion_2)
 	
@@ -1066,18 +1096,18 @@ class Interface(QMainWindow):
 		self.buttonStatus.setToolTip("Click para ver estatus de los usuarios")
 		self.buttonStatus.clicked.connect(self.Abrir_ventana)
 
-		#self.buttonVoceroNew.setMenu(self.menu_vocero)
-		#self.buttonVoceroNew.setToolTip("Click para ver opciones de vocero")
+		# self.buttonVoceroNew.setMenu(self.menu_vocero)
+		# self.buttonVoceroNew.setToolTip("Click para ver opciones de vocero")
 		
-		#self.buttonNewUser.clicked.connect(self.Nuevo_user)
+		# self.buttonNewUser.clicked.connect(self.Nuevo_user)
 
-		#self.buttonEditUser.clicked.connect(self.Editar_usuario)
+		# self.buttonEditUser.clicked.connect(self.Editar_usuario)
 
-		#self.lineEditSearch.setToolTip("Ingresa la cedula de quien deseas buscar.")
+		# self.lineEditSearch.setToolTip("Ingresa la cedula de quien deseas buscar.")
 
 		self.Button_menu_2.clicked.connect(self.mostrar_datos)
 		self.Button_menu_2.setToolTip("Click para actualizar la vista general de datos de usuario")
-#======================================== #Funciones# ==================================================================
+# ======================================== #Funciones# ==================================================================
 
 
 	def mostrar_datos(self):
@@ -1101,7 +1131,7 @@ class Interface(QMainWindow):
 				self.cursor_enbarazo = self.con.cursor()
 				self.cursor_lactante = self.con.cursor()
 
-				#Cursor masculino
+				# Cursor masculino
 				self.cursor_masculino.execute("SELECT COUNT(GENERO) FROM USUARIO_DT_GNR WHERE GENERO = 'Masculino'")
 				dato_masculino = self.cursor_masculino.fetchall()
 				for m in dato_masculino:
@@ -1110,7 +1140,7 @@ class Interface(QMainWindow):
 				mostrar_m = str(dato_m)
 				self.Cantidad_m.setText(mostrar_m)
 
-				#Cursor femenino
+				# Cursor femenino
 				self.cursor_femenino.execute("SELECT COUNT(GENERO) FROM USUARIO_DT_GNR WHERE GENERO = 'Femenino'")
 				dato_femenino = self.cursor_femenino.fetchall()
 				for f in dato_femenino:
@@ -1119,7 +1149,7 @@ class Interface(QMainWindow):
 				mostrar_f = str(dato_f)
 				self.Cantidad_f.setText(mostrar_f)
 
-				#Cursor edad  >= 0 años
+				# Cursor edad  >= 0 años
 				self.cursor_edad_0.execute("SELECT COUNT(EDAD) FROM USUARIO_DT_GNR WHERE EDAD >= 0 AND EDAD <= 12 ")
 				dato_edad_0 = self.cursor_edad_0.fetchall()
 				for e_0 in dato_edad_0:
@@ -1128,7 +1158,7 @@ class Interface(QMainWindow):
 				dato_0_12 = str(dato_e_0)
 				self.Cantidad_0_12.setText(dato_0_12)
 
-				#Cursor edad  >= 13 años
+				# Cursor edad  >= 13 años
 				self.cursor_edad_13.execute("SELECT COUNT(EDAD) FROM USUARIO_DT_GNR WHERE EDAD >= 13 AND EDAD <= 18")
 				dato_edad_13 = self.cursor_edad_13.fetchall()
 				for e_13 in dato_edad_13:
@@ -1137,7 +1167,7 @@ class Interface(QMainWindow):
 				dato_12_18 =str(dato_e_13)
 				self.Cantidad_12_18.setText(dato_12_18)
 
-				#Cursor edad  >= 18 años
+				# Cursor edad  >= 18 años
 				self.cursor_edad_18.execute("SELECT COUNT(EDAD) FROM USUARIO_DT_GNR WHERE EDAD >= 19 AND EDAD <= 30")
 				dato_edad_18 = self.cursor_edad_18.fetchall()
 				for e_18 in dato_edad_18:
@@ -1146,7 +1176,7 @@ class Interface(QMainWindow):
 				dato_19_30 = str(dato_e_18)
 				self.Cantidad_19_30.setText(dato_19_30)
 
-				#Cursor edad  >= 30 años
+				# Cursor edad  >= 30 años
 				self.cursor_edad_30.execute("SELECT COUNT(EDAD) FROM USUARIO_DT_GNR WHERE EDAD >= 31 AND EDAD <= 54")
 				dato_edad_30 = self.cursor_edad_30.fetchall()
 				for e_30 in dato_edad_30:
@@ -1155,7 +1185,7 @@ class Interface(QMainWindow):
 				dato_31_54 = str(dato_e_30)
 				self.Cantidad_31_54.setText(dato_31_54)
 
-				#Cursor edad  >= 55 años
+				# Cursor edad  >= 55 años
 				self.cursor_edad_55.execute("SELECT COUNT(EDAD) FROM USUARIO_DT_GNR WHERE EDAD >= 55")
 				dato_edad_55 = self.cursor_edad_55.fetchall()
 				for e_55 in dato_edad_55:
@@ -1164,7 +1194,7 @@ class Interface(QMainWindow):
 				dato_mayor_55 = str(dato_e_55)
 				self.Cantidad_55.setText(dato_mayor_55)
 
-				#Cursor estudiante
+				# Cursor estudiante
 				self.cursor_estud.execute("SELECT COUNT(PROFESION_OFICIO) FROM USUARIO_DT_GNR WHERE PROFESION_OFICIO = 'Estudiante'")
 				dato_estudiante = self.cursor_estud.fetchall()
 				for estudiante in dato_estudiante:
@@ -1174,7 +1204,7 @@ class Interface(QMainWindow):
 				self.Cantidad_estudiante.setText(dato_mostrar_estudiante)
 
 
-				#Inscrito en el REP
+				# Inscrito en el REP
 				self.cursor_rep.execute("SELECT COUNT(INSCRITO_REP) FROM USUARIO_DT_GNR WHERE INSCRITO_REP = 'Si'")
 				dato_rep= self.cursor_rep.fetchall()
 				for rep in dato_rep:
@@ -1185,7 +1215,7 @@ class Interface(QMainWindow):
 
 
 
-				#Si esta pensionado 
+				# Si esta pensionado 
 				self.cursor_pensionado.execute("SELECT COUNT(PENSIONADO) FROM USUARIO_DT_GNR WHERE PENSIONADO = 'Pensionado'")
 				dato_pensionado= self.cursor_pensionado.fetchall()
 				for pensionado in dato_pensionado:
@@ -1194,7 +1224,7 @@ class Interface(QMainWindow):
 				dato_mostrar_pensionado = str(dato_de_pensionado)
 				self.Cantidad_pensionado.setText(dato_mostrar_pensionado)
 
-				#Si posee discapacidad
+				# Si posee discapacidad
 				self.cursor_discapacidad.execute("SELECT COUNT(DESCRIBA_DISCAPACIDAD) FROM USUARIO_DT_GNR WHERE DESCRIBA_DISCAPACIDAD != '' ")
 				dato_discapacidad = self.cursor_discapacidad.fetchall()
 
@@ -1209,10 +1239,10 @@ class Interface(QMainWindow):
 					self.Cantidad_discapacidad.setText("0")
 					"0"
 						
-					 #"0"
+					 # "0"
 					
 
-				#Si posee enfermedad
+				# Si posee enfermedad
 				self.cursor_enfermedad.execute("SELECT COUNT(DESCRIBA_ENFERMEDAD) FROM USUARIO_DT_GNR WHERE DESCRIBA_ENFERMEDAD != '' ")
 				dato_enfermedad = self.cursor_enfermedad.fetchall()
 
@@ -1228,7 +1258,7 @@ class Interface(QMainWindow):
 					"0"
 					
 
-				#Si esta en estado de embarazo
+				# Si esta en estado de embarazo
 				self.cursor_enbarazo.execute("SELECT COUNT(EMBARAZADA) FROM USUARIO_DT_GNR WHERE EMBARAZADA = 'Si' ")
 				dato_enbarazo = self.cursor_enbarazo.fetchall()
 
@@ -1238,7 +1268,7 @@ class Interface(QMainWindow):
 				datos_mostrar_embarazo = str(dato_de_enbarazo)
 				self.Cantidad_embarazo.setText(datos_mostrar_embarazo)
 
-				#Si esta en estado de lactante
+				# Si esta en estado de lactante
 				self.cursor_lactante.execute("SELECT COUNT(LACTANTE) FROM USUARIO_DT_GNR WHERE LACTANTE = 'Si' ")
 				dato_lactante = self.cursor_lactante.fetchall()
 
@@ -1301,7 +1331,7 @@ class Interface(QMainWindow):
 	def Editar_usuario(self):
 		self.interface = Window_edit_elim_user()
 		self.interface.show()
-		#Window_editar_user(self).exec_()
+		# Window_editar_user(self).exec_()
 	
 	def Nuevo_user(self):
 		Window_nv_users(self).exec_()
@@ -1320,9 +1350,9 @@ class Interface(QMainWindow):
 		cerrar.setText("¿Estás seguro que desea cerrar VESOR?   ")
 		botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
 		botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
-            
+			
 		cerrar.exec_()
-            
+			
 		if cerrar.clickedButton() == botonSalir:
 			event.accept()
 		else:
@@ -1333,7 +1363,7 @@ class Interface(QMainWindow):
 			self.close()
 
 
-	#Clase de ventana editar y eliminar usuario
+	# Clase de ventana editar y eliminar usuario
 class Window_edit_elim_user(QDialog):
 	def __init__(self, parent=None):
 		QDialog.__init__(self)
@@ -1350,9 +1380,9 @@ class Window_edit_elim_user(QDialog):
 		self.initUi()
 
 	def initUi(self):
-		#Stylos ==========================================================================================      		
+		# Stylos ==========================================================================================      		
 
-		#Style del frame principal
+		# Style del frame principal
 		Style_frame_principal = ("QFrame#frame{\n"
 								"color:#1b231f;\n"
 								"background-color: #E5E7EE;\n"
@@ -1361,7 +1391,7 @@ class Window_edit_elim_user(QDialog):
 								"}")
 		###
 
-		#Style de la QTable con el contenido
+		# Style de la QTable con el contenido
 
 		Style_qtable_contenido = ("QTableWidget::item{\n"
 									"color:#000000;\n"
@@ -1391,7 +1421,7 @@ class Window_edit_elim_user(QDialog):
 									"}")
 		###
 
-		#Style de frame menu
+		# Style de frame menu
 
 		Style_frame_menu = ("QFrame{\n"
 							
@@ -1400,7 +1430,7 @@ class Window_edit_elim_user(QDialog):
 							"}")
 		###
 
-		#Style buttons
+		# Style buttons
 		Style_buttons = ("QPushButton{\n"
 						"border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
 						"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
@@ -1415,7 +1445,7 @@ class Window_edit_elim_user(QDialog):
 						"}")
 		###
 
-		#Style actualizar 
+		# Style actualizar 
 
 		Style_actulizar_button =	("QPushButton{\n"
 									"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
@@ -1427,7 +1457,7 @@ class Window_edit_elim_user(QDialog):
 									"}")
 		###
 
-		#Style de label titulo
+		# Style de label titulo
 
 		Style_label_menu = ("QLabel{\n"
 							"color:rgb(255, 255, 255);\n"
@@ -1439,7 +1469,7 @@ class Window_edit_elim_user(QDialog):
 
 		###
 
-		#Style de label busqueda
+		# Style de label busqueda
 		Style_label_busqueda = ("QLabel{\n"
 								"color:rgb(255, 255, 255);\n"
 								"font: 8pt 'Comic Sans MS';\n"
@@ -1448,7 +1478,7 @@ class Window_edit_elim_user(QDialog):
 
 		###
 
-		#Style line Edit busqueda
+		# Style line Edit busqueda
 		Style_line_edit_busqueda = ("QLineEdit{\n"
 									"border-radius: 6px;\n"
 									"}\n"
@@ -1457,7 +1487,7 @@ class Window_edit_elim_user(QDialog):
 									"}")
 		###
 
-		#Style del menu del button buscar
+		# Style del menu del button buscar
 
 		Style_button_menu =("QMenu{background-color:#12191D;\n"
 		"color: #ffffff;}\n"
@@ -1467,15 +1497,15 @@ class Window_edit_elim_user(QDialog):
 		"}") 
 
 
-		#"QMenu:separator{height:0px;"
-		#"background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0,\n"
-		#"stop:0 rgba(173, 181, 189, 95));"
-		#"margin-left:0px;"
-		#"margin-right:0px;}"
+		# "QMenu:separator{height:0px;"
+		# "background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0,\n"
+		# "stop:0 rgba(173, 181, 189, 95));"
+		# "margin-left:0px;"
+		# "margin-right:0px;}"
 
 		###
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-		#frames ==========================================================================================      				
+		# frames ==========================================================================================      				
 
 
 		self.menu_buscar = QMenu()
@@ -1499,23 +1529,23 @@ class Window_edit_elim_user(QDialog):
 
 
 
-		#frames ==========================================================================================      				
-		#Frame principal contenido
+		# frames ==========================================================================================      				
+		# Frame principal contenido
 		self.frame_principal_contenido = QFrame(self)
 		self.frame_principal_contenido.setGeometry(QRect(180,20,581,411))
 		self.frame_principal_contenido.setObjectName("frame")
 		self.frame_principal_contenido.setStyleSheet(Style_frame_principal)
 		###
 
-		#Frame menus
+		# Frame menus
 		self.frame_menu = QFrame(self)
 		self.frame_menu.setGeometry(QRect(30,20,121,411))
 		self.frame_menu.setStyleSheet(Style_frame_menu)
 		###
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Labels ==========================================================================================
-		#Labels de menu
+		# Labels ==========================================================================================
+		# Labels de menu
 		self.Label = QLabel(self.frame_menu)
 		self.Label.setGeometry(QRect(30,30,121,51))
 		self.Label.setText("ELIMINAR \nY EDITAR \nUSUARIO")
@@ -1530,20 +1560,20 @@ class Window_edit_elim_user(QDialog):
 		
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Line Edit busqueda nombre ==========================================================================================
+		# Line Edit busqueda nombre ==========================================================================================
 		self.line_edit_busqueda = QLineEdit(self.frame_menu)
 		self.line_edit_busqueda.setObjectName("Enter")
 		self.line_edit_busqueda.setGeometry(QRect(5,330,111,21))
 		self.line_edit_busqueda.setToolTip("Ingresa el primer nombre del usuario\npara la busqueda")
 		self.line_edit_busqueda.setPlaceholderText("Ingresa nombre")
 		self.line_edit_busqueda.setStyleSheet(Style_line_edit_busqueda)
-		#self.line_edit_busqueda.setMove(1000,330)
+		# self.line_edit_busqueda.setMove(1000,330)
 
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Buttons ==========================================================================================
-		#Buttons actualizar       		
+		# Buttons ==========================================================================================
+		# Buttons actualizar       		
 		self.actualizar = QPushButton(self.frame_menu)
 		self.actualizar.setText("")
 		self.actualizar.setGeometry(QRect(50, 120, 23, 21))
@@ -1562,7 +1592,7 @@ class Window_edit_elim_user(QDialog):
 
 		###
 
-		#Buttons aceptar
+		# Buttons aceptar
 
 		self.aceptar = QPushButton(self.frame_menu)
 		self.aceptar.setText("Aceptar")
@@ -1572,7 +1602,7 @@ class Window_edit_elim_user(QDialog):
 		self.aceptar.setIconSize(QSize(15,15))
 		###
 
-		#Buttons eliminar
+		# Buttons eliminar
 		self.eliminar = QPushButton(self.frame_menu)
 		self.eliminar.setText("Eliminar")
 		self.eliminar.setGeometry(QRect(0, 180, 121, 31))
@@ -1582,7 +1612,7 @@ class Window_edit_elim_user(QDialog):
 		self.eliminar.setToolTip("Click para eliminar un usuario seleccionado")
 		###
 		
-		#Buttons opciones para buscar 
+		# Buttons opciones para buscar 
 		self.opciones_de_busqueda = QPushButton(self.frame_menu)
 		self.opciones_de_busqueda.setText("Opciones")
 		self.opciones_de_busqueda.setGeometry(QRect(-12, 210, 151, 31))
@@ -1592,7 +1622,7 @@ class Window_edit_elim_user(QDialog):
 		self.opciones_de_busqueda.setIconSize(QSize(16,16))
 		###
 
-		#Buttons cancelar
+		# Buttons cancelar
 		self.cancelar = QPushButton(self.frame_menu)
 		self.cancelar.setText("Cancelar")
 		self.cancelar.setGeometry(QRect(0, 240, 121, 31))
@@ -1604,7 +1634,7 @@ class Window_edit_elim_user(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#QTableWidget ==========================================================================================      		
+		# QTableWidget ==========================================================================================      		
 		nombreColumnas = ("ID", "Primer nombre", "Primer apellido", "Cedula",
 		 "Edad", "N°Vivienda")
 
@@ -1634,9 +1664,9 @@ class Window_edit_elim_user(QDialog):
 			self.QTableWidget_contenido.setColumnWidth(indice, ancho)
 
 
-		#EVENTOS ==========================================================================================      		
+		# EVENTOS ==========================================================================================      		
 		
-		#self.limpiar.clicked.connect(self.Ocultar_todos)
+		# self.limpiar.clicked.connect(self.Ocultar_todos)
 
 		self.actualizar.clicked.connect(self.mostrar_datos)
 
@@ -1826,7 +1856,7 @@ class Window_edit_elim_user(QDialog):
 
 		else:
 			QMessageBox.critical(self, "Eliminar", "No se encontró la base de datos.   ",
-									 		QMessageBox.Ok)
+											QMessageBox.Ok)
 
 
 
@@ -1856,14 +1886,14 @@ class Window_edit_elim_user(QDialog):
 				conexion = sqlite3.connect('Base de datos/DB_VESOR_USER_DATOSGENERALES.db')
 				cursor = conexion.cursor()
 				print("Si")
-	                
+					
 				try:
 					if widget in ("Enter", "Buscar"):
 						cursor.execute(sql[0], sql[1])
 						
 					else:
 						cursor.execute(sql)
-	                    
+						
 					datosDevueltos = cursor.fetchall()
 					conexion.close()
 
@@ -1874,10 +1904,10 @@ class Window_edit_elim_user(QDialog):
 						fila = 0
 						for datos in datosDevueltos:
 							self.QTableWidget_contenido.setRowCount(fila + 1)
-	            
+				
 							idDato = QTableWidgetItem(str(datos[0]))
 							idDato.setTextAlignment(Qt.AlignCenter)
-	                        
+							
 							self.QTableWidget_contenido.setItem(fila, 0, idDato)
 							self.QTableWidget_contenido.setItem(fila, 1, QTableWidgetItem(datos[1]))
 							self.QTableWidget_contenido.setItem(fila, 2, QTableWidgetItem(datos[2]))
@@ -1889,15 +1919,15 @@ class Window_edit_elim_user(QDialog):
 
 					else:   
 						QMessageBox.information(self, "Buscar usuario", "No se encontró "
-	                                            "información.   ", QMessageBox.Ok)
+												"información.   ", QMessageBox.Ok)
 				except Exception as e:
 					print(e)
 					conexion.close()
 					QMessageBox.critical(self, "Buscar usuarios", "Error desconocido.   ",
-	                                     QMessageBox.Ok)
+										 QMessageBox.Ok)
 			else:
 				QMessageBox.critical(self, "Buscar usuarios", "No se encontró la base de datos.   ",
-	                                 QMessageBox.Ok)
+									 QMessageBox.Ok)
 
 			self.line_edit_busqueda.setFocus()
 		except AttributeError:
@@ -1918,7 +1948,7 @@ class Window_edit_elim_user(QDialog):
 				
 
 				datos_Devueltos = cursor_estudiante.fetchall()
-				#print(datos_Devueltos)
+				# print(datos_Devueltos)
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -1966,7 +1996,7 @@ class Window_edit_elim_user(QDialog):
 				
 
 				datos_Devueltos = cursor_discapacidad.fetchall()
-				#print(datos_Devueltos)
+				# print(datos_Devueltos)
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -2008,7 +2038,7 @@ class Window_edit_elim_user(QDialog):
 					
 
 				datos_Devueltos = cursor_enfermos.fetchall()
-					#print(datos_Devueltos)
+					# print(datos_Devueltos)
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -2054,7 +2084,7 @@ class Window_edit_elim_user(QDialog):
 				
 
 				datos_Devueltos = cursor_pensionado.fetchall()
-				#print(datos_Devueltos)
+				# print(datos_Devueltos)
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -2100,7 +2130,7 @@ class Window_edit_elim_user(QDialog):
 				
 
 				datos_Devueltos = cursor_embarazada.fetchall()
-				#print(datos_Devueltos)
+				# print(datos_Devueltos)
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -2145,7 +2175,7 @@ class Window_edit_elim_user(QDialog):
 				
 
 				datos_Devueltos = cursor_lactantes.fetchall()
-				#print(datos_Devueltos)
+				# print(datos_Devueltos)
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -2190,7 +2220,7 @@ class Window_edit_elim_user(QDialog):
 				
 
 				datos_Devueltos = cursor_inscritos.fetchall()
-				#print(datos_Devueltos)
+				# print(datos_Devueltos)
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -2235,7 +2265,7 @@ class Window_edit_elim_user(QDialog):
 				
 
 				datos_Devueltos = cursor_jf.fetchall()
-				#print(datos_Devueltos)
+				# print(datos_Devueltos)
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -2280,7 +2310,7 @@ class Window_edit_elim_user(QDialog):
 				
 
 				datos_Devueltos = cursor_femenino.fetchall()
-				#print(datos_Devueltos)
+				# print(datos_Devueltos)
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -2325,7 +2355,7 @@ class Window_edit_elim_user(QDialog):
 				
 
 				datos_Devueltos = cursor_masculino.fetchall()
-				#print(datos_Devueltos)
+				# print(datos_Devueltos)
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -2372,7 +2402,7 @@ class Window_edit_elim_user(QDialog):
 				
 
 				datos_Devueltos = cursor_estudiante.fetchall()
-				#print(datos_Devueltos)
+				# print(datos_Devueltos)
 				self.QTableWidget_contenido.clearContents()
 				self.QTableWidget_contenido.setRowCount(0)
 
@@ -2420,35 +2450,35 @@ class Window_edit_elim_user(QDialog):
 			cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
 			botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
 			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
-	            
+				
 			cerrar.exec_()
-	            
+				
 			if cerrar.clickedButton() == botonSalir:
 				self.close()
 			else:
 				event.ignore()
 
 	def closeEvent(self, event):
-               
+			   
 			cerrar = QMessageBox(self)
 			cerrar.setWindowTitle("¿Salir de VESOR?")
 			cerrar.setIcon(QMessageBox.Question)
 			cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
 			botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
 			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
-            
+			
 			cerrar.exec_()
 
 
 
-	#Clase de Visualizar usuario
+	# Clase de Visualizar usuario
 class Window_visualizar_users(QDialog):
 	def __init__(self,dato, parent = None):
 		super(Window_visualizar_users, self).__init__()
 
 		self.parent = parent
 		self.datos = dato
-		#self.indice = indice
+		# self.indice = indice
 
 		self.setObjectName("Dialog")
 		self.setWindowTitle("Datos de usuario")
@@ -2466,7 +2496,7 @@ class Window_visualizar_users(QDialog):
 
 	def initUi(self):
 
-	#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos generales #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+	# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos generales #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 		
 
 		self.groupBox_datosGnr = QGroupBox(self)
@@ -2487,7 +2517,7 @@ class Window_visualizar_users(QDialog):
 		self.groupBox_datosGnr.setGraphicsEffect(self.shadow)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#1ºNombre =====================================================================================================	
+		# 1ºNombre =====================================================================================================	
 		self.label_1_nombre = QLabel(self.groupBox_datosGnr)
 		self.label_1_nombre.setGeometry(QRect(40, 20, 78, 16))
 		self.label_1_nombre.setStyleSheet("background-color:#4466B8;\n"
@@ -2520,7 +2550,7 @@ class Window_visualizar_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#2ºNombre =====================================================================================================
+		# 2ºNombre =====================================================================================================
 		self.label_2_nombre = QLabel(self.groupBox_datosGnr)
 		self.label_2_nombre.setGeometry(QRect(215, 20, 71, 16))
 		self.label_2_nombre.setStyleSheet("background-color:#4466B8;\n"
@@ -2549,7 +2579,7 @@ class Window_visualizar_users(QDialog):
 		self.lineEdit_2_nombre.setToolTip("Ingresa aquí el segundo nombre")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#1º Apellido =====================================================================================================		
+		# 1º Apellido =====================================================================================================		
 		self.label_1_Apellido = QLabel(self.groupBox_datosGnr)
 		self.label_1_Apellido.setGeometry(QRect(40, 70, 78, 16))
 		self.label_1_Apellido.setStyleSheet("background-color:#4466B8;\n"
@@ -2580,7 +2610,7 @@ class Window_visualizar_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#2º Apellido =====================================================================================================		
+		# 2º Apellido =====================================================================================================		
 		self.lineEdit_2_Apellido = QLineEdit(self.groupBox_datosGnr)
 		self.lineEdit_2_Apellido.setGeometry(QRect(180, 90, 141, 20))
 		self.lineEdit_2_Apellido.setStyleSheet("QLineEdit{\n"
@@ -2610,7 +2640,7 @@ class Window_visualizar_users(QDialog):
 															self.lineEdit_2_Apellido))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	   
-		#Cedula de identidad =====================================================================================================		
+		# Cedula de identidad =====================================================================================================		
 		self.label_cedula = QLabel(self.groupBox_datosGnr)
 		self.label_cedula.setGeometry(QRect(10, 125, 140, 16))
 		self.label_cedula.setStyleSheet("background-color:#4466B8;\n"
@@ -2638,7 +2668,7 @@ class Window_visualizar_users(QDialog):
 		self.lineEdit_cedula.setToolTip("Ingresa aquí la cedula de identidad")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Telefono =====================================================================================================		
+		# Telefono =====================================================================================================		
 		self.label_tlf = QLabel(self.groupBox_datosGnr)
 		self.label_tlf.setGeometry(QRect(215, 125, 71, 16))
 		self.label_tlf.setStyleSheet("background-color:#4466B8;\n"
@@ -2684,7 +2714,7 @@ class Window_visualizar_users(QDialog):
 		self.lineEdit_2_tlf.setToolTip("Ingresa aquí el numero de telefónico secundario")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Genero ========================================================================================================	      
+		# Genero ========================================================================================================	      
 		self.comboBox_genero = QComboBox(self.groupBox_datosGnr)
 		self.comboBox_genero.setGeometry(QRect(10, 200, 141, 21))
 		self.comboBox_genero.setStyleSheet("QComboBox{\n"
@@ -2712,7 +2742,7 @@ class Window_visualizar_users(QDialog):
 		self.label_genero.setText("<font color='#FF3300'>*</font>Genero:")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 				
-		#Edad ========================================================================================================	      
+		# Edad ========================================================================================================	      
 		self.label_edad = QLabel(self.groupBox_datosGnr)
 		self.label_edad.setGeometry(QRect(225, 205, 51, 16))
 		self.label_edad.setStyleSheet("background-color:#4466B8;\n"
@@ -2741,7 +2771,7 @@ class Window_visualizar_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	  
-		#Fecha de nacimiento ========================================================================================================	        
+		# Fecha de nacimiento ========================================================================================================	        
 		self.dateEdit_nacimiento = QDateEdit(self.groupBox_datosGnr)
 		self.dateEdit_nacimiento.setGeometry(QRect(10, 255, 141, 22))
 		self.dateEdit_nacimiento.setStyleSheet("QDateEdit{\n"
@@ -2769,7 +2799,7 @@ class Window_visualizar_users(QDialog):
 		self.label_fch_nacimiento.setText("Fecha de nacimiento:")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Opciones de checkbox datos generales ========================================================================================================	      
+		# Opciones de checkbox datos generales ========================================================================================================	      
 		self.label_opciones = QLabel(self.groupBox_datosGnr)
 		self.label_opciones.setGeometry(QRect(180, 260, 141, 19))
 		self.label_opciones.setStyleSheet("background-color:#4466B8;\n"
@@ -2810,7 +2840,7 @@ class Window_visualizar_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Profesion u oficio =================================================================================================
+		# Profesion u oficio =================================================================================================
 		self.label_profesion = QLabel(self.groupBox_datosGnr)
 		self.label_profesion.setGeometry(QRect(30, 290, 101, 16))
 		self.label_profesion.setStyleSheet("background-color:#4466B8;\n"
@@ -2846,7 +2876,7 @@ class Window_visualizar_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Nivel de instruccion ========================================================================================================	      
+		# Nivel de instruccion ========================================================================================================	      
 		self.label_nvl_instruccion = QLabel(self.groupBox_datosGnr)
 		self.label_nvl_instruccion.setGeometry(QRect(20, 345, 121, 16))
 		self.label_nvl_instruccion.setStyleSheet("background-color:#4466B8;\n"
@@ -2875,7 +2905,7 @@ class Window_visualizar_users(QDialog):
 		self.comboBox_nvl_instruccion.addItems(self.Items_list_instruccion)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Parentesco ========================================================================================================	      
+		# Parentesco ========================================================================================================	      
 		self.label_parentesco = QLabel(self.groupBox_datosGnr)
 		self.label_parentesco.setGeometry(QRect(210, 370, 81, 16))
 		self.label_parentesco.setStyleSheet("background-color:#4466B8;\n"
@@ -2907,7 +2937,7 @@ class Window_visualizar_users(QDialog):
 	   
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Estado civil ========================================================================================================	      
+		# Estado civil ========================================================================================================	      
 
 		self.label_estadocivil = QLabel(self.groupBox_datosGnr)
 		self.label_estadocivil.setGeometry(QRect(45, 400, 71, 16))
@@ -2936,7 +2966,7 @@ class Window_visualizar_users(QDialog):
 		self.comboBox_estadocivil.addItems(self.items_list_estadocivil)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Inscrito en el REP ========================================================================================================	      
+		# Inscrito en el REP ========================================================================================================	      
 
 		self.label_inscritoREP = QLabel(self.groupBox_datosGnr)
 		self.label_inscritoREP.setGeometry(QRect(25, 455, 111, 16))
@@ -2971,7 +3001,7 @@ class Window_visualizar_users(QDialog):
 												"en el registro electoral permanente")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Ingresar el correo ========================================================================================================	      
+		# Ingresar el correo ========================================================================================================	      
 
 		self.label_correo = QLabel(self.groupBox_datosGnr)
 		self.label_correo.setGeometry(QRect(195, 440, 111, 16))
@@ -2998,13 +3028,13 @@ class Window_visualizar_users(QDialog):
 		self.lineEdit_correo.setObjectName("lineEdit_correo")
 		self.lineEdit_correo.setPlaceholderText("Ingresa el correo")
 		self.lineEdit_correo.setToolTip("Ingresa un correo electrónico vigente")
-		#self.lineEdit_correo.setValidator(QRegExpValidator(QRegExp('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,4}$+'),self.lineEdit_correo))
+		# self.lineEdit_correo.setValidator(QRegExpValidator(QRegExp('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,4}$+'),self.lineEdit_correo))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 
 
 
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Ubicacion geografica #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Ubicacion geografica #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 
 		self.groupBox_datosUb = QGroupBox(self)
 		self.groupBox_datosUb.setGeometry(QRect(530, 10, 371, 181))
@@ -3021,7 +3051,7 @@ class Window_visualizar_users(QDialog):
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(22)
 		self.groupBox_datosUb.setGraphicsEffect(self.shadow)
-		#Estado ========================================================================================================	      
+		# Estado ========================================================================================================	      
 		self.label_estado = QLabel(self.groupBox_datosUb)
 		self.label_estado.setGeometry(QRect(60, 20, 61, 16))
 		self.label_estado.setStyleSheet("background-color:#4466B8;\n"
@@ -3051,7 +3081,7 @@ class Window_visualizar_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Municipio ========================================================================================================	      
+		# Municipio ========================================================================================================	      
 		self.label_municipio = QLabel(self.groupBox_datosUb)
 		self.label_municipio.setGeometry(QRect(55, 70, 71, 16))
 		self.label_municipio.setStyleSheet("background-color:#4466B8;\n"
@@ -3080,7 +3110,7 @@ class Window_visualizar_users(QDialog):
 																	self.lineEdit_municipio))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Parroquia ========================================================================================================	      
+		# Parroquia ========================================================================================================	      
 		self.label_parroquia = QLabel(self.groupBox_datosUb)
 		self.label_parroquia.setGeometry(QRect(55, 120, 71, 16))
 		self.label_parroquia.setStyleSheet("background-color:#4466B8;\n"
@@ -3110,7 +3140,7 @@ class Window_visualizar_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Nº de vivienda ========================================================================================================	      
+		# Nº de vivienda ========================================================================================================	      
 		self.label_N_vivienda = QLabel(self.groupBox_datosUb)
 		self.label_N_vivienda.setGeometry(QRect(220, 130, 111, 16))
 		self.label_N_vivienda.setStyleSheet("background-color:#4466B8;\n"
@@ -3139,7 +3169,7 @@ class Window_visualizar_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Direccion ========================================================================================================	      
+		# Direccion ========================================================================================================	      
 		self.label_direccion = QLabel(self.groupBox_datosUb) 
 		self.label_direccion.setGeometry(QRect(193, 20, 161, 16))
 		self.label_direccion.setStyleSheet("background-color:#4466B8;\n"
@@ -3158,12 +3188,12 @@ class Window_visualizar_users(QDialog):
 		self.textEdit_direccion.setPlaceholderText("Ingresa la dirección\n"
 													"Y lugar donde vota...")
 		self.textEdit_direccion.setToolTip("Ingresa la dirección donde se residencia\n"
-		                                   "Y lugar donde vota ")
+										   "Y lugar donde vota ")
 
 
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos de la vivienda #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos de la vivienda #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 
 		self.groupBox_datos_Vv = QGroupBox(self)
 		self.groupBox_datos_Vv.setGeometry(QRect(530, 200, 371, 171))
@@ -3180,7 +3210,7 @@ class Window_visualizar_users(QDialog):
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(22)
 		self.groupBox_datos_Vv.setGraphicsEffect(self.shadow)
-		#Metros cuadrados ========================================================================================================	      
+		# Metros cuadrados ========================================================================================================	      
 		self.label_M2 = QLabel(self.groupBox_datos_Vv)
 		self.label_M2.setGeometry(QRect(25, 20, 121, 16))
 		self.label_M2.setStyleSheet("background-color:#4466B8;\n"
@@ -3208,7 +3238,7 @@ class Window_visualizar_users(QDialog):
 									"escribirlo de esta manera: 12m^2")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Servivcios que posee ========================================================================================================	           
+		# Servivcios que posee ========================================================================================================	           
 		self.label_servicios = QLabel(self.groupBox_datos_Vv)
 		self.label_servicios.setGeometry(QRect(195, 20, 151, 16))
 		self.label_servicios.setStyleSheet("background-color:#4466B8;\n"
@@ -3286,7 +3316,7 @@ class Window_visualizar_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Descripcion de la vivienda ========================================================================================================	           
+		# Descripcion de la vivienda ========================================================================================================	           
 		self.label_dcrp_vv = QLabel(self.groupBox_datos_Vv)
 		self.label_dcrp_vv.setGeometry(QRect(10, 80, 151, 16))
 		self.label_dcrp_vv.setStyleSheet("background-color:#4466B8;\n"
@@ -3307,7 +3337,7 @@ class Window_visualizar_users(QDialog):
 										"si es un apartamento o quinta, entre otras... ")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Proteccion Social #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Proteccion Social #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 	  
 		self.groupBox_beneficios = QGroupBox(self)
 		self.groupBox_beneficios.setGeometry(QRect(530, 380, 371, 123))
@@ -3325,7 +3355,7 @@ class Window_visualizar_users(QDialog):
 		self.shadow.setBlurRadius(22)
 		self.groupBox_beneficios.setGraphicsEffect(self.shadow)
 
-		#Posee algun beneficio ========================================================================================================	           
+		# Posee algun beneficio ========================================================================================================	           
 		self.label_beneficio = QLabel(self.groupBox_beneficios)
 		self.label_beneficio.setGeometry(QRect(10, 20, 161, 16))
 		self.label_beneficio.setStyleSheet("background-color:#4466B8;\n"
@@ -3418,14 +3448,14 @@ class Window_visualizar_users(QDialog):
 		"font-size: 12px;\n"
 		"}")  
 
-		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
+		# =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 
 
 
 
-#========================================== #Lineas# =======================================================================================
+# ========================================== #Lineas# =======================================================================================
 
-		#Line bajo Nombre-Apellido =====================================================================================	
+		# Line bajo Nombre-Apellido =====================================================================================	
 		self.line = QFrame(self.groupBox_datosGnr)
 		self.line.setGeometry(QRect(10, 110, 311, 16))
 		self.line.setFrameShape(QFrame.HLine)
@@ -3433,7 +3463,7 @@ class Window_visualizar_users(QDialog):
 		self.line.setObjectName("line")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Line bajo cedula ==============================================================================================		
+		# Line bajo cedula ==============================================================================================		
 		self.line_5 = QFrame(self.groupBox_datosGnr)
 		self.line_5.setGeometry(QRect(10, 165, 141, 16))
 		self.line_5.setFrameShape(QFrame.HLine)
@@ -3441,7 +3471,7 @@ class Window_visualizar_users(QDialog):
 		self.line_5.setObjectName("line_5")		       
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Line bajo telefono ===========================================================================================		 
+		# Line bajo telefono ===========================================================================================		 
 		self.line_3 = QFrame(self.groupBox_datosGnr)
 		self.line_3.setGeometry(QRect(180, 190, 141, 16))
 		self.line_3.setFrameShape(QFrame.HLine)
@@ -3449,7 +3479,7 @@ class Window_visualizar_users(QDialog):
 		self.line_3.setObjectName("line_3")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Line bajo genero ========================================================================================================	      
+		# Line bajo genero ========================================================================================================	      
 		self.line_2 = QFrame(self.groupBox_datosGnr)
 		self.line_2.setGeometry(QRect(10, 220, 141, 16))
 		self.line_2.setFrameShape(QFrame.HLine)
@@ -3457,7 +3487,7 @@ class Window_visualizar_users(QDialog):
 		self.line_2.setObjectName("line_2")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	   
-		#Line bajo edad ========================================================================================================	      
+		# Line bajo edad ========================================================================================================	      
 		self.line_8 = QFrame(self.groupBox_datosGnr)
 		self.line_8.setGeometry(QRect(180, 245, 141, 16))
 		self.line_8.setFrameShape(QFrame.HLine)
@@ -3465,7 +3495,7 @@ class Window_visualizar_users(QDialog):
 		self.line_8.setObjectName("line_8")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Line bajo fecha de nacimiento ==========================================================================================      
+		# Line bajo fecha de nacimiento ==========================================================================================      
 		self.line_4 = QFrame(self.groupBox_datosGnr)
 		self.line_4.setGeometry(QRect(10, 275, 141, 16))
 		self.line_4.setFrameShape(QFrame.HLine)
@@ -3473,7 +3503,7 @@ class Window_visualizar_users(QDialog):
 		self.line_4.setObjectName("line_4")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	   
-		#Line bajo profesion u oficio ==========================================================================================      
+		# Line bajo profesion u oficio ==========================================================================================      
 		self.line_6 = QFrame(self.groupBox_datosGnr)
 		self.line_6.setGeometry(QRect(10, 330, 141, 16))
 		self.line_6.setFrameShape(QFrame.HLine)
@@ -3481,7 +3511,7 @@ class Window_visualizar_users(QDialog):
 		self.line_6.setObjectName("line_6")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Line bajo nivel de instruccion ==========================================================================================      
+		# Line bajo nivel de instruccion ==========================================================================================      
 		self.line_7 = QFrame(self.groupBox_datosGnr)
 		self.line_7.setGeometry(QRect(10, 385, 141, 16))
 		self.line_7.setFrameShape(QFrame.HLine)
@@ -3489,7 +3519,7 @@ class Window_visualizar_users(QDialog):
 		self.line_7.setObjectName("line_7")       
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Line bajo opciones checkbox ==========================================================================================      
+		# Line bajo opciones checkbox ==========================================================================================      
 		self.line_9 = QFrame(self.groupBox_datosGnr)
 		self.line_9.setGeometry(QRect(180, 350, 141, 16))
 		self.line_9.setFrameShape(QFrame.HLine)
@@ -3497,7 +3527,7 @@ class Window_visualizar_users(QDialog):
 		self.line_9.setObjectName("line_9")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#		
 		
-		#Line bajo estado civil ==========================================================================================      
+		# Line bajo estado civil ==========================================================================================      
 		self.line_20 = QFrame(self.groupBox_datosGnr)
 		self.line_20.setGeometry(QRect(10, 440, 141, 16))
 		self.line_20.setFrameShape(QFrame.HLine)
@@ -3505,7 +3535,7 @@ class Window_visualizar_users(QDialog):
 		self.line_20.setObjectName("line_20")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#		
 
-		#Line bajo parentesco ==========================================================================================      
+		# Line bajo parentesco ==========================================================================================      
 		self.line_20 = QFrame(self.groupBox_datosGnr)
 		self.line_20.setGeometry(QRect(180, 420, 141, 16))
 		self.line_20.setFrameShape(QFrame.HLine)
@@ -3514,7 +3544,7 @@ class Window_visualizar_users(QDialog):
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#		
 
 
-		#Line bajo direccion ==========================================================================================      
+		# Line bajo direccion ==========================================================================================      
 		self.line_10 = QFrame(self.groupBox_datosUb)
 		self.line_10.setGeometry(QRect(193, 110, 161, 16))
 		self.line_10.setFrameShape(QFrame.HLine)
@@ -3522,7 +3552,7 @@ class Window_visualizar_users(QDialog):
 		self.line_10.setObjectName("line_10")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Line bajo metros cuadrados ==========================================================================================      
+		# Line bajo metros cuadrados ==========================================================================================      
 		self.line_11 = QFrame(self.groupBox_datos_Vv)
 		self.line_11.setGeometry(QRect(15, 63, 141, 16))
 		self.line_11.setFrameShape(QFrame.HLine)
@@ -3555,8 +3585,8 @@ class Window_visualizar_users(QDialog):
 		"font: 75 11pt \"Comic Sans MS\";\n"
 		"border-radius:6px\n"
 		"")
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ BOTONES DE LA VENTANA DE REGISTRO DE USUARIO #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
-		#Boton educacion ==========================================================================================      		
+# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ BOTONES DE LA VENTANA DE REGISTRO DE USUARIO #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+		# Boton educacion ==========================================================================================      		
 		self.Button_educacion = QPushButton(self.frame_nv_user)
 		self.Button_educacion.setGeometry(QRect(-20,320, 151, 31))
 		self.Button_educacion.setStyleSheet("QPushButton{\n"
@@ -3579,7 +3609,7 @@ class Window_visualizar_users(QDialog):
 		self.Button_educacion.setIconSize(QSize(19,19))
 
 
-		#Boton datos vivienda==========================================================================================      		
+		# Boton datos vivienda==========================================================================================      		
 		self.Button_vivienda = QPushButton(self.frame_nv_user)
 		self.Button_vivienda.setGeometry(QRect(-25,290, 151, 31))
 		self.Button_vivienda.setStyleSheet("QPushButton{\n"
@@ -3602,7 +3632,7 @@ class Window_visualizar_users(QDialog):
 		self.Button_vivienda.setIconSize(QSize(16,16))
 
 
-		#Boton Enfermedad ==========================================================================================      		
+		# Boton Enfermedad ==========================================================================================      		
 		self.Button_enfermedad = QPushButton(self.frame_nv_user)
 		self.Button_enfermedad.setGeometry(QRect(0,260, 121, 31))
 		self.Button_enfermedad.setStyleSheet("QPushButton{\n"
@@ -3626,7 +3656,7 @@ class Window_visualizar_users(QDialog):
 
 
 
-		#Boton Discapacidad ==========================================================================================      		
+		# Boton Discapacidad ==========================================================================================      		
 		self.Button_discapacidad = QPushButton(self.frame_nv_user)
 		self.Button_discapacidad.setGeometry(QRect(0,230, 121, 31))
 		self.Button_discapacidad.setStyleSheet("QPushButton{\n"
@@ -3650,7 +3680,7 @@ class Window_visualizar_users(QDialog):
 
 
 		
-		#Boton registrar ==========================================================================================      		
+		# Boton registrar ==========================================================================================      		
 		self.Button_guardar_user = QPushButton(self.frame_nv_user)
 		self.Button_guardar_user.setGeometry(QRect(0, 130, 121, 30))
 		self.Button_guardar_user.setStyleSheet("QPushButton{\n"
@@ -3673,7 +3703,7 @@ class Window_visualizar_users(QDialog):
 		self.Button_guardar_user.setIconSize(QSize(20,20))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Boton cancelar ==========================================================================================      		
+		# Boton cancelar ==========================================================================================      		
 		self.Button_cancel_user = QPushButton(self.frame_nv_user)
 		self.Button_cancel_user.setGeometry(QRect(0, 160, 121, 31))
 		self.Button_cancel_user.setStyleSheet("QPushButton{\n"
@@ -3744,7 +3774,7 @@ class Window_visualizar_users(QDialog):
 		self.label_25.setText("Discapacidad")
 		# ========================================================================================================	          
 
-		#Group de discapacidad ========================================================================================================	           
+		# Group de discapacidad ========================================================================================================	           
 		self.groupBox_datosdiscapacidad = QGroupBox(self.frame_principal_discapacidad)
 		self.groupBox_datosdiscapacidad.setGeometry(QRect(160, 20, 410, 251))
 		self.groupBox_datosdiscapacidad.setStyleSheet("QGroupBox{\n"
@@ -3762,7 +3792,7 @@ class Window_visualizar_users(QDialog):
 		self.groupBox_datosdiscapacidad.setGraphicsEffect(self.shadow)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Descripcion de discapacidad ========================================================================================================	           
+		# Descripcion de discapacidad ========================================================================================================	           
 		self.textEdit_dcrp_discapacidad = QTextEdit(self.groupBox_datosdiscapacidad)
 		self.textEdit_dcrp_discapacidad.setGeometry(QRect(250, 40, 141, 91))
 		self.textEdit_dcrp_discapacidad.setStyleSheet("QTextEdit#textEdit_dcrp_discapacidad{\n"
@@ -3783,7 +3813,7 @@ class Window_visualizar_users(QDialog):
 		self.dcrp_discapacidad.setText("Describa la discapacidad:")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Opciones de discapacidad ========================================================================================================	           
+		# Opciones de discapacidad ========================================================================================================	           
 		self.label_opciones_discapacidad = QLabel(self.groupBox_datosdiscapacidad)
 		self.label_opciones_discapacidad.setGeometry(QRect(10, 20, 221, 16))
 		self.label_opciones_discapacidad.setStyleSheet("background-color:#4466B8;\n"
@@ -3858,7 +3888,7 @@ class Window_visualizar_users(QDialog):
 		"font-size: 12px}")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Opciones de medicamentos ========================================================================================================	           
+		# Opciones de medicamentos ========================================================================================================	           
 		self.label_medicamentos = QLabel(self.groupBox_datosdiscapacidad)
 		self.label_medicamentos.setGeometry(QRect(240, 140, 161, 16))
 		self.label_medicamentos.setStyleSheet("background-color:#4466B8;\n"
@@ -3930,9 +3960,9 @@ class Window_visualizar_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#         
 
-		#BOTONES DE LA VENTANA DE DISCAPACIDAD #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+		
+		# BOTONES DE LA VENTANA DE DISCAPACIDAD #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+		
 		
-		#Boton Aceptar ==========================================================================================      		
+		# Boton Aceptar ==========================================================================================      		
 		self.pushButton_aceptar_discapacidad = QPushButton(self.frame_2)
 		self.pushButton_aceptar_discapacidad.setGeometry(QRect(-12, 80, 141, 31))
 		self.pushButton_aceptar_discapacidad.setStyleSheet("QPushButton{\n"
@@ -3956,7 +3986,7 @@ class Window_visualizar_users(QDialog):
 		self.pushButton_aceptar_discapacidad.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Boton Cancelar ==========================================================================================      		
+		# Boton Cancelar ==========================================================================================      		
 		self.pushButton_cancelar_discapacidad = QPushButton(self.frame_2)
 		self.pushButton_cancelar_discapacidad.setGeometry(QRect(-10, 120, 141, 31))
 		self.pushButton_cancelar_discapacidad.setStyleSheet("QPushButton{\n"
@@ -3998,7 +4028,7 @@ class Window_visualizar_users(QDialog):
 		self.shadow.setBlurRadius(10)
 		self.frame_principal_Enfermedad.setGraphicsEffect(self.shadow)
 
-		#Group de enfermedad ========================================================================================================	           
+		# Group de enfermedad ========================================================================================================	           
 		self.groupBox_datos_enfermedad = QGroupBox(self.frame_principal_Enfermedad)
 		self.groupBox_datos_enfermedad.setGeometry(QRect(160, 20, 421, 251))
 		self.groupBox_datos_enfermedad.setStyleSheet("QGroupBox{\n"
@@ -4016,7 +4046,7 @@ class Window_visualizar_users(QDialog):
 		self.groupBox_datos_enfermedad.setGraphicsEffect(self.shadow)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Descripcion de enfermedad ========================================================================================================	           
+		# Descripcion de enfermedad ========================================================================================================	           
 		self.textEdit_dcrp_enfermedad = QTextEdit(self.groupBox_datos_enfermedad)
 		self.textEdit_dcrp_enfermedad.setGeometry(QRect(265, 40, 141, 91))
 		self.textEdit_dcrp_enfermedad.setStyleSheet("QTextEdit{\n"
@@ -4037,7 +4067,7 @@ class Window_visualizar_users(QDialog):
 		self.dcrp_enfermedad.setText("Describa la enfermedad:")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Opciones de enfermedad ========================================================================================================	           
+		# Opciones de enfermedad ========================================================================================================	           
 		self.label_opciones_enfermedad = QLabel(self.groupBox_datos_enfermedad)
 		self.label_opciones_enfermedad.setGeometry(QRect(10, 20, 241, 16))
 		self.label_opciones_enfermedad.setStyleSheet("background-color:#4466B8;\n"
@@ -4128,7 +4158,7 @@ class Window_visualizar_users(QDialog):
 		"font-size: 12px}")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Opciones de medicamentos ========================================================================================================	           
+		# Opciones de medicamentos ========================================================================================================	           
 		self.label_medicamentos = QLabel(self.groupBox_datos_enfermedad)
 		self.label_medicamentos.setGeometry(QRect(255, 140, 160, 16))
 		self.label_medicamentos.setStyleSheet("background-color:#4466B8;\n"
@@ -4187,9 +4217,9 @@ class Window_visualizar_users(QDialog):
 		self.label_25.setText("Enfermedad")
 		# ========================================================================================================	           
 
-		#+ BOTONES DE LA VENTANA DE ENFERMEDAD #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+		
+		# + BOTONES DE LA VENTANA DE ENFERMEDAD #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+		
 		
-		#Boton Aceptar ==========================================================================================      		
+		# Boton Aceptar ==========================================================================================      		
 		self.pushButton_aceptar_Enfermedad = QPushButton(self.frame_2_enfer)
 		self.pushButton_aceptar_Enfermedad.setGeometry(QRect(-12, 80, 141, 31))
 		self.pushButton_aceptar_Enfermedad.setStyleSheet("QPushButton{\n"
@@ -4213,7 +4243,7 @@ class Window_visualizar_users(QDialog):
 		self.pushButton_aceptar_Enfermedad.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Boton Cancelar ==========================================================================================      		
+		# Boton Cancelar ==========================================================================================      		
 		self.pushButton_cancelar_Enfermedad = QPushButton(self.frame_2_enfer)
 		self.pushButton_cancelar_Enfermedad.setGeometry(QRect(-10, 120, 141, 31))
 		self.pushButton_cancelar_Enfermedad.setStyleSheet("QPushButton{\n"
@@ -4268,7 +4298,7 @@ class Window_visualizar_users(QDialog):
 		self.frame_principal_rpr_vv.setGraphicsEffect(self.shadow)
 
 
-		#GroupBox detalle de reparacion de vivienda ==========================================================================================      		
+		# GroupBox detalle de reparacion de vivienda ==========================================================================================      		
 		self.groupBox_dcrp_reparacionvv = QGroupBox(self.frame_principal_rpr_vv)
 		self.groupBox_dcrp_reparacionvv.setGeometry(QRect(170, 20, 481, 410))
 		self.groupBox_dcrp_reparacionvv.setStyleSheet("QGroupBox{\n"
@@ -4287,7 +4317,7 @@ class Window_visualizar_users(QDialog):
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
 
-		#Descripcion de la reparacion de vivienda ==========================================================================================      		
+		# Descripcion de la reparacion de vivienda ==========================================================================================      		
 		self.textEdit_dcrp_reparacionvv = QTextEdit(self.groupBox_dcrp_reparacionvv)
 		self.textEdit_dcrp_reparacionvv.setGeometry(QRect(260, 50, 211, 90))
 		self.textEdit_dcrp_reparacionvv.setStyleSheet("QTextEdit{\n"
@@ -4347,7 +4377,7 @@ class Window_visualizar_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Opciones de reparacion de vivienda ==========================================================================================      		
+		# Opciones de reparacion de vivienda ==========================================================================================      		
 
 		self.label_opc_reparacion = QLabel(self.groupBox_dcrp_reparacionvv)
 		self.label_opc_reparacion.setGeometry(QRect(10, 30, 238, 16))
@@ -4431,7 +4461,7 @@ class Window_visualizar_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Datos de bombona ==========================================================================================      		
+		# Datos de bombona ==========================================================================================      		
 		self.label_tipo_cilindro = QLabel(self.groupBox_dcrp_reparacionvv)
 		self.label_tipo_cilindro.setGeometry(QRect(20, 270, 160, 16))
 		self.label_tipo_cilindro.setStyleSheet("background-color:#4466B8;\n"
@@ -4477,7 +4507,7 @@ class Window_visualizar_users(QDialog):
 		"color: #000000;\n"
 		"font-size: 12px}")
 
-		#QSpinBox de cantidad de bombonas  ==========================================================================================      		
+		# QSpinBox de cantidad de bombonas  ==========================================================================================      		
 
 		self.label_num_bombonas = QLabel(self.groupBox_dcrp_reparacionvv)
 		self.label_num_bombonas.setGeometry(QRect(290,290,160,16))
@@ -4498,7 +4528,7 @@ class Window_visualizar_users(QDialog):
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 		
-		#Botones para guardar y ver fotos  ==========================================================================================      		
+		# Botones para guardar y ver fotos  ==========================================================================================      		
 
 		self.pushButton_ver_fotos = QPushButton(self.frame_principal_rpr_vv)
 		self.pushButton_ver_fotos.setGeometry(QRect(490, 255, 101, 31))
@@ -4545,7 +4575,7 @@ class Window_visualizar_users(QDialog):
 		self.label_25.setText("Vivienda")
 
 
-		#Boton Aceptar ==========================================================================================      		
+		# Boton Aceptar ==========================================================================================      		
 		self.pushButton_aceptar_rpr_vv = QPushButton(self.frame_2)
 		self.pushButton_aceptar_rpr_vv.setGeometry(QRect(-12, 70, 141, 31))
 		self.pushButton_aceptar_rpr_vv.setStyleSheet("QPushButton{\n"
@@ -4570,7 +4600,7 @@ class Window_visualizar_users(QDialog):
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 
-		#Boton cancelar ==========================================================================================      		
+		# Boton cancelar ==========================================================================================      		
 		self.pushButton_cancelar_rpr_vv = QPushButton(self.frame_2)
 		self.pushButton_cancelar_rpr_vv.setGeometry(QRect(-10, 110, 141, 31))
 		self.pushButton_cancelar_rpr_vv.setStyleSheet("QPushButton{\n"
@@ -4661,7 +4691,7 @@ class Window_visualizar_users(QDialog):
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 		# Label de la miniatura de imagen ==========================================================================================            
-		#Miniatura_1
+		# Miniatura_1
 		self.label_miniatura_1 = QLabelClickable(self.frame_visualizador)
 		self.label_miniatura_1.setGeometry(QRect(20, 20, 171, 121))
 		self.label_miniatura_1.setStyleSheet("QLabel{\n"
@@ -4691,7 +4721,7 @@ class Window_visualizar_users(QDialog):
 		"}")
 
 
-		#Miniatura_2
+		# Miniatura_2
 		self.label_miniatura_2 = QLabelClickable(self.frame_visualizador)
 		self.label_miniatura_2.setAlignment(Qt.AlignCenter)
 		self.label_miniatura_2.setGeometry(QRect(210, 20, 171, 121))
@@ -4724,7 +4754,7 @@ class Window_visualizar_users(QDialog):
 
 
 
-		#Miniatura_3
+		# Miniatura_3
 		self.label_miniatura_3 = QLabelClickable(self.frame_visualizador)
 		self.label_miniatura_3.setGeometry(QRect(400, 20, 171, 121))
 		self.label_miniatura_3.setStyleSheet("QLabel{\n"
@@ -4755,7 +4785,7 @@ class Window_visualizar_users(QDialog):
 
 
 		
-		#Miniatura_4
+		# Miniatura_4
 		self.label_miniatura_4 = QLabelClickable(self.frame_visualizador)
 		self.label_miniatura_4.setGeometry(QRect(20, 200, 171, 121))
 		self.label_miniatura_4.setStyleSheet("QLabel{\n"
@@ -4786,7 +4816,7 @@ class Window_visualizar_users(QDialog):
 
 
 		
-		#Miniatura_5
+		# Miniatura_5
 		self.label_miniatura_5 = QLabelClickable(self.frame_visualizador)
 		self.label_miniatura_5.setGeometry(QRect(210, 200, 171, 121))
 		self.label_miniatura_5.setStyleSheet("QLabel{\n"
@@ -4817,7 +4847,7 @@ class Window_visualizar_users(QDialog):
 		""
 		"}")
 
-		#Miniatura_6
+		# Miniatura_6
 		self.label_miniatura_6 = QLabelClickable(self.frame_visualizador)
 		self.label_miniatura_6.setGeometry(QRect(400, 200, 171, 121))
 		self.label_miniatura_6.setStyleSheet("QLabel{\n"
@@ -4852,7 +4882,7 @@ class Window_visualizar_users(QDialog):
 
 
 
-		#Boton eliminar de miniatura_1  ==========================================================================================             
+		# Boton eliminar de miniatura_1  ==========================================================================================             
 		self.pushButton_eliminar = QPushButton(self.frame_visualizador)
 		self.pushButton_eliminar.setGeometry(QRect(70, 150, 71, 21))
 		self.pushButton_eliminar.setStyleSheet("QPushButton{\n"
@@ -4877,7 +4907,7 @@ class Window_visualizar_users(QDialog):
 		self.pushButton_eliminar.setGraphicsEffect(self.shadow)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Boton eliminar de miniatura_2 ==========================================================================================             
+		# Boton eliminar de miniatura_2 ==========================================================================================             
 		self.pushButton_eliminar_2 = QPushButton(self.frame_visualizador)
 		self.pushButton_eliminar_2.setGeometry(QRect(260, 150, 71, 21))
 		self.pushButton_eliminar_2.setStyleSheet("QPushButton{\n"
@@ -4902,7 +4932,7 @@ class Window_visualizar_users(QDialog):
 		self.pushButton_eliminar_2.setGraphicsEffect(self.shadow)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Boton eliminar de miniatura_3  ==========================================================================================             
+		# Boton eliminar de miniatura_3  ==========================================================================================             
 		self.pushButton_eliminar_3 = QPushButton(self.frame_visualizador)
 		self.pushButton_eliminar_3.setGeometry(QRect(450, 150, 71, 21))
 		self.pushButton_eliminar_3.setStyleSheet("QPushButton{\n"
@@ -4927,7 +4957,7 @@ class Window_visualizar_users(QDialog):
 		self.pushButton_eliminar_3.setGraphicsEffect(self.shadow)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Boton eliminar de miniatura_4 ==========================================================================================             
+		# Boton eliminar de miniatura_4 ==========================================================================================             
 		self.pushButton_eliminar_4 = QPushButton(self.frame_visualizador)
 		self.pushButton_eliminar_4.setGeometry(QRect(70, 330, 71, 21))
 		self.pushButton_eliminar_4.setStyleSheet("QPushButton{\n"
@@ -4950,7 +4980,7 @@ class Window_visualizar_users(QDialog):
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(40)
 		self.pushButton_eliminar_4.setGraphicsEffect(self.shadow)
-		#Boton eliminar de miniatura_5  ==========================================================================================             
+		# Boton eliminar de miniatura_5  ==========================================================================================             
 		self.pushButton_eliminar_5 = QPushButton(self.frame_visualizador)
 		self.pushButton_eliminar_5.setGeometry(QRect(260, 330, 71, 21))
 		self.pushButton_eliminar_5.setStyleSheet("QPushButton{\n"
@@ -4973,7 +5003,7 @@ class Window_visualizar_users(QDialog):
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(40)
 		self.pushButton_eliminar_5.setGraphicsEffect(self.shadow)
-		#Boton eliminar de miniatura_6  ==========================================================================================             
+		# Boton eliminar de miniatura_6  ==========================================================================================             
 		self.pushButton_eliminar_6 = QPushButton(self.frame_visualizador)
 		self.pushButton_eliminar_6.setGeometry(QRect(450, 330, 71, 21))
 		self.pushButton_eliminar_6.setStyleSheet("QPushButton{\n"
@@ -4997,7 +5027,7 @@ class Window_visualizar_users(QDialog):
 		self.shadow.setBlurRadius(40)
 		self.pushButton_eliminar_6.setGraphicsEffect(self.shadow)
 
-		#Boton aceptar  ==========================================================================================              
+		# Boton aceptar  ==========================================================================================              
 		self.pushButton_visualizador_aceptar = QPushButton(self.frame_3)
 		self.pushButton_visualizador_aceptar.setGeometry(QRect(-2, 70, 121, 31))
 		self.pushButton_visualizador_aceptar.setStyleSheet("QPushButton{\n"
@@ -5020,7 +5050,7 @@ class Window_visualizar_users(QDialog):
 		self.pushButton_visualizador_aceptar.setIconSize(QSize(18,18))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Boton cancelar  ==========================================================================================             
+		# Boton cancelar  ==========================================================================================             
 		self.pushButton_visualizador_cancelar = QPushButton(self.frame_3)
 		self.pushButton_visualizador_cancelar.setGeometry(QRect(0, 100, 121, 31))
 		self.pushButton_visualizador_cancelar.setStyleSheet("QPushButton{\n"
@@ -5046,9 +5076,9 @@ class Window_visualizar_users(QDialog):
 
 
 
-		#Buttons para ver imagenes==========================================================================================             
+		# Buttons para ver imagenes==========================================================================================             
 
-		#Ver foto 1
+		# Ver foto 1
 		self.pushButton_ver_foto1 = QPushButton(self.frame_3)
 		self.pushButton_ver_foto1.setGeometry(QRect(0, 150, 121, 31))
 		self.pushButton_ver_foto1.setStyleSheet("QPushButton{\n"
@@ -5072,7 +5102,7 @@ class Window_visualizar_users(QDialog):
 		self.pushButton_ver_foto1.setIconSize(QSize(17,17))
 		###
 
-		#Ver foto 2
+		# Ver foto 2
 		self.pushButton_ver_foto2 = QPushButton(self.frame_3)
 		self.pushButton_ver_foto2.setGeometry(QRect(0, 181, 121, 31))
 		self.pushButton_ver_foto2.setStyleSheet("QPushButton{\n"
@@ -5098,7 +5128,7 @@ class Window_visualizar_users(QDialog):
 
 
 
-		#Ver foto 3
+		# Ver foto 3
 		self.pushButton_ver_foto3 = QPushButton(self.frame_3)
 		self.pushButton_ver_foto3.setGeometry(QRect(0, 211, 121, 31))
 		self.pushButton_ver_foto3.setStyleSheet("QPushButton{\n"
@@ -5122,7 +5152,7 @@ class Window_visualizar_users(QDialog):
 		self.pushButton_ver_foto3.setIconSize(QSize(17,17))
 		###
 
-		#Ver foto 4
+		# Ver foto 4
 		self.pushButton_ver_foto4 = QPushButton(self.frame_3)
 		self.pushButton_ver_foto4.setGeometry(QRect(0, 241, 121, 31))
 		self.pushButton_ver_foto4.setStyleSheet("QPushButton{\n"
@@ -5146,7 +5176,7 @@ class Window_visualizar_users(QDialog):
 		self.pushButton_ver_foto4.setIconSize(QSize(17,17))
 		###
 
-		#Ver foto 5
+		# Ver foto 5
 		self.pushButton_ver_foto5 = QPushButton(self.frame_3)
 		self.pushButton_ver_foto5.setGeometry(QRect(0, 271, 121, 31))
 		self.pushButton_ver_foto5.setStyleSheet("QPushButton{\n"
@@ -5170,7 +5200,7 @@ class Window_visualizar_users(QDialog):
 		self.pushButton_ver_foto5.setIconSize(QSize(17,17))
 		###
 
-		#Ver foto 6
+		# Ver foto 6
 		self.pushButton_ver_foto6 = QPushButton(self.frame_3)
 		self.pushButton_ver_foto6.setGeometry(QRect(0, 301, 121, 31))
 		self.pushButton_ver_foto6.setStyleSheet("QPushButton{\n"
@@ -5194,7 +5224,7 @@ class Window_visualizar_users(QDialog):
 		self.pushButton_ver_foto6.setIconSize(QSize(17,17))
 		###
 		
-		#Frame contenedor de foto 
+		# Frame contenedor de foto 
 		self.frame_contenedor_foto = QFrame(self)	
 		self.frame_contenedor_foto.setGeometry(280,30,501,430)
 		self.frame_contenedor_foto.setStyleSheet("QFrame{\n"
@@ -5208,7 +5238,7 @@ class Window_visualizar_users(QDialog):
 		self.shadow.setBlurRadius(10)
 		self.frame_contenedor_foto.setGraphicsEffect(self.shadow)
 
-		#Mostrador de fotos
+		# Mostrador de fotos
 
 		self.label_mostrar_foto = QLabel(self.frame_contenedor_foto)
 		self.label_mostrar_foto.setGeometry(QRect(10,10,481, 410))
@@ -5242,7 +5272,7 @@ class Window_visualizar_users(QDialog):
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		self.pushButton_cerrar.clicked.connect(self.Bajar_foto_label)
 
-		#Eventos==========================================================================================             
+		# Eventos==========================================================================================             
 		self.label_miniatura_1.clicked.connect(self.Cargar)
 		self.label_miniatura_2.clicked.connect(self.Cargar_1)
 		self.label_miniatura_3.clicked.connect(self.Cargar_2)
@@ -5276,7 +5306,7 @@ class Window_visualizar_users(QDialog):
 
 
 
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos de estudiante #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos de estudiante #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 
 		self.frame_principal_estudiante = QFrame(self)
 		self.frame_principal_estudiante.setGeometry(QRect(200,100,613,303))
@@ -5289,7 +5319,7 @@ class Window_visualizar_users(QDialog):
 		self.frame_principal_estudiante.move(200,1000)
 
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-		#Menu ========================================================================================================	           
+		# Menu ========================================================================================================	           
 		self.frame_menu_estudiante = QFrame(self.frame_principal_estudiante)
 		self.frame_menu_estudiante.setGeometry(QRect(20,20,121,261))
 		self.frame_menu_estudiante.setStyleSheet("QFrame{\n"
@@ -5312,7 +5342,7 @@ class Window_visualizar_users(QDialog):
 
 		self.label_estudiante.setAlignment(Qt.AlignHCenter)
 		
-		#Buttons de menu
+		# Buttons de menu
 		self.Button_aceptar_estudiante = QPushButton(self.frame_menu_estudiante)
 		self.Button_aceptar_estudiante.setGeometry(QRect(0,80,121,31))
 		self.Button_aceptar_estudiante.setStyleSheet("QPushButton{\n"
@@ -5362,9 +5392,9 @@ class Window_visualizar_users(QDialog):
 		self.frame_contenido_estudiante.setGraphicsEffect(self.shadow)
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(22)
-		#Nivel de instruccion ========================================================================================================	           
+		# Nivel de instruccion ========================================================================================================	           
 
-		#label nivel de estudio:
+		# label nivel de estudio:
 		self.label_nivel_de_estudio = QLabel(self.frame_contenido_estudiante)
 		self.label_nivel_de_estudio.setGeometry(QRect(70,10,125,16))
 		self.label_nivel_de_estudio.setText("Nivel de estudio:")
@@ -5374,7 +5404,7 @@ class Window_visualizar_users(QDialog):
 		self.label_nivel_de_estudio.setAlignment(Qt.AlignHCenter)
 		###
 
-		#CheckBox de niveles de estudio primaria
+		# CheckBox de niveles de estudio primaria
 
 		self.checkbox_primaria = QCheckBox(self.frame_contenido_estudiante)
 		self.checkbox_primaria.setGeometry(QRect(20,30,121,21))
@@ -5382,28 +5412,28 @@ class Window_visualizar_users(QDialog):
 		###
 
 
-		#CheckBox de niveles de estudio bachillerato
+		# CheckBox de niveles de estudio bachillerato
 
 		self.checkbox_bachillerato = QCheckBox(self.frame_contenido_estudiante)
 		self.checkbox_bachillerato.setGeometry(QRect(20,50,121,21))
 		self.checkbox_bachillerato.setText("Bachillerato")
 		###
 
-		#CheckBox de niveles de estudio tecnico superior
+		# CheckBox de niveles de estudio tecnico superior
 
 		self.checkbox_tcn_superior = QCheckBox(self.frame_contenido_estudiante)
 		self.checkbox_tcn_superior.setGeometry(QRect(20,70,221,21))
 		self.checkbox_tcn_superior.setText("Técnico superior universitario")
 		###
 
-		#CheckBox de niveles de estudio universitario
+		# CheckBox de niveles de estudio universitario
 
 		self.checkbox_universitario = QCheckBox(self.frame_contenido_estudiante)
 		self.checkbox_universitario.setGeometry(QRect(20,90,111,21))
 		self.checkbox_universitario.setText("Universitario")
 		###
 
-		#CheckBox de niveles de estudio especializacion
+		# CheckBox de niveles de estudio especializacion
 
 		self.checkbox_especializacion = QCheckBox(self.frame_contenido_estudiante)
 		self.checkbox_especializacion.setGeometry(QRect(20,110,131,21))
@@ -5412,9 +5442,9 @@ class Window_visualizar_users(QDialog):
 		
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Carrera que estudia ========================================================================================================	           
+		# Carrera que estudia ========================================================================================================	           
 
-		#Label de tipo de carrera
+		# Label de tipo de carrera
 		self.label_carrera_que_estudia = QLabel(self.frame_contenido_estudiante)
 		self.label_carrera_que_estudia.setGeometry(QRect(255,10,145,16))
 		self.label_carrera_que_estudia.setText("Carrera que estudia:")
@@ -5424,7 +5454,7 @@ class Window_visualizar_users(QDialog):
 		"border-radius: 5px")
 		###
 
-		#QTextEdit de carrera que estudia
+		# QTextEdit de carrera que estudia
 		self.texedit_carrera = QTextEdit(self.frame_contenido_estudiante)
 		self.texedit_carrera.setGeometry(QRect(250,30,161,81))
 		self.texedit_carrera.setPlaceholderText("Carrera que cursa...")
@@ -5435,9 +5465,9 @@ class Window_visualizar_users(QDialog):
 		###
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Donde estudia ========================================================================================================	           
+		# Donde estudia ========================================================================================================	           
 
-		#Qlabel de donde estudia
+		# Qlabel de donde estudia
 		self.label_donde_estudia = QLabel(self.frame_contenido_estudiante)
 		self.label_donde_estudia.setGeometry(QRect(160,140,111,16))
 		self.label_donde_estudia.setText("Donde estudia:")
@@ -5447,7 +5477,7 @@ class Window_visualizar_users(QDialog):
 		"border-radius: 5px")
 		###
 
-		#QTextEdit de donde estudia
+		# QTextEdit de donde estudia
 		self.texedit_donde_estudia = QTextEdit(self.frame_contenido_estudiante)
 		self.texedit_donde_estudia.setGeometry(QRect(40,160,341,81))
 		self.texedit_donde_estudia.setPlaceholderText("Dirección y universidad donde estudia...")
@@ -5481,7 +5511,7 @@ class Window_visualizar_users(QDialog):
 
 
 
-		#Eventos ========================================================================================================	           
+		# Eventos ========================================================================================================	           
 		self.Button_cancel_user.clicked.connect(self.close)
 		
 		self.Button_guardar_user.clicked.connect(self.Actualizar_datos)
@@ -5533,7 +5563,7 @@ class Window_visualizar_users(QDialog):
 		self.pushButton_ver_foto5.clicked.connect(self.Subir_foto_label)
 
 		self.pushButton_ver_foto6.clicked.connect(self.Mostrar_foto_label_5)
-		#self.pushButton_ver_foto6.clicked.connect(self.Subir_foto_label)				
+		# self.pushButton_ver_foto6.clicked.connect(self.Subir_foto_label)				
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 
@@ -5543,7 +5573,7 @@ class Window_visualizar_users(QDialog):
 		self.Button_discapacidad.setEnabled(True)
 		self.Button_enfermedad.setEnabled(True)
 		self.Button_vivienda.setEnabled(True)
-		#self.pushButton_ver_fotos.setEnabled(True)
+		# self.pushButton_ver_fotos.setEnabled(True)
 		self.Button_educacion.setEnabled(True)
 
 
@@ -5556,13 +5586,13 @@ class Window_visualizar_users(QDialog):
 		self.Button_discapacidad.setEnabled(False)
 		self.Button_enfermedad.setEnabled(False)
 		self.Button_vivienda.setEnabled(False)
-		#self.pushButton_ver_fotos.setEnabled(False)
+		# self.pushButton_ver_fotos.setEnabled(False)
 		self.Button_educacion.setEnabled(False)
 
 
-		#Eventos mostrar datos de la base de datos  ========================================================================================================	           
+		# Eventos mostrar datos de la base de datos  ========================================================================================================	           
 	def Mostrar_Datos(self):
-		#datos generales
+		# datos generales
 		self.lineEdit_1_nombre.setText(str(self.datos[1]))
 
 		self.lineEdit_2_nombre.setText(str(self.datos[2]))
@@ -5619,7 +5649,7 @@ class Window_visualizar_users(QDialog):
 
 
 
-		#Ventana de discapacidad
+		# Ventana de discapacidad
 
 		if self.datos[19] == "Discapacidad Motriz":
 			self.checkBox_27_Dscp_motriz.setChecked(True)
@@ -5675,7 +5705,7 @@ class Window_visualizar_users(QDialog):
 		self.textEdit_medicamento_dscp.setText(self.datos[31])
 
 
-		#Ventana de enfermedad
+		# Ventana de enfermedad
 
 		if self.datos[32] == "Cáncer":
 			self.checkBox_27_cancer.setChecked(True)
@@ -5698,9 +5728,9 @@ class Window_visualizar_users(QDialog):
 			None
 
 		if self.datos[36] == "Cardio Vascular":
-		 	self.checkBox_24_vascular.setChecked(True)
+			self.checkBox_24_vascular.setChecked(True)
 		else:
-		 	None
+			None
 
 		if self.datos[37] ==  "Gastritis":
 			self.checkBox_28_gastritis.setChecked(True)
@@ -5756,7 +5786,7 @@ class Window_visualizar_users(QDialog):
 				datosdevueltos = cursor.fetchall()
 				print(datosdevueltos)
 				for dato in datosdevueltos:
-					#indice = dato[0]
+					# indice = dato[0]
 					print(dato[0])
 					self.estado = dato[1]
 					print(dato[1])
@@ -5767,8 +5797,8 @@ class Window_visualizar_users(QDialog):
 					self.direccion = dato[4]
 					print(dato[4])
 
-					#self.n_vivienda = dato[5]
-					#print(dato[5])
+					# self.n_vivienda = dato[5]
+					# print(dato[5])
 				conexion.close()
 			except Exception as e:
 				print("a:",e)
@@ -5801,7 +5831,7 @@ class Window_visualizar_users(QDialog):
 				datosdevueltos = cursor.fetchall()
 				print(datosdevueltos)
 				for dato in datosdevueltos:
-					#indice = dato[0]
+					# indice = dato[0]
 					self.metrosdevivieda = dato[1]
 					print(dato[1])
 					self.descripciondecasa = dato[2]
@@ -6005,7 +6035,7 @@ class Window_visualizar_users(QDialog):
 			None
 
 
-		#Tipo de reparaciones 
+		# Tipo de reparaciones 
 
 
 		if self.reparaciondetechos == "Arreglo o falta de techos":
@@ -6082,7 +6112,7 @@ class Window_visualizar_users(QDialog):
 		self.textEdit_dcrp_reparacionvv.setText(self.tiporeparaciondcrp)
 
 
-		#Ventana de estudiante
+		# Ventana de estudiante
 
 
 
@@ -6183,7 +6213,7 @@ class Window_visualizar_users(QDialog):
 
 
 	def Actualizar_datos(self):
-		#Datos Generales
+		# Datos Generales
 		nombre_1 = self.lineEdit_1_nombre.text() 
 		nombre_2 = self.lineEdit_2_nombre.text()
 		apellido_1 = self.lineEdit_1_Apellido.text()
@@ -6198,8 +6228,8 @@ class Window_visualizar_users(QDialog):
 		nivel_instruccion = self.comboBox_nvl_instruccion.currentText()
 		parentesco = self.comboBox_parentesco.currentText()
 		opcion_pensionado = self.pensionado()
-		#opcion_discapacidad = self.checkBox_2_discapacidad.text()
-		#opcion_enfermedad = self.checkBox_3_enfer.text()
+		# opcion_discapacidad = self.checkBox_2_discapacidad.text()
+		# opcion_enfermedad = self.checkBox_3_enfer.text()
 		opcion_embarazada = self.opcion_de_embarazada()
 		opcion_lactante = self.opcion_de_lactante()
 		estado_civil = self.comboBox_estadocivil.currentText()
@@ -6207,7 +6237,7 @@ class Window_visualizar_users(QDialog):
 		correo_electronico = self.lineEdit_correo.text()
 
 
-				#Ubicacion geografica			
+				# Ubicacion geografica			
 		estado = self.lineEdit_estado.text()
 		municipio = self.lineEdit_municipio.text()
 		parroquia = self.lineEdit_parroquia.text()
@@ -6215,10 +6245,10 @@ class Window_visualizar_users(QDialog):
 		direccion = self.textEdit_direccion.toPlainText()
 
 
-		#Datos de la vivienda
+		# Datos de la vivienda
 		metros_cuadrados = self.lineEdit_M2.text()
 		descripcion_vivienda = self.textEdit_dcrp_vv.toPlainText()
-		#reparaciones = self.RadioButton_reparacion()
+		# reparaciones = self.RadioButton_reparacion()
 		servicio_aguapotable = self.CheckBox_aguapotable()
 		servicio_aguaservidas = self.CheckBox_aguaservidas()
 		servicio_gasdirecto = self.CheckBox_gasdirecto()
@@ -6227,19 +6257,19 @@ class Window_visualizar_users(QDialog):
 		servicio_electricidad = self.CheckBox_electricidad()
 		servicio_tlf_fijo = self.CheckBox_telefonofijo()
 
-		#Proteccion Social
+		# Proteccion Social
 		hogaresdelapatria = self.CheckBox_hogaresdelapatria()
 		amormayor = self.CheckBox_amormayor()
 		josegregorio = self.CheckBox_josegregorio()
 		partohumanizado = self.CheckBox_partohumanizado()
-		#=============
+		# =============
 		chambajuvenil = self.CheckBox_chambajuvenil()
 		somosvenezuela = self.CheckBox_somosvenezuela()
 		frentemiranda = self.CheckBox_frentemiranda()
 		jpsuv = self.CheckBox_jpsuv()
 
 
-		#Ventana de discapacidad
+		# Ventana de discapacidad
 
 		descripcion_discapacidad = self.textEdit_dcrp_discapacidad.toPlainText()
 		discapacidad_motriz = self.Discapacidad_Motriz()
@@ -6255,9 +6285,9 @@ class Window_visualizar_users(QDialog):
 		insumomedico_otros = self.Necesita_Otros()
 		descripcion_medicamento_dscp= self.textEdit_medicamento_dscp.toPlainText()
 		necesita_algun_medicamento_dscp = self.necesita_algun_medicamento_dscp()
-		#insumos_medicos = self.insumomedico()
+		# insumos_medicos = self.insumomedico()
 
-		#Ventana de enfermedad
+		# Ventana de enfermedad
 		enfermedad_de_cancer = self.Tipo_Enfer_Cancer()
 		enfermedad_de_diabetes = self.Tipo_Enfer_Diabetes()
 		enfermedad_de_hipertension = self.Tipo_Enfer_Hipertension_arterial()
@@ -6273,7 +6303,7 @@ class Window_visualizar_users(QDialog):
 		necesita_algun_medicamento_enfer = self.necesita_medicamento_enfer()
 		descripcion_medicamento_enfer = self.textEdit_medicamento_enfer.toPlainText()
 
-		#Ventana de reparacion de vivienda:
+		# Ventana de reparacion de vivienda:
 
 		Descripcion_de_reparacion = self.textEdit_dcrp_reparacionvv.toPlainText()
 		reparacion_de_techos = self.Reparacion_de_Techos()
@@ -6288,17 +6318,17 @@ class Window_visualizar_users(QDialog):
 		reparacion_de_otras = self.Reparacion_de_otras()
 		Linea_blanca = self.Linea_blanca()
 
-		#Ventana bombona 
+		# Ventana bombona 
 		tipo_de_cilindro = self.Tipo_de_cilindro()
 		cantidad_de_bombonas = int(self.num_bombonas.value())
 
-		#Ventana estudiante
+		# Ventana estudiante
 
 		nivel_estudio = self.nivel_estudio()
 		carrera_cursando = self.texedit_carrera.toPlainText()
 		donde_estudia = self.texedit_donde_estudia.toPlainText()
 
-		#Venta de visualizador de fotos 
+		# Venta de visualizador de fotos 
 
 		foto_1 = self.label_imagen_1_1.pixmap()
 		foto_2 = self.label_imagen_2_2.pixmap()
@@ -6549,8 +6579,8 @@ class Window_visualizar_users(QDialog):
 
 
 
-		#Funciones ========================================================================================================	           
-	#funcion mostar imagen en label =======================================================================================
+		# Funciones ========================================================================================================	           
+	# funcion mostar imagen en label =======================================================================================
 
 	def Mostrar_foto_label_1_1(self,imagen1):
 
@@ -6727,7 +6757,7 @@ class Window_visualizar_users(QDialog):
 
 
 	
-	#funcion de estudiante nivel de estudio =======================================================================================
+	# funcion de estudiante nivel de estudio =======================================================================================
 
 	def nivel_estudio(self):
 
@@ -6743,7 +6773,7 @@ class Window_visualizar_users(QDialog):
 			return "Especialización"
 		else:
 			return "Ningún"
-	#funcion de estudiante =======================================================================================
+	# funcion de estudiante =======================================================================================
 
 	def Estudiante(self,i):
 
@@ -6752,7 +6782,7 @@ class Window_visualizar_users(QDialog):
 			else:
 				return "No esta estudiando"
 
-	#opcion de lactante =======================================================================================
+	# opcion de lactante =======================================================================================
 	
 	def opcion_de_lactante(self):
 		if self.checkBox_5_lactante.isChecked():
@@ -6760,7 +6790,7 @@ class Window_visualizar_users(QDialog):
 		else: 
 	
 			return "No esta en estado de lactancia"
-	#opcion de embarazada =======================================================================================
+	# opcion de embarazada =======================================================================================
 	def opcion_de_embarazada(self):
 
 		if self.checkBox_4_Embarazada.isChecked():
@@ -6770,7 +6800,7 @@ class Window_visualizar_users(QDialog):
 			return "No esta en estado de embarazo"
 
 
-	#opcion de servicio gas bombona =======================================================================================
+	# opcion de servicio gas bombona =======================================================================================
 	def gas_bombona_servicio(self):
 
 		if self.checkBox_gasbombona.isChecked():
@@ -6778,7 +6808,7 @@ class Window_visualizar_users(QDialog):
 		else:
 			return "No"
 
-	#opcion pensionado  =======================================================================================c
+	# opcion pensionado  =======================================================================================c
 	def pensionado(self):
 
 		if self.checkBox_1_pensionado.isChecked():
@@ -6786,7 +6816,7 @@ class Window_visualizar_users(QDialog):
 		else:
 			return "No esta pensionado"
 
-	#Ventana reparacion de vivienda  =======================================================================================
+	# Ventana reparacion de vivienda  =======================================================================================
 
 	def Linea_blanca(self):
 
@@ -6802,7 +6832,7 @@ class Window_visualizar_users(QDialog):
 		else:
 			return "No necesita linea blanca"
 
-	#TIPOS DE REPARACION
+	# TIPOS DE REPARACION
 
 	def Reparacion_de_Techos(self):
 
@@ -6859,7 +6889,7 @@ class Window_visualizar_users(QDialog):
 		else:
 			"No necesita este arreglo"
 
-	#Ventana de Enfermedad =======================================================================================
+	# Ventana de Enfermedad =======================================================================================
 
 	def Tipo_Enfer_Cancer(self):	
 		if self.checkBox_27_cancer.isChecked():
@@ -6932,7 +6962,7 @@ class Window_visualizar_users(QDialog):
 
 
 
-	#Ventana de discapacidad =======================================================================================
+	# Ventana de discapacidad =======================================================================================
 
 	def Necesita_silla_de_rueda(self):
 		if self.checkBox_sillarueda.isChecked():
@@ -6969,7 +6999,7 @@ class Window_visualizar_users(QDialog):
 			else:
 				return "No necesita medicamento"
 
-	#Tipo de discapacidades		
+	# Tipo de discapacidades		
 
 	def Discapacidad_Motriz(self):
 		if self.checkBox_27_Dscp_motriz.isChecked():
@@ -7010,7 +7040,7 @@ class Window_visualizar_users(QDialog):
 
 
 	###################################### Funciones para los radio button y Checkbox #########################################
-	#Funcion para el RadioButton de si necesita alguna reparacion ==========================================================================================      			
+	# Funcion para el RadioButton de si necesita alguna reparacion ==========================================================================================      			
 	"""def RadioButton_reparacion(self):
 		
 		if self.radioButton_rp_si.isChecked():
@@ -7023,7 +7053,7 @@ class Window_visualizar_users(QDialog):
 		else:
 			return "No necesita reparacion"""
 
-	#Funcion de si esta inscrito en el REP =============================================================================================
+	# Funcion de si esta inscrito en el REP =============================================================================================
 	def RadioButton_rep(self):
 
 		if self.radiobutton_si_inscrito.isChecked():
@@ -7035,7 +7065,7 @@ class Window_visualizar_users(QDialog):
 		else:
 			return "No"
 
-	#CheckBox de servicios que posee ==================================================================================================
+	# CheckBox de servicios que posee ==================================================================================================
 	def CheckBox_aguapotable(self):
 		if self.checkBox_aguapotable.isChecked():
 			return "Si"
@@ -7077,7 +7107,7 @@ class Window_visualizar_users(QDialog):
 		else:
 			return "No"
 
-	#Proteccion Social =======================================================================================
+	# Proteccion Social =======================================================================================
 	def CheckBox_hogaresdelapatria(self):
 
 		if self.checkBox_hogarespatria.isChecked():
@@ -7149,14 +7179,14 @@ class Window_visualizar_users(QDialog):
 		
 		
  
-    #Funciones para discapacidad
+	# Funciones para discapacidad
 	def Aceptar_discapacidad(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que ha colocado\nlos datos correctamente?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -7192,7 +7222,7 @@ class Window_visualizar_users(QDialog):
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -7226,7 +7256,7 @@ class Window_visualizar_users(QDialog):
 
 	def Mostrar_Discapacidad(self):
 
-     
+	 
 		self.animacionMostar = QPropertyAnimation(self.frame_principal_discapacidad,b"geometry")
 		self.animacionMostar.finished.connect(lambda: (self.frame_principal_discapacidad))
 
@@ -7247,14 +7277,14 @@ class Window_visualizar_users(QDialog):
 
 	###
 
-	#Funciones para enfermedad
+	# Funciones para enfermedad
 	def Aceptar_enfermedad(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que ha colocado\nlos datos correctamente?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -7290,7 +7320,7 @@ class Window_visualizar_users(QDialog):
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -7346,14 +7376,14 @@ class Window_visualizar_users(QDialog):
 		self.animacionMostar.start(QAbstractAnimation.DeleteWhenStopped)
 	###
 
-	#Funciones vivienda
+	# Funciones vivienda
 	def Aceptar_reparacion_vv(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que ha colocado\nlos datos correctamente?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -7389,7 +7419,7 @@ class Window_visualizar_users(QDialog):
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -7446,14 +7476,14 @@ class Window_visualizar_users(QDialog):
 
 		###
 
-	#Funcion parte de ver imagenes
+	# Funcion parte de ver imagenes
 	def Aceptar_visualizador(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que ha colocado\nlos datos correctamente?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -7489,7 +7519,7 @@ class Window_visualizar_users(QDialog):
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -7543,14 +7573,14 @@ class Window_visualizar_users(QDialog):
 
 	###
 
-	#Funcion para estudiante
+	# Funcion para estudiante
 	def Aceptar_estudiante(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que ha colocado\nlos datos correctamente?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -7586,7 +7616,7 @@ class Window_visualizar_users(QDialog):
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -7656,7 +7686,7 @@ class Window_visualizar_users(QDialog):
 			self.label_imagen_1_1.clear()
 
 			# Limpiar la barra de estado
-			#self.parent.statusBar.clearMessage()
+			# self.parent.statusBar.clearMessage()
 					
 		# Verificar que QLabel tiene imagen
 		labelConNombre = self.label_miniatura_1_nombre
@@ -7814,15 +7844,15 @@ class Window_visualizar_users(QDialog):
 					return
 
 			else:	
-				#imagen_6 = QPixmap(nombreImagen)				
+				# imagen_6 = QPixmap(nombreImagen)				
 			
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_5(self.label_miniatura_6, imagen, nombre)
 				self.foto_1(imagen)
 				self.imagen_6 = imagen
-				#self.Guardar_datos(imagen_6)
-				#self.Guardar_datos(imagen_6)
+				# self.Guardar_datos(imagen_6)
+				# self.Guardar_datos(imagen_6)
 
 
 		else:
@@ -7868,15 +7898,15 @@ class Window_visualizar_users(QDialog):
 					return
 
 			else:	
-				##imagen_5 = QPixmap(nombreImagen)				
+				# imagen_5 = QPixmap(nombreImagen)				
 			
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_4(self.label_miniatura_5, imagen, nombre)
 				self.foto_1(imagen)
 				self.imagen_5 = imagen
-				#self.Guardar_datos(imagen_5)
-				##self.Guardar_datos(imagen_5)
+				# self.Guardar_datos(imagen_5)
+				# self.Guardar_datos(imagen_5)
 
 
 		else:
@@ -7920,15 +7950,15 @@ class Window_visualizar_users(QDialog):
 					return
 
 			else:	
-				#imagen_4 = QPixmap(nombreImagen)				
+				# imagen_4 = QPixmap(nombreImagen)				
 			
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_3(self.label_miniatura_4, imagen, nombre)
 				self.foto_1(imagen)
 				self.imagen_4 = imagen
-				#self.Guardar_datos(imagen_4)
-				#self.Guardar_datos(imagen_4)
+				# self.Guardar_datos(imagen_4)
+				# self.Guardar_datos(imagen_4)
 
 
 		else:
@@ -7978,15 +8008,15 @@ class Window_visualizar_users(QDialog):
 					return
 
 			else:	
-				##imagen_3 = QPixmap(nombreImagen)				
+				# imagen_3 = QPixmap(nombreImagen)				
 			
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_2(self.label_miniatura_3, imagen, nombre)
 				self.foto_1(imagen)
 				self.imagen_3 = imagen
-				#self.Guardar_datos(imagen_3)
-				##self.Guardar_datos(imagen_3)
+				# self.Guardar_datos(imagen_3)
+				# self.Guardar_datos(imagen_3)
 
 
 		else:
@@ -8033,14 +8063,14 @@ class Window_visualizar_users(QDialog):
 					return
 
 			else:				
-				#imagen_2 = QPixmap(nombreImagen)				
+				# imagen_2 = QPixmap(nombreImagen)				
 
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_1(self.label_miniatura_2, imagen, nombre)
 				self.foto_1(imagen)
 				self.imagen_2 = imagen
-				#self.Guardar_datos(imagen_2)
+				# self.Guardar_datos(imagen_2)
 
 
 		else:
@@ -8095,7 +8125,7 @@ class Window_visualizar_users(QDialog):
 				self.foto_1(imagen)
 
 				
-				#self.Guardar_datos(imagen_1)
+				# self.Guardar_datos(imagen_1)
 
 
 		else:
@@ -8116,7 +8146,7 @@ class Window_visualizar_users(QDialog):
 
 		# Mostrar imagen
 		label.setPixmap(imagen)
-    
+	
 		self.animacionMostar = QPropertyAnimation(label, b"geometry")
 		self.animacionMostar.finished.connect(lambda: (self.label_miniatura_1_nombre.setText(nombre)))
 
@@ -8131,7 +8161,7 @@ class Window_visualizar_users(QDialog):
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Cancelar")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -8163,7 +8193,7 @@ class Window_visualizar_users(QDialog):
 			pass	
 
 
-#/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+
+# /+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+
 
 
 
@@ -8187,7 +8217,7 @@ class Ver_fotos(QDialog):
 
 		self.parent = parent
 		self.imagen = imagen
-		#self.nombre = nombre
+		# self.nombre = nombre
 		self.setWindowTitle("Foto")
 		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
 
@@ -8214,7 +8244,7 @@ class Ver_fotos(QDialog):
 
 
 
-		#Clase de ventana de estatus
+		# Clase de ventana de estatus
 class Window_status_user(QDialog):
 	def __init__(self, parent=None):
 		QDialog.__init__(self)
@@ -8233,9 +8263,9 @@ class Window_status_user(QDialog):
 		self.initUi()
 
 	def initUi(self):
-		#Estilos ==========================================================================================      		
+		# Estilos ==========================================================================================      		
 
-		#Style del frame principal
+		# Style del frame principal
 		Style_frame_principal = ("QFrame#frame{\n"
 								"color:#1b231f;\n"
 								"background-color: #E5E7EE;\n"
@@ -8253,14 +8283,14 @@ class Window_status_user(QDialog):
 							"}")
 
 		###
-		#Style de frame menu
+		# Style de frame menu
 
 		Style_frame_menu = ("QFrame{\n"
 							"background-color:#12191D;\n"
 							"border-radius: 45px\n"
 							"}")
 		###
-		#Style actualizar 
+		# Style actualizar 
 
 		Style_actualizar_button =("QPushButton{\n"
 									"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
@@ -8299,7 +8329,7 @@ class Window_status_user(QDialog):
 									"}")
 		###
 
-		#Style buttons
+		# Style buttons
 		Style_buttons = ("QPushButton{\n"
 						"border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
 						"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
@@ -8313,7 +8343,7 @@ class Window_status_user(QDialog):
 		###
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-		#Frame principal contenido
+		# Frame principal contenido
 		self.frame_principal_contenido = QFrame(self)
 		self.frame_principal_contenido.setGeometry(QRect(180,20,581,411))
 		self.frame_principal_contenido.setObjectName("frame")
@@ -8321,14 +8351,14 @@ class Window_status_user(QDialog):
 		self.frame_principal_contenido.setGraphicsEffect(self.shadow)
 		###
 
-		#Frame menu
+		# Frame menu
 		self.frame_menu = QFrame(self)
 		self.frame_menu.setGeometry(QRect(30,20,121,411))
 		self.frame_menu.setStyleSheet(Style_frame_menu)
 		self.frame_menu.setGraphicsEffect(self.shadow)
 		###
 
-		#Label de Título
+		# Label de Título
 		self.Label_titulo = QLabel(self)
 		self.Label_titulo.setText("STATUS \nDE \nUSUARIO")
 		self.Label_titulo.setGeometry(QRect(60,20,60,100))
@@ -8337,7 +8367,7 @@ class Window_status_user(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		# Botones
-		#Buttons actualizar       		
+		# Buttons actualizar       		
 		self.actualizar = QPushButton(self.frame_menu)
 		self.actualizar.setGeometry(QRect(50, 120, 23, 21))
 		self.actualizar.setStyleSheet(Style_actualizar_button)
@@ -8345,7 +8375,7 @@ class Window_status_user(QDialog):
 		self.actualizar.setToolTip("Click para actualizar\nla lista de usuarios")
 		###
 
-		#Buttons aceptar
+		# Buttons aceptar
 		self.aceptar = QPushButton(self.frame_menu)
 		self.aceptar.setText("Aceptar")
 		self.aceptar.setGeometry(QRect(0, 150, 121, 31))
@@ -8354,7 +8384,7 @@ class Window_status_user(QDialog):
 		self.aceptar.setIconSize(QSize(15,15))
 		###
 
-		#Buttons cancelar
+		# Buttons cancelar
 		self.cancelar = QPushButton(self.frame_menu)
 		self.cancelar.setText("Cancelar")
 		self.cancelar.setGeometry(QRect(0, 190, 121, 31))
@@ -8363,7 +8393,7 @@ class Window_status_user(QDialog):
 		self.cancelar.setIconSize(QSize(15,15))
 		###
 
-		#QTableWidget ==========================================================================================      		
+		# QTableWidget ==========================================================================================      		
 		nombreColumnas = ("Usuario", "Cedula", "Fecha", "Hora",
 		 "Modificación")
 		self.Tabla_contenido = QTableWidget(self.frame_principal_contenido)
@@ -8392,7 +8422,7 @@ class Window_status_user(QDialog):
 			self.Tabla_contenido.setColumnWidth(indice, ancho)
 
 
-		#EVENTOS ==========================================================================================      		
+		# EVENTOS ==========================================================================================      		
 		self.actualizar.clicked.connect(self.mostrar_datos)
 	
 
@@ -8459,9 +8489,9 @@ class Window_status_user(QDialog):
 		cerrar.setText("¿Estás seguro que desea cerrar esta ventana?")
 		botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
 		botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
-            
+			
 		cerrar.exec_()
-            
+			
 		if cerrar.clickedButton() == botonSalir:
 			event.accept()
 		else:
@@ -8471,7 +8501,7 @@ class Window_status_user(QDialog):
 		if event.key() == Qt.Key_Escape:
 			self.close()
 
-	#Clase ventana de usuario nuevo
+	# Clase ventana de usuario nuevo
 class Window_nv_users(QDialog):
 
 	def __init__(self, parent = None):
@@ -8491,7 +8521,7 @@ class Window_nv_users(QDialog):
 
 	def initUi(self):
 
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos generales #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos generales #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 		
 
 		self.groupBox_datosGnr = QGroupBox(self)
@@ -8512,7 +8542,7 @@ class Window_nv_users(QDialog):
 		self.groupBox_datosGnr.setGraphicsEffect(self.shadow)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#1ºNombre =====================================================================================================	
+		# 1ºNombre =====================================================================================================	
 		self.label_1_nombre = QLabel(self.groupBox_datosGnr)
 		self.label_1_nombre.setGeometry(QRect(40, 20, 78, 16))
 		self.label_1_nombre.setStyleSheet("background-color:#4466B8;\n"
@@ -8545,7 +8575,7 @@ class Window_nv_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#2ºNombre =====================================================================================================
+		# 2ºNombre =====================================================================================================
 		self.label_2_nombre = QLabel(self.groupBox_datosGnr)
 		self.label_2_nombre.setGeometry(QRect(215, 20, 71, 16))
 		self.label_2_nombre.setStyleSheet("background-color:#4466B8;\n"
@@ -8574,7 +8604,7 @@ class Window_nv_users(QDialog):
 		self.lineEdit_2_nombre.setToolTip("Ingresa aquí el segundo nombre")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#1º Apellido =====================================================================================================		
+		# 1º Apellido =====================================================================================================		
 		self.label_1_Apellido = QLabel(self.groupBox_datosGnr)
 		self.label_1_Apellido.setGeometry(QRect(40, 70, 78, 16))
 		self.label_1_Apellido.setStyleSheet("background-color:#4466B8;\n"
@@ -8605,7 +8635,7 @@ class Window_nv_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#2º Apellido =====================================================================================================		
+		# 2º Apellido =====================================================================================================		
 		self.lineEdit_2_Apellido = QLineEdit(self.groupBox_datosGnr)
 		self.lineEdit_2_Apellido.setGeometry(QRect(180, 90, 141, 20))
 		self.lineEdit_2_Apellido.setStyleSheet("QLineEdit{\n"
@@ -8635,7 +8665,7 @@ class Window_nv_users(QDialog):
 															self.lineEdit_2_Apellido))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	   
-		#Cedula de identidad =====================================================================================================		
+		# Cedula de identidad =====================================================================================================		
 		self.label_cedula = QLabel(self.groupBox_datosGnr)
 		self.label_cedula.setGeometry(QRect(10, 125, 140, 16))
 		self.label_cedula.setStyleSheet("background-color:#4466B8;\n"
@@ -8663,7 +8693,7 @@ class Window_nv_users(QDialog):
 		self.lineEdit_cedula.setToolTip("Ingresa aquí la cedula de identidad")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Telefono =====================================================================================================		
+		# Telefono =====================================================================================================		
 		self.label_tlf = QLabel(self.groupBox_datosGnr)
 		self.label_tlf.setGeometry(QRect(215, 125, 71, 16))
 		self.label_tlf.setStyleSheet("background-color:#4466B8;\n"
@@ -8709,7 +8739,7 @@ class Window_nv_users(QDialog):
 		self.lineEdit_2_tlf.setToolTip("Ingresa aquí el numero de telefónico secundario")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Genero ========================================================================================================	      
+		# Genero ========================================================================================================	      
 		self.comboBox_genero = QComboBox(self.groupBox_datosGnr)
 		self.comboBox_genero.setGeometry(QRect(10, 200, 141, 21))
 		self.comboBox_genero.setStyleSheet("QComboBox{\n"
@@ -8737,7 +8767,7 @@ class Window_nv_users(QDialog):
 		self.label_genero.setText("<font color='#FF3300'>*</font>Genero:")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 				
-		#Edad ========================================================================================================	      
+		# Edad ========================================================================================================	      
 		self.label_edad = QLabel(self.groupBox_datosGnr)
 		self.label_edad.setGeometry(QRect(225, 205, 51, 16))
 		self.label_edad.setStyleSheet("background-color:#4466B8;\n"
@@ -8766,7 +8796,7 @@ class Window_nv_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	  
-		#Fecha de nacimiento ========================================================================================================	        
+		# Fecha de nacimiento ========================================================================================================	        
 		self.dateEdit_nacimiento = QDateEdit(self.groupBox_datosGnr)
 		self.dateEdit_nacimiento.setGeometry(QRect(10, 255, 141, 22))
 		self.dateEdit_nacimiento.setStyleSheet("QDateEdit{\n"
@@ -8794,7 +8824,7 @@ class Window_nv_users(QDialog):
 		self.label_fch_nacimiento.setText("Fecha de nacimiento:")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Opciones de checkbox datos generales ========================================================================================================	      
+		# Opciones de checkbox datos generales ========================================================================================================	      
 		self.label_opciones = QLabel(self.groupBox_datosGnr)
 		self.label_opciones.setGeometry(QRect(180, 260, 141, 19))
 		self.label_opciones.setStyleSheet("background-color:#4466B8;\n"
@@ -8849,7 +8879,7 @@ class Window_nv_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Profesion u oficio =================================================================================================
+		# Profesion u oficio =================================================================================================
 		self.label_profesion = QLabel(self.groupBox_datosGnr)
 		self.label_profesion.setGeometry(QRect(30, 290, 101, 16))
 		self.label_profesion.setStyleSheet("background-color:#4466B8;\n"
@@ -8885,7 +8915,7 @@ class Window_nv_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Nivel de instruccion ========================================================================================================	      
+		# Nivel de instruccion ========================================================================================================	      
 		self.label_nvl_instruccion = QLabel(self.groupBox_datosGnr)
 		self.label_nvl_instruccion.setGeometry(QRect(20, 345, 121, 16))
 		self.label_nvl_instruccion.setStyleSheet("background-color:#4466B8;\n"
@@ -8914,7 +8944,7 @@ class Window_nv_users(QDialog):
 		self.comboBox_nvl_instruccion.addItems(self.Items_list_instruccion)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Parentesco ========================================================================================================	      
+		# Parentesco ========================================================================================================	      
 		self.label_parentesco = QLabel(self.groupBox_datosGnr)
 		self.label_parentesco.setGeometry(QRect(210, 390, 81, 16))
 		self.label_parentesco.setStyleSheet("background-color:#4466B8;\n"
@@ -8946,7 +8976,7 @@ class Window_nv_users(QDialog):
 	   
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Estado civil ========================================================================================================	      
+		# Estado civil ========================================================================================================	      
 
 		self.label_estadocivil = QLabel(self.groupBox_datosGnr)
 		self.label_estadocivil.setGeometry(QRect(45, 400, 71, 16))
@@ -8975,7 +9005,7 @@ class Window_nv_users(QDialog):
 		self.comboBox_estadocivil.addItems(self.items_list_estadocivil)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Inscrito en el REP ========================================================================================================	      
+		# Inscrito en el REP ========================================================================================================	      
 
 		self.label_inscritoREP = QLabel(self.groupBox_datosGnr)
 		self.label_inscritoREP.setGeometry(QRect(25, 455, 111, 16))
@@ -9010,7 +9040,7 @@ class Window_nv_users(QDialog):
 												"en el registro electoral permanente")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Ingresar el correo ========================================================================================================	      
+		# Ingresar el correo ========================================================================================================	      
 
 		self.label_correo = QLabel(self.groupBox_datosGnr)
 		self.label_correo.setGeometry(QRect(195, 445, 111, 16))
@@ -9037,13 +9067,13 @@ class Window_nv_users(QDialog):
 		self.lineEdit_correo.setObjectName("lineEdit_correo")
 		self.lineEdit_correo.setPlaceholderText("Ingresa el correo")
 		self.lineEdit_correo.setToolTip("Ingresa un correo electrónico vigente")
-		#self.lineEdit_correo.setValidator(QRegExpValidator(QRegExp('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,4}$+'),self.lineEdit_correo))
+		# self.lineEdit_correo.setValidator(QRegExpValidator(QRegExp('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,4}$+'),self.lineEdit_correo))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 
 
 
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Ubicacion geografica #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Ubicacion geografica #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 
 		self.groupBox_datosUb = QGroupBox(self)
 		self.groupBox_datosUb.setGeometry(QRect(530, 10, 371, 181))
@@ -9060,7 +9090,7 @@ class Window_nv_users(QDialog):
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(22)
 		self.groupBox_datosUb.setGraphicsEffect(self.shadow)
-		#Estado ========================================================================================================	      
+		# Estado ========================================================================================================	      
 		self.label_estado = QLabel(self.groupBox_datosUb)
 		self.label_estado.setGeometry(QRect(60, 20, 61, 16))
 		self.label_estado.setStyleSheet("background-color:#4466B8;\n"
@@ -9090,7 +9120,7 @@ class Window_nv_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Municipio ========================================================================================================	      
+		# Municipio ========================================================================================================	      
 		self.label_municipio = QLabel(self.groupBox_datosUb)
 		self.label_municipio.setGeometry(QRect(55, 70, 71, 16))
 		self.label_municipio.setStyleSheet("background-color:#4466B8;\n"
@@ -9119,7 +9149,7 @@ class Window_nv_users(QDialog):
 																	self.lineEdit_municipio))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Parroquia ========================================================================================================	      
+		# Parroquia ========================================================================================================	      
 		self.label_parroquia = QLabel(self.groupBox_datosUb)
 		self.label_parroquia.setGeometry(QRect(55, 120, 71, 16))
 		self.label_parroquia.setStyleSheet("background-color:#4466B8;\n"
@@ -9149,7 +9179,7 @@ class Window_nv_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Nº de vivienda ========================================================================================================	      
+		# Nº de vivienda ========================================================================================================	      
 		self.label_N_vivienda = QLabel(self.groupBox_datosUb)
 		self.label_N_vivienda.setGeometry(QRect(220, 130, 111, 16))
 		self.label_N_vivienda.setStyleSheet("background-color:#4466B8;\n"
@@ -9178,7 +9208,7 @@ class Window_nv_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Direccion ========================================================================================================	      
+		# Direccion ========================================================================================================	      
 		self.label_direccion = QLabel(self.groupBox_datosUb) 
 		self.label_direccion.setGeometry(QRect(193, 20, 161, 16))
 		self.label_direccion.setStyleSheet("background-color:#4466B8;\n"
@@ -9197,11 +9227,11 @@ class Window_nv_users(QDialog):
 		self.textEdit_direccion.setPlaceholderText("Ingresa la dirección\n"
 													"Y lugar donde vota...")
 		self.textEdit_direccion.setToolTip("Ingresa la dirección donde se residencia\n"
-		                                   "Y lugar donde vota ")
+										   "Y lugar donde vota ")
 
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos de la vivienda #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos de la vivienda #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 
 		self.groupBox_datos_Vv = QGroupBox(self)
 		self.groupBox_datos_Vv.setGeometry(QRect(530, 200, 371, 171))
@@ -9218,7 +9248,7 @@ class Window_nv_users(QDialog):
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(22)
 		self.groupBox_datos_Vv.setGraphicsEffect(self.shadow)
-		#Metros cuadrados ========================================================================================================	      
+		# Metros cuadrados ========================================================================================================	      
 		self.label_M2 = QLabel(self.groupBox_datos_Vv)
 		self.label_M2.setGeometry(QRect(25, 20, 121, 16))
 		self.label_M2.setStyleSheet("background-color:#4466B8;\n"
@@ -9246,7 +9276,7 @@ class Window_nv_users(QDialog):
 									"escribirlo de esta manera: 12m^2")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Necesita alguna reparacion ========================================================================================================	      
+		# Necesita alguna reparacion ========================================================================================================	      
 		self.label_reparacion = QLabel(self.groupBox_datos_Vv)
 		self.label_reparacion.setGeometry(QRect(185, 130, 171, 16))
 		self.label_reparacion.setStyleSheet("background-color:#4466B8;\n"
@@ -9277,7 +9307,7 @@ class Window_nv_users(QDialog):
 											"no necesita de alguna reparación")   
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Servivcios que posee ========================================================================================================	           
+		# Servivcios que posee ========================================================================================================	           
 		self.label_servicios = QLabel(self.groupBox_datos_Vv)
 		self.label_servicios.setGeometry(QRect(195, 20, 151, 16))
 		self.label_servicios.setStyleSheet("background-color:#4466B8;\n"
@@ -9355,7 +9385,7 @@ class Window_nv_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Descripcion de la vivienda ========================================================================================================	           
+		# Descripcion de la vivienda ========================================================================================================	           
 		self.label_dcrp_vv = QLabel(self.groupBox_datos_Vv)
 		self.label_dcrp_vv.setGeometry(QRect(10, 80, 151, 16))
 		self.label_dcrp_vv.setStyleSheet("background-color:#4466B8;\n"
@@ -9376,7 +9406,7 @@ class Window_nv_users(QDialog):
 										"si es un apartamento o quinta, entre otras... ")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Proteccion Social #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Proteccion Social #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 	  
 		self.groupBox_beneficios = QGroupBox(self)
 		self.groupBox_beneficios.setGeometry(QRect(530, 380, 371, 123))
@@ -9394,7 +9424,7 @@ class Window_nv_users(QDialog):
 		self.shadow.setBlurRadius(22)
 		self.groupBox_beneficios.setGraphicsEffect(self.shadow)
 
-		#Posee algun beneficio ========================================================================================================	           
+		# Posee algun beneficio ========================================================================================================	           
 		self.label_beneficio = QLabel(self.groupBox_beneficios)
 		self.label_beneficio.setGeometry(QRect(10, 20, 161, 16))
 		self.label_beneficio.setStyleSheet("background-color:#4466B8;\n"
@@ -9487,7 +9517,7 @@ class Window_nv_users(QDialog):
 		"font-size: 12px;\n"
 		"}")  
 
-		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
+		# =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 
 
 
@@ -9503,7 +9533,7 @@ class Window_nv_users(QDialog):
 
 
 
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos de estudiante #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos de estudiante #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 
 		self.frame_principal_estudiante = QFrame(self)
 		self.frame_principal_estudiante.setGeometry(QRect(200,100,613,303))
@@ -9516,7 +9546,7 @@ class Window_nv_users(QDialog):
 		self.frame_principal_estudiante.move(200,1000)
 
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-		#Menu ========================================================================================================	           
+		# Menu ========================================================================================================	           
 		self.frame_menu_estudiante = QFrame(self.frame_principal_estudiante)
 		self.frame_menu_estudiante.setGeometry(QRect(20,20,121,261))
 		self.frame_menu_estudiante.setStyleSheet("QFrame{\n"
@@ -9539,7 +9569,7 @@ class Window_nv_users(QDialog):
 
 		self.label_estudiante.setAlignment(Qt.AlignHCenter)
 		
-		#Buttons de menu
+		# Buttons de menu
 		self.Button_aceptar_estudiante = QPushButton(self.frame_menu_estudiante)
 		self.Button_aceptar_estudiante.setGeometry(QRect(0,80,121,31))
 		self.Button_aceptar_estudiante.setStyleSheet("QPushButton{\n"
@@ -9589,9 +9619,9 @@ class Window_nv_users(QDialog):
 		self.frame_contenido_estudiante.setGraphicsEffect(self.shadow)
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(22)
-		#Nivel de instruccion ========================================================================================================	           
+		# Nivel de instruccion ========================================================================================================	           
 
-		#label nivel de estudio:
+		# label nivel de estudio:
 		self.label_nivel_de_estudio = QLabel(self.frame_contenido_estudiante)
 		self.label_nivel_de_estudio.setGeometry(QRect(70,10,125,16))
 		self.label_nivel_de_estudio.setText("Nivel de estudio:")
@@ -9601,7 +9631,7 @@ class Window_nv_users(QDialog):
 		self.label_nivel_de_estudio.setAlignment(Qt.AlignHCenter)
 		###
 
-		#CheckBox de niveles de estudio primaria
+		# CheckBox de niveles de estudio primaria
 
 		self.checkbox_primaria = QCheckBox(self.frame_contenido_estudiante)
 		self.checkbox_primaria.setGeometry(QRect(20,30,121,21))
@@ -9609,28 +9639,28 @@ class Window_nv_users(QDialog):
 		###
 
 
-		#CheckBox de niveles de estudio bachillerato
+		# CheckBox de niveles de estudio bachillerato
 
 		self.checkbox_bachillerato = QCheckBox(self.frame_contenido_estudiante)
 		self.checkbox_bachillerato.setGeometry(QRect(20,50,121,21))
 		self.checkbox_bachillerato.setText("Bachillerato")
 		###
 
-		#CheckBox de niveles de estudio tecnico superior
+		# CheckBox de niveles de estudio tecnico superior
 
 		self.checkbox_tcn_superior = QCheckBox(self.frame_contenido_estudiante)
 		self.checkbox_tcn_superior.setGeometry(QRect(20,70,221,21))
 		self.checkbox_tcn_superior.setText("Técnico superior universitario")
 		###
 
-		#CheckBox de niveles de estudio universitario
+		# CheckBox de niveles de estudio universitario
 
 		self.checkbox_universitario = QCheckBox(self.frame_contenido_estudiante)
 		self.checkbox_universitario.setGeometry(QRect(20,90,111,21))
 		self.checkbox_universitario.setText("Universitario")
 		###
 
-		#CheckBox de niveles de estudio especializacion
+		# CheckBox de niveles de estudio especializacion
 
 		self.checkbox_especializacion = QCheckBox(self.frame_contenido_estudiante)
 		self.checkbox_especializacion.setGeometry(QRect(20,110,131,21))
@@ -9639,9 +9669,9 @@ class Window_nv_users(QDialog):
 		
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Carrera que estudia ========================================================================================================	           
+		# Carrera que estudia ========================================================================================================	           
 
-		#Label de tipo de carrera
+		# Label de tipo de carrera
 		self.label_carrera_que_estudia = QLabel(self.frame_contenido_estudiante)
 		self.label_carrera_que_estudia.setGeometry(QRect(255,10,145,16))
 		self.label_carrera_que_estudia.setText("Carrera que estudia:")
@@ -9651,7 +9681,7 @@ class Window_nv_users(QDialog):
 		"border-radius: 5px")
 		###
 
-		#QTextEdit de carrera que estudia
+		# QTextEdit de carrera que estudia
 		self.texedit_carrera = QTextEdit(self.frame_contenido_estudiante)
 		self.texedit_carrera.setGeometry(QRect(250,30,161,81))
 		self.texedit_carrera.setPlaceholderText("Carrera que cursa...")
@@ -9662,9 +9692,9 @@ class Window_nv_users(QDialog):
 		###
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Donde estudia ========================================================================================================	           
+		# Donde estudia ========================================================================================================	           
 
-		#Qlabel de donde estudia
+		# Qlabel de donde estudia
 		self.label_donde_estudia = QLabel(self.frame_contenido_estudiante)
 		self.label_donde_estudia.setGeometry(QRect(160,140,111,16))
 		self.label_donde_estudia.setText("Donde estudia:")
@@ -9674,7 +9704,7 @@ class Window_nv_users(QDialog):
 		"border-radius: 5px")
 		###
 
-		#QTextEdit de donde estudia
+		# QTextEdit de donde estudia
 		self.texedit_donde_estudia = QTextEdit(self.frame_contenido_estudiante)
 		self.texedit_donde_estudia.setGeometry(QRect(40,160,341,81))
 		self.texedit_donde_estudia.setPlaceholderText("Dirección y universidad donde estudia...")
@@ -9738,7 +9768,7 @@ class Window_nv_users(QDialog):
 		self.label_25.setText("Discapacidad")
 		# ========================================================================================================	          
 
-		#Group de discapacidad ========================================================================================================	           
+		# Group de discapacidad ========================================================================================================	           
 		self.groupBox_datosdiscapacidad = QGroupBox(self.frame_principal_Discpacidad)
 		self.groupBox_datosdiscapacidad.setGeometry(QRect(160, 20, 410, 251))
 		self.groupBox_datosdiscapacidad.setStyleSheet("QGroupBox{\n"
@@ -9756,7 +9786,7 @@ class Window_nv_users(QDialog):
 		self.groupBox_datosdiscapacidad.setGraphicsEffect(self.shadow)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Descripcion de discapacidad ========================================================================================================	           
+		# Descripcion de discapacidad ========================================================================================================	           
 		self.textEdit_dcrp_discapacidad = QTextEdit(self.groupBox_datosdiscapacidad)
 		self.textEdit_dcrp_discapacidad.setGeometry(QRect(250, 40, 141, 91))
 		self.textEdit_dcrp_discapacidad.setStyleSheet("QTextEdit#textEdit_dcrp_discapacidad{\n"
@@ -9777,7 +9807,7 @@ class Window_nv_users(QDialog):
 		self.dcrp_discapacidad.setText("Describa la discapacidad:")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Opciones de discapacidad ========================================================================================================	           
+		# Opciones de discapacidad ========================================================================================================	           
 		self.label_opciones_discapacidad = QLabel(self.groupBox_datosdiscapacidad)
 		self.label_opciones_discapacidad.setGeometry(QRect(10, 20, 221, 16))
 		self.label_opciones_discapacidad.setStyleSheet("background-color:#4466B8;\n"
@@ -9852,7 +9882,7 @@ class Window_nv_users(QDialog):
 		"font-size: 12px}")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Opciones de medicamentos ========================================================================================================	           
+		# Opciones de medicamentos ========================================================================================================	           
 		self.label_medicamentos = QLabel(self.groupBox_datosdiscapacidad)
 		self.label_medicamentos.setGeometry(QRect(240, 140, 161, 16))
 		self.label_medicamentos.setStyleSheet("background-color:#4466B8;\n"
@@ -9924,9 +9954,9 @@ class Window_nv_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#         
 
-		#BOTONES DE LA VENTANA DE DISCAPACIDAD #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+		
+		# BOTONES DE LA VENTANA DE DISCAPACIDAD #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+		
 		
-		#Boton Aceptar ==========================================================================================      		
+		# Boton Aceptar ==========================================================================================      		
 		self.pushButton_aceptar_discapacidad = QPushButton(self.frame_2)
 		self.pushButton_aceptar_discapacidad.setGeometry(QRect(-12, 80, 141, 31))
 		self.pushButton_aceptar_discapacidad.setStyleSheet("QPushButton{\n"
@@ -9950,7 +9980,7 @@ class Window_nv_users(QDialog):
 		self.pushButton_aceptar_discapacidad.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Boton Cancelar ==========================================================================================      		
+		# Boton Cancelar ==========================================================================================      		
 		self.pushButton_cancelar_discapacidad = QPushButton(self.frame_2)
 		self.pushButton_cancelar_discapacidad.setGeometry(QRect(-10, 120, 141, 31))
 		self.pushButton_cancelar_discapacidad.setStyleSheet("QPushButton{\n"
@@ -10004,7 +10034,7 @@ class Window_nv_users(QDialog):
 		self.frame_principal_gas_bombona.setGraphicsEffect(self.shadow)
 
 
-		#Group de gas bombona ========================================================================================================	           
+		# Group de gas bombona ========================================================================================================	           
 		self.groupBox_gas_bombona = QGroupBox(self.frame_principal_gas_bombona)
 		self.groupBox_gas_bombona.setGeometry(QRect(160, 20, 200, 251))
 		self.groupBox_gas_bombona.setStyleSheet("QGroupBox{\n"
@@ -10020,7 +10050,7 @@ class Window_nv_users(QDialog):
 		self.shadow.setBlurRadius(22)
 		self.groupBox_gas_bombona.setGraphicsEffect(self.shadow)
 
-		#Opciones de bombona========================================================================================================	           
+		# Opciones de bombona========================================================================================================	           
 		self.label_tipo_cilindro = QLabel(self.groupBox_gas_bombona)
 		self.label_tipo_cilindro.setGeometry(QRect(20, 30, 160, 16))
 		self.label_tipo_cilindro.setStyleSheet("background-color:#4466B8;\n"
@@ -10066,7 +10096,7 @@ class Window_nv_users(QDialog):
 		"color: #000000;\n"
 		"font-size: 12px}")
 
-		#QSpinBox de cantidad de bombonas  ==========================================================================================      		
+		# QSpinBox de cantidad de bombonas  ==========================================================================================      		
 
 		self.label_num_bombonas = QLabel(self.groupBox_gas_bombona)
 		self.label_num_bombonas.setGeometry(QRect(20,170,160,16))
@@ -10087,7 +10117,7 @@ class Window_nv_users(QDialog):
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 
-		#Frama de menu  ==========================================================================================      		
+		# Frama de menu  ==========================================================================================      		
 
 		self.frame_2 = QFrame(self.frame_principal_gas_bombona)
 		self.frame_2.setGeometry(QRect(20, 20, 121, 250))
@@ -10115,7 +10145,7 @@ class Window_nv_users(QDialog):
 
 
 		
-		#Boton Aceptar ==========================================================================================      		
+		# Boton Aceptar ==========================================================================================      		
 		self.pushButton_aceptar_gas_bombona = QPushButton(self.frame_2)
 		self.pushButton_aceptar_gas_bombona.setGeometry(QRect(-12, 80, 141, 31))
 		self.pushButton_aceptar_gas_bombona.setStyleSheet("QPushButton{\n"
@@ -10139,7 +10169,7 @@ class Window_nv_users(QDialog):
 		self.pushButton_aceptar_gas_bombona.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Boton Cancelar ==========================================================================================      		
+		# Boton Cancelar ==========================================================================================      		
 		self.pushButton_cancelar_gas_bombona = QPushButton(self.frame_2)
 		self.pushButton_cancelar_gas_bombona.setGeometry(QRect(-10, 120, 141, 31))
 		self.pushButton_cancelar_gas_bombona.setStyleSheet("QPushButton{\n"
@@ -10206,7 +10236,7 @@ class Window_nv_users(QDialog):
 		self.shadow.setBlurRadius(10)
 		self.frame_principal_Enfermedad.setGraphicsEffect(self.shadow)
 
-		#Group de enfermedad ========================================================================================================	           
+		# Group de enfermedad ========================================================================================================	           
 		self.groupBox_datos_enfermedad = QGroupBox(self.frame_principal_Enfermedad)
 		self.groupBox_datos_enfermedad.setGeometry(QRect(160, 20, 421, 251))
 		self.groupBox_datos_enfermedad.setStyleSheet("QGroupBox{\n"
@@ -10224,7 +10254,7 @@ class Window_nv_users(QDialog):
 		self.groupBox_datos_enfermedad.setGraphicsEffect(self.shadow)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Descripcion de enfermedad ========================================================================================================	           
+		# Descripcion de enfermedad ========================================================================================================	           
 		self.textEdit_dcrp_enfermedad = QTextEdit(self.groupBox_datos_enfermedad)
 		self.textEdit_dcrp_enfermedad.setGeometry(QRect(265, 40, 141, 91))
 		self.textEdit_dcrp_enfermedad.setStyleSheet("QTextEdit{\n"
@@ -10245,7 +10275,7 @@ class Window_nv_users(QDialog):
 		self.dcrp_enfermedad.setText("Describa la enfermedad:")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Opciones de enfermedad ========================================================================================================	           
+		# Opciones de enfermedad ========================================================================================================	           
 		self.label_opciones_enfermedad = QLabel(self.groupBox_datos_enfermedad)
 		self.label_opciones_enfermedad.setGeometry(QRect(10, 20, 241, 16))
 		self.label_opciones_enfermedad.setStyleSheet("background-color:#4466B8;\n"
@@ -10336,7 +10366,7 @@ class Window_nv_users(QDialog):
 		"font-size: 12px}")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Opciones de medicamentos ========================================================================================================	           
+		# Opciones de medicamentos ========================================================================================================	           
 		self.label_medicamentos = QLabel(self.groupBox_datos_enfermedad)
 		self.label_medicamentos.setGeometry(QRect(255, 140, 160, 16))
 		self.label_medicamentos.setStyleSheet("background-color:#4466B8;\n"
@@ -10395,9 +10425,9 @@ class Window_nv_users(QDialog):
 		self.label_25.setText("Enfermedad")
 		# ========================================================================================================	           
 
-		#+ BOTONES DE LA VENTANA DE ENFERMEDAD #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+		
+		# + BOTONES DE LA VENTANA DE ENFERMEDAD #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+		
 		
-		#Boton Aceptar ==========================================================================================      		
+		# Boton Aceptar ==========================================================================================      		
 		self.pushButton_aceptar_Enfermedad = QPushButton(self.frame_2_enfer)
 		self.pushButton_aceptar_Enfermedad.setGeometry(QRect(-12, 80, 141, 31))
 		self.pushButton_aceptar_Enfermedad.setStyleSheet("QPushButton{\n"
@@ -10421,7 +10451,7 @@ class Window_nv_users(QDialog):
 		self.pushButton_aceptar_Enfermedad.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Boton Cancelar ==========================================================================================      		
+		# Boton Cancelar ==========================================================================================      		
 		self.pushButton_cancelar_Enfermedad = QPushButton(self.frame_2_enfer)
 		self.pushButton_cancelar_Enfermedad.setGeometry(QRect(-10, 120, 141, 31))
 		self.pushButton_cancelar_Enfermedad.setStyleSheet("QPushButton{\n"
@@ -10464,7 +10494,7 @@ class Window_nv_users(QDialog):
 		self.frame_principal_rpr_vv.setGraphicsEffect(self.shadow)
 
 
-		#GroupBox detalle de reparacion de vivienda ==========================================================================================      		
+		# GroupBox detalle de reparacion de vivienda ==========================================================================================      		
 		self.groupBox_dcrp_reparacionvv = QGroupBox(self.frame_principal_rpr_vv)
 		self.groupBox_dcrp_reparacionvv.setGeometry(QRect(170, 20, 481, 281))
 		self.groupBox_dcrp_reparacionvv.setStyleSheet("QGroupBox{\n"
@@ -10483,7 +10513,7 @@ class Window_nv_users(QDialog):
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
 
-		#Descripcion de la reparacion de vivienda ==========================================================================================      		
+		# Descripcion de la reparacion de vivienda ==========================================================================================      		
 		self.textEdit_dcrp_reparacionvv = QTextEdit(self.groupBox_dcrp_reparacionvv)
 		self.textEdit_dcrp_reparacionvv.setGeometry(QRect(260, 50, 211, 90))
 		self.textEdit_dcrp_reparacionvv.setStyleSheet("QTextEdit{\n"
@@ -10543,7 +10573,7 @@ class Window_nv_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Opciones de reparacion de vivienda ==========================================================================================      		
+		# Opciones de reparacion de vivienda ==========================================================================================      		
 
 		self.label_opc_reparacion = QLabel(self.groupBox_dcrp_reparacionvv)
 		self.label_opc_reparacion.setGeometry(QRect(10, 30, 238, 16))
@@ -10627,7 +10657,7 @@ class Window_nv_users(QDialog):
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Botones para guardar y ver fotos  ==========================================================================================      		
+		# Botones para guardar y ver fotos  ==========================================================================================      		
 
 		self.pushButton_anexarfotos = QPushButton(self.frame_principal_rpr_vv)
 		self.pushButton_anexarfotos.setGeometry(QRect(490, 255, 101, 31))
@@ -10674,7 +10704,7 @@ class Window_nv_users(QDialog):
 		self.label_25.setText("Vivienda")
 
 
-		#Boton Aceptar ==========================================================================================      		
+		# Boton Aceptar ==========================================================================================      		
 		self.pushButton_aceptar_rpr_vv = QPushButton(self.frame_2)
 		self.pushButton_aceptar_rpr_vv.setGeometry(QRect(-12, 70, 141, 31))
 		self.pushButton_aceptar_rpr_vv.setStyleSheet("QPushButton{\n"
@@ -10699,7 +10729,7 @@ class Window_nv_users(QDialog):
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 
-		#Boton cancelar ==========================================================================================      		
+		# Boton cancelar ==========================================================================================      		
 		self.pushButton_cancelar_rpr_vv = QPushButton(self.frame_2)
 		self.pushButton_cancelar_rpr_vv.setGeometry(QRect(-10, 110, 141, 31))
 		self.pushButton_cancelar_rpr_vv.setStyleSheet("QPushButton{\n"
@@ -10787,7 +10817,7 @@ class Window_nv_users(QDialog):
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 		# Label de la miniatura de imagen ==========================================================================================            
-		#Miniatura_1
+		# Miniatura_1
 		self.label_miniatura_1 = QLabelClickable(self.frame_visualizador)
 		self.label_miniatura_1.setGeometry(QRect(20, 20, 171, 121))
 		self.label_miniatura_1.setStyleSheet("QLabel{\n"
@@ -10816,7 +10846,7 @@ class Window_nv_users(QDialog):
 		"}")
 
 
-		#Miniatura_2
+		# Miniatura_2
 		self.label_miniatura_2 = QLabelClickable(self.frame_visualizador)
 		self.label_miniatura_2.setAlignment(Qt.AlignCenter)
 		self.label_miniatura_2.setGeometry(QRect(210, 20, 171, 121))
@@ -10848,7 +10878,7 @@ class Window_nv_users(QDialog):
 
 
 
-		#Miniatura_3
+		# Miniatura_3
 		self.label_miniatura_3 = QLabelClickable(self.frame_visualizador)
 		self.label_miniatura_3.setGeometry(QRect(400, 20, 171, 121))
 		self.label_miniatura_3.setStyleSheet("QLabel{\n"
@@ -10878,7 +10908,7 @@ class Window_nv_users(QDialog):
 
 
 		
-		#Miniatura_4
+		# Miniatura_4
 		self.label_miniatura_4 = QLabelClickable(self.frame_visualizador)
 		self.label_miniatura_4.setGeometry(QRect(20, 200, 171, 121))
 		self.label_miniatura_4.setStyleSheet("QLabel{\n"
@@ -10908,7 +10938,7 @@ class Window_nv_users(QDialog):
 
 
 		
-		#Miniatura_5
+		# Miniatura_5
 		self.label_miniatura_5 = QLabelClickable(self.frame_visualizador)
 		self.label_miniatura_5.setGeometry(QRect(210, 200, 171, 121))
 		self.label_miniatura_5.setStyleSheet("QLabel{\n"
@@ -10937,7 +10967,7 @@ class Window_nv_users(QDialog):
 		""
 		"}")
 
-		#Miniatura_6
+		# Miniatura_6
 		self.label_miniatura_6 = QLabelClickable(self.frame_visualizador)
 		self.label_miniatura_6.setGeometry(QRect(400, 200, 171, 121))
 		self.label_miniatura_6.setStyleSheet("QLabel{\n"
@@ -10967,7 +10997,7 @@ class Window_nv_users(QDialog):
 		"}")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Boton eliminar de miniatura_1  ==========================================================================================             
+		# Boton eliminar de miniatura_1  ==========================================================================================             
 		self.pushButton_eliminar = QPushButton(self.frame_visualizador)
 		self.pushButton_eliminar.setGeometry(QRect(70, 150, 71, 21))
 		self.pushButton_eliminar.setStyleSheet("QPushButton{\n"
@@ -10992,7 +11022,7 @@ class Window_nv_users(QDialog):
 		self.pushButton_eliminar.setGraphicsEffect(self.shadow)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Boton eliminar de miniatura_2 ==========================================================================================             
+		# Boton eliminar de miniatura_2 ==========================================================================================             
 		self.pushButton_eliminar_2 = QPushButton(self.frame_visualizador)
 		self.pushButton_eliminar_2.setGeometry(QRect(260, 150, 71, 21))
 		self.pushButton_eliminar_2.setStyleSheet("QPushButton{\n"
@@ -11017,7 +11047,7 @@ class Window_nv_users(QDialog):
 		self.pushButton_eliminar_2.setGraphicsEffect(self.shadow)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Boton eliminar de miniatura_3  ==========================================================================================             
+		# Boton eliminar de miniatura_3  ==========================================================================================             
 		self.pushButton_eliminar_3 = QPushButton(self.frame_visualizador)
 		self.pushButton_eliminar_3.setGeometry(QRect(450, 150, 71, 21))
 		self.pushButton_eliminar_3.setStyleSheet("QPushButton{\n"
@@ -11042,7 +11072,7 @@ class Window_nv_users(QDialog):
 		self.pushButton_eliminar_3.setGraphicsEffect(self.shadow)
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Boton eliminar de miniatura_4 ==========================================================================================             
+		# Boton eliminar de miniatura_4 ==========================================================================================             
 		self.pushButton_eliminar_4 = QPushButton(self.frame_visualizador)
 		self.pushButton_eliminar_4.setGeometry(QRect(70, 330, 71, 21))
 		self.pushButton_eliminar_4.setStyleSheet("QPushButton{\n"
@@ -11065,7 +11095,7 @@ class Window_nv_users(QDialog):
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(40)
 		self.pushButton_eliminar_4.setGraphicsEffect(self.shadow)
-		#Boton eliminar de miniatura_5  ==========================================================================================             
+		# Boton eliminar de miniatura_5  ==========================================================================================             
 		self.pushButton_eliminar_5 = QPushButton(self.frame_visualizador)
 		self.pushButton_eliminar_5.setGeometry(QRect(260, 330, 71, 21))
 		self.pushButton_eliminar_5.setStyleSheet("QPushButton{\n"
@@ -11088,7 +11118,7 @@ class Window_nv_users(QDialog):
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(40)
 		self.pushButton_eliminar_5.setGraphicsEffect(self.shadow)
-		#Boton eliminar de miniatura_6  ==========================================================================================             
+		# Boton eliminar de miniatura_6  ==========================================================================================             
 		self.pushButton_eliminar_6 = QPushButton(self.frame_visualizador)
 		self.pushButton_eliminar_6.setGeometry(QRect(450, 330, 71, 21))
 		self.pushButton_eliminar_6.setStyleSheet("QPushButton{\n"
@@ -11112,7 +11142,7 @@ class Window_nv_users(QDialog):
 		self.shadow.setBlurRadius(40)
 		self.pushButton_eliminar_6.setGraphicsEffect(self.shadow)
 
-		#Boton aceptar  ==========================================================================================              
+		# Boton aceptar  ==========================================================================================              
 		self.pushButton_visualizador_aceptar = QPushButton(self.frame_3)
 		self.pushButton_visualizador_aceptar.setGeometry(QRect(-2, 70, 121, 31))
 		self.pushButton_visualizador_aceptar.setStyleSheet("QPushButton{\n"
@@ -11135,7 +11165,7 @@ class Window_nv_users(QDialog):
 		self.pushButton_visualizador_aceptar.setIconSize(QSize(18,18))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Boton cancelar  ==========================================================================================             
+		# Boton cancelar  ==========================================================================================             
 		self.pushButton_visualizador_cancelar = QPushButton(self.frame_3)
 		self.pushButton_visualizador_cancelar.setGeometry(QRect(0, 110, 121, 31))
 		self.pushButton_visualizador_cancelar.setStyleSheet("QPushButton{\n"
@@ -11158,7 +11188,7 @@ class Window_nv_users(QDialog):
 		self.pushButton_visualizador_cancelar.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Eventos==========================================================================================             
+		# Eventos==========================================================================================             
 		self.label_miniatura_1.clicked.connect(self.Cargar)
 		self.label_miniatura_2.clicked.connect(self.Cargar_1)
 		self.label_miniatura_3.clicked.connect(self.Cargar_2)
@@ -11180,9 +11210,9 @@ class Window_nv_users(QDialog):
 
 
 
-#========================================== #Lineas# =======================================================================================
+# ========================================== #Lineas# =======================================================================================
 
-		#Line bajo Nombre-Apellido =====================================================================================	
+		# Line bajo Nombre-Apellido =====================================================================================	
 		self.line = QFrame(self.groupBox_datosGnr)
 		self.line.setGeometry(QRect(10, 110, 311, 16))
 		self.line.setFrameShape(QFrame.HLine)
@@ -11190,7 +11220,7 @@ class Window_nv_users(QDialog):
 		self.line.setObjectName("line")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Line bajo cedula ==============================================================================================		
+		# Line bajo cedula ==============================================================================================		
 		self.line_5 = QFrame(self.groupBox_datosGnr)
 		self.line_5.setGeometry(QRect(10, 165, 141, 16))
 		self.line_5.setFrameShape(QFrame.HLine)
@@ -11198,7 +11228,7 @@ class Window_nv_users(QDialog):
 		self.line_5.setObjectName("line_5")		       
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Line bajo telefono ===========================================================================================		 
+		# Line bajo telefono ===========================================================================================		 
 		self.line_3 = QFrame(self.groupBox_datosGnr)
 		self.line_3.setGeometry(QRect(180, 190, 141, 16))
 		self.line_3.setFrameShape(QFrame.HLine)
@@ -11206,7 +11236,7 @@ class Window_nv_users(QDialog):
 		self.line_3.setObjectName("line_3")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Line bajo genero ========================================================================================================	      
+		# Line bajo genero ========================================================================================================	      
 		self.line_2 = QFrame(self.groupBox_datosGnr)
 		self.line_2.setGeometry(QRect(10, 220, 141, 16))
 		self.line_2.setFrameShape(QFrame.HLine)
@@ -11214,7 +11244,7 @@ class Window_nv_users(QDialog):
 		self.line_2.setObjectName("line_2")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	   
-		#Line bajo edad ========================================================================================================	      
+		# Line bajo edad ========================================================================================================	      
 		self.line_8 = QFrame(self.groupBox_datosGnr)
 		self.line_8.setGeometry(QRect(180, 245, 141, 16))
 		self.line_8.setFrameShape(QFrame.HLine)
@@ -11222,7 +11252,7 @@ class Window_nv_users(QDialog):
 		self.line_8.setObjectName("line_8")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Line bajo fecha de nacimiento ==========================================================================================      
+		# Line bajo fecha de nacimiento ==========================================================================================      
 		self.line_4 = QFrame(self.groupBox_datosGnr)
 		self.line_4.setGeometry(QRect(10, 275, 141, 16))
 		self.line_4.setFrameShape(QFrame.HLine)
@@ -11230,7 +11260,7 @@ class Window_nv_users(QDialog):
 		self.line_4.setObjectName("line_4")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	   
-		#Line bajo profesion u oficio ==========================================================================================      
+		# Line bajo profesion u oficio ==========================================================================================      
 		self.line_6 = QFrame(self.groupBox_datosGnr)
 		self.line_6.setGeometry(QRect(10, 330, 141, 16))
 		self.line_6.setFrameShape(QFrame.HLine)
@@ -11238,7 +11268,7 @@ class Window_nv_users(QDialog):
 		self.line_6.setObjectName("line_6")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Line bajo nivel de instruccion ==========================================================================================      
+		# Line bajo nivel de instruccion ==========================================================================================      
 		self.line_7 = QFrame(self.groupBox_datosGnr)
 		self.line_7.setGeometry(QRect(10, 385, 141, 16))
 		self.line_7.setFrameShape(QFrame.HLine)
@@ -11246,7 +11276,7 @@ class Window_nv_users(QDialog):
 		self.line_7.setObjectName("line_7")       
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Line bajo opciones checkbox ==========================================================================================      
+		# Line bajo opciones checkbox ==========================================================================================      
 		self.line_9 = QFrame(self.groupBox_datosGnr)
 		self.line_9.setGeometry(QRect(180, 375, 141, 16))
 		self.line_9.setFrameShape(QFrame.HLine)
@@ -11254,7 +11284,7 @@ class Window_nv_users(QDialog):
 		self.line_9.setObjectName("line_9")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#		
 		
-		#Line bajo estado civil ==========================================================================================      
+		# Line bajo estado civil ==========================================================================================      
 		self.line_20 = QFrame(self.groupBox_datosGnr)
 		self.line_20.setGeometry(QRect(10, 440, 141, 16))
 		self.line_20.setFrameShape(QFrame.HLine)
@@ -11262,7 +11292,7 @@ class Window_nv_users(QDialog):
 		self.line_20.setObjectName("line_20")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#		
 
-		#Line bajo parentesco ==========================================================================================      
+		# Line bajo parentesco ==========================================================================================      
 		self.line_20 = QFrame(self.groupBox_datosGnr)
 		self.line_20.setGeometry(QRect(180, 430, 141, 16))
 		self.line_20.setFrameShape(QFrame.HLine)
@@ -11271,7 +11301,7 @@ class Window_nv_users(QDialog):
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#		
 
 
-		#Line bajo direccion ==========================================================================================      
+		# Line bajo direccion ==========================================================================================      
 		self.line_10 = QFrame(self.groupBox_datosUb)
 		self.line_10.setGeometry(QRect(193, 110, 161, 16))
 		self.line_10.setFrameShape(QFrame.HLine)
@@ -11279,7 +11309,7 @@ class Window_nv_users(QDialog):
 		self.line_10.setObjectName("line_10")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Line bajo metros cuadrados ==========================================================================================      
+		# Line bajo metros cuadrados ==========================================================================================      
 		self.line_11 = QFrame(self.groupBox_datos_Vv)
 		self.line_11.setGeometry(QRect(15, 63, 141, 16))
 		self.line_11.setFrameShape(QFrame.HLine)
@@ -11287,7 +11317,7 @@ class Window_nv_users(QDialog):
 		self.line_11.setObjectName("line_11")
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
-		#Line bajo servicios que posee ==========================================================================================      
+		# Line bajo servicios que posee ==========================================================================================      
 		self.line_12 = QFrame(self.groupBox_datos_Vv)
 		self.line_12.setGeometry(QRect(180, 115, 181, 20))
 		self.line_12.setFrameShape(QFrame.HLine)
@@ -11319,9 +11349,9 @@ class Window_nv_users(QDialog):
 		"font: 75 11pt \"Comic Sans MS\";\n"
 		"border-radius:6px\n"
 		"")
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ BOTONES DE LA VENTANA DE REGISTRO DE USUARIO #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ BOTONES DE LA VENTANA DE REGISTRO DE USUARIO #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 		
-		#Boton registrar ==========================================================================================      		
+		# Boton registrar ==========================================================================================      		
 		self.Button_register_user = QPushButton(self.frame_nv_user)
 		self.Button_register_user.setGeometry(QRect(0, 80, 121, 31))
 		self.Button_register_user.setStyleSheet("QPushButton{\n"
@@ -11345,7 +11375,7 @@ class Window_nv_users(QDialog):
 		self.Button_register_user.setIconSize(QSize(20,20))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-		#Boton cancelar ==========================================================================================      		
+		# Boton cancelar ==========================================================================================      		
 		self.Button_cancel_user = QPushButton(self.frame_nv_user)
 		self.Button_cancel_user.setGeometry(QRect(0, 120, 121, 31))
 		self.Button_cancel_user.setStyleSheet("QPushButton{\n"
@@ -11368,14 +11398,14 @@ class Window_nv_users(QDialog):
 		self.Button_cancel_user.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
 		self.Button_cancel_user.setIconSize(QSize(17,17))	
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ FIN DE BOTONES DE LA VENTANA DE REGISTRO DE USUARIO #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
+# +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ FIN DE BOTONES DE LA VENTANA DE REGISTRO DE USUARIO #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 
-#========================================= #Eventos# ==================================================================
+# ========================================= #Eventos# ==================================================================
 		self.Button_register_user.clicked.connect(self.Verificar_datos)
 
-		#self.Button_register_user.clicked.connect(self.Creater_base_datos)
+		# self.Button_register_user.clicked.connect(self.Creater_base_datos)
 
-		#self.Button_register_user.clicked.connect(self.New_user)
+		# self.Button_register_user.clicked.connect(self.New_user)
 
 		self.checkBox_2_discapacidad.clicked.connect(self.Descripcion_discapacidad)
 
@@ -11409,7 +11439,7 @@ class Window_nv_users(QDialog):
 
 		self.pushButton_visualizador_cancelar.clicked.connect(self.Cancelar_visualizador)
 
-		#self.comboBox_profesion.clicked.connect(self.Estudiante)
+		# self.comboBox_profesion.clicked.connect(self.Estudiante)
 
 		self.comboBox_profesion.currentIndexChanged.connect(self.Estudiante)
 
@@ -11420,43 +11450,43 @@ class Window_nv_users(QDialog):
 
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	
-#========================================= #Funciones# ==================================================================
+# ========================================= #Funciones# ==================================================================
 
-	#Abrir ventana de gas_bobombona ==========================================================================================      			
+	# Abrir ventana de gas_bobombona ==========================================================================================      			
 
 	def Window_gas_bombona(self):
 
 		if self.checkBox_gasbombona.isChecked():
 
-			#Window_gas_bombona(self).exec_()
+			# Window_gas_bombona(self).exec_()
 
 			self.Mostrar_gas_bombona()
 		else:
 			None
 
-	#Abrir ventana de Enfermedad ==========================================================================================      			
+	# Abrir ventana de Enfermedad ==========================================================================================      			
 
 	def Descripcion_enfermedad(self):
 
 		if self.checkBox_3_enfer.isChecked():
-			#self.interface = Window_enfermedad()
-			#Window_enfermedad(self).exec_()
+			# self.interface = Window_enfermedad()
+			# Window_enfermedad(self).exec_()
 			self.Mostrar_Enfermedad()
 		else:
 			None
 
-	#Funcion para abrir ventana de descripcion de reparacion de vivienda ==========================================================================================      			
+	# Funcion para abrir ventana de descripcion de reparacion de vivienda ==========================================================================================      			
 
 	def Descripcion_reparacion(self):
 
 		if self.radioButton_rp_si.isChecked():
-			#self.interface = Window_reparacionvivienda()
-			#Window_reparacionvivienda(self).exec_()
+			# self.interface = Window_reparacionvivienda()
+			# Window_reparacionvivienda(self).exec_()
 			self.Mostrar_rpr_vv()
 		else:
 			None
 
-	#Funcion para abrir ventan de descripcion de discapacidad ==========================================================================================      			
+	# Funcion para abrir ventan de descripcion de discapacidad ==========================================================================================      			
 	
 	def Descripcion_discapacidad(self):
 
@@ -11464,22 +11494,22 @@ class Window_nv_users(QDialog):
 
 			self.Mostrar_Discapacidad()
 
-			#self.interface = Window_discapacidad()		
-			#Window_discapacidad(self).exec_()
+			# self.interface = Window_discapacidad()		
+			# Window_discapacidad(self).exec_()
 
 		else:
 			None
 
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-	#Funcion para la ventana de estudiante accion de Aceptar ==========================================================================================      		
+	# Funcion para la ventana de estudiante accion de Aceptar ==========================================================================================      		
 	def Aceptar_estudiante(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que ha colocado\nlos datos correctamente?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -11510,14 +11540,14 @@ class Window_nv_users(QDialog):
 		else:
 			pass	
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#	
-	#Funcion para la ventana de estudiante accion de Cancelar ==========================================================================================      		
+	# Funcion para la ventana de estudiante accion de Cancelar ==========================================================================================      		
 	def Cancelar_estudiante(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -11556,14 +11586,14 @@ class Window_nv_users(QDialog):
 		else:
 			pass	
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-	#Funcion para la ventana de visualizador de fotos accion de Aceptar ==========================================================================================      		
+	# Funcion para la ventana de visualizador de fotos accion de Aceptar ==========================================================================================      		
 	def Aceptar_visualizador(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que ha colocado\nlos datos correctamente?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -11594,14 +11624,14 @@ class Window_nv_users(QDialog):
 		else:
 			pass	
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-	#Funcion para la ventana de reparacion vivienda accion de Cancelar ==========================================================================================      		
+	# Funcion para la ventana de reparacion vivienda accion de Cancelar ==========================================================================================      		
 	def Cancelar_visualizador(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -11665,14 +11695,14 @@ class Window_nv_users(QDialog):
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 
-	#Funcion para la ventana de reparacion de vivienda accion de Aceptar ==========================================================================================      		
+	# Funcion para la ventana de reparacion de vivienda accion de Aceptar ==========================================================================================      		
 	def Aceptar_rpr_vv(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que ha colocado\nlos datos correctamente?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -11704,14 +11734,14 @@ class Window_nv_users(QDialog):
 			pass	
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-	#Funcion para la ventana de reparacion vivienda accion de Cancelar ==========================================================================================      		
+	# Funcion para la ventana de reparacion vivienda accion de Cancelar ==========================================================================================      		
 	def Cancelar_rpr_vv(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -11761,14 +11791,14 @@ class Window_nv_users(QDialog):
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 
-	#Funcion para la ventana de gas bombona accion de Aceptar ==========================================================================================      		
+	# Funcion para la ventana de gas bombona accion de Aceptar ==========================================================================================      		
 	def Aceptar_gas_bombona(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que ha colocado\nlos datos correctamente?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -11798,14 +11828,14 @@ class Window_nv_users(QDialog):
 		else:
 			pass	
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-	#Funcion para la ventana de gas bombona accion de Cancelar ==========================================================================================      		
+	# Funcion para la ventana de gas bombona accion de Cancelar ==========================================================================================      		
 	def Cancelar_gas_bombona(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -11849,14 +11879,14 @@ class Window_nv_users(QDialog):
 			pass	
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-	#Funcion para la ventana de Enfermedad accion de Aceptar ==========================================================================================      		
+	# Funcion para la ventana de Enfermedad accion de Aceptar ==========================================================================================      		
 	def Aceptar_enfermedad(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que ha colocado\nlos datos correctamente?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -11887,14 +11917,14 @@ class Window_nv_users(QDialog):
 			pass	
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	
-	#Funcion para la ventana de Enfermedad accion de Cancelar ==========================================================================================      		
+	# Funcion para la ventana de Enfermedad accion de Cancelar ==========================================================================================      		
 	def Cancelar_enfermedad(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -11944,7 +11974,7 @@ class Window_nv_users(QDialog):
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	
 
-	#Funcion para la ventana de discapacidad accion de aceptar ==========================================================================================      		
+	# Funcion para la ventana de discapacidad accion de aceptar ==========================================================================================      		
 	
 	def Aceptar_discapacidad(self):
 
@@ -11952,7 +11982,7 @@ class Window_nv_users(QDialog):
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que ha colocado\nlos datos correctamente?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -11985,14 +12015,14 @@ class Window_nv_users(QDialog):
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 
-	#Funcion para la ventana de discapacidad accion de cancelar ==========================================================================================      		
+	# Funcion para la ventana de discapacidad accion de cancelar ==========================================================================================      		
 	def Cancelar_Discapacidad(self):
 
 		msg = QMessageBox()
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -12042,7 +12072,7 @@ class Window_nv_users(QDialog):
 
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-	#Funcion para verificar datos antes de crear la basde de datos ==========================================================================================      		
+	# Funcion para verificar datos antes de crear la basde de datos ==========================================================================================      		
 	
 	def Verificar_datos(self):
 		
@@ -12050,7 +12080,7 @@ class Window_nv_users(QDialog):
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que ha colocado\nlos datos correctamente?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Verificar Datos")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -12082,7 +12112,7 @@ class Window_nv_users(QDialog):
 
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
-	#Funcion para crecar nuevo usuario ==========================================================================================      		
+	# Funcion para crecar nuevo usuario ==========================================================================================      		
 
 	def Creater_base_datos(self):
 		
@@ -12211,7 +12241,7 @@ class Window_nv_users(QDialog):
 
 	def New_user(self):
 
-		#Datos Generales
+		# Datos Generales
 		nombre_1 = self.lineEdit_1_nombre.text() 
 		nombre_2 = self.lineEdit_2_nombre.text()
 		apellido_1 = self.lineEdit_1_Apellido.text()
@@ -12235,7 +12265,7 @@ class Window_nv_users(QDialog):
 		correo_electronico = self.lineEdit_correo.text()
 
 
-				#Ubicacion geografica			
+				# Ubicacion geografica			
 		estado = self.lineEdit_estado.text()
 		municipio = self.lineEdit_municipio.text()
 		parroquia = self.lineEdit_parroquia.text()
@@ -12243,7 +12273,7 @@ class Window_nv_users(QDialog):
 		direccion = self.textEdit_direccion.toPlainText()
 
 
-		#Datos de la vivienda
+		# Datos de la vivienda
 		metros_cuadrados = self.lineEdit_M2.text()
 		descripcion_vivienda = self.textEdit_dcrp_vv.toPlainText()
 		reparaciones = self.RadioButton_reparacion()
@@ -12255,19 +12285,19 @@ class Window_nv_users(QDialog):
 		servicio_electricidad = self.CheckBox_electricidad()
 		servicio_tlf_fijo = self.CheckBox_telefonofijo()
 
-		#Proteccion Social
+		# Proteccion Social
 		hogaresdelapatria = self.CheckBox_hogaresdelapatria()
 		amormayor = self.CheckBox_amormayor()
 		josegregorio = self.CheckBox_josegregorio()
 		partohumanizado = self.CheckBox_partohumanizado()
-		#=============
+		# =============
 		chambajuvenil = self.CheckBox_chambajuvenil()
 		somosvenezuela = self.CheckBox_somosvenezuela()
 		frentemiranda = self.CheckBox_frentemiranda()
 		jpsuv = self.CheckBox_jpsuv()
 
 
-		#Ventana de discapacidad
+		# Ventana de discapacidad
 		discapacidad = self.si_posee_discapacidad()
 		descripcion_discapacidad = self.textEdit_dcrp_discapacidad.toPlainText()
 		discapacidad_motriz = self.Discapacidad_Motriz()
@@ -12283,9 +12313,9 @@ class Window_nv_users(QDialog):
 		insumomedico_otros = self.Necesita_Otros()
 		descripcion_medicamento_dscp= self.textEdit_medicamento_dscp.toPlainText()
 		necesita_algun_medicamento_dscp = self.necesita_algun_medicamento_dscp()
-		#insumos_medicos = self.insumomedico()
+		# insumos_medicos = self.insumomedico()
 
-		#Ventana de enfermedad
+		# Ventana de enfermedad
 		enfermedad_de_cancer = self.Tipo_Enfer_Cancer()
 		enfermedad_de_diabetes = self.Tipo_Enfer_Diabetes()
 		enfermedad_de_hipertension = self.Tipo_Enfer_Hipertension_arterial()
@@ -12301,7 +12331,7 @@ class Window_nv_users(QDialog):
 		necesita_algun_medicamento_enfer = self.necesita_medicamento_enfer()
 		descripcion_medicamento_enfer = self.textEdit_medicamento_enfer.toPlainText()
 
-		#Ventana de reparacion de vivienda:
+		# Ventana de reparacion de vivienda:
 
 		Descripcion_de_reparacion = self.textEdit_dcrp_reparacionvv.toPlainText()
 		reparacion_de_techos = self.Reparacion_de_Techos()
@@ -12316,17 +12346,17 @@ class Window_nv_users(QDialog):
 		reparacion_de_otras = self.Reparacion_de_otras()
 		Linea_blanca = self.Linea_blanca()
 
-		#Ventana bombona 
+		# Ventana bombona 
 		tipo_de_cilindro = self.Tipo_de_cilindro()
 		cantidad_de_bombonas = int(self.num_bombonas.value())
 
-		#Ventana estudiante
+		# Ventana estudiante
 
 		nivel_estudio = self.nivel_estudio()
 		carrera_cursando = self.texedit_carrera.toPlainText()
 		donde_estudia = self.texedit_donde_estudia.toPlainText()
 
-		#Venta de visualizador de fotos 
+		# Venta de visualizador de fotos 
 
 		foto_1 = self.label_miniatura_1.pixmap()
 		foto_2 = self.label_miniatura_2.pixmap()
@@ -12594,17 +12624,17 @@ class Window_nv_users(QDialog):
 			self.checkBox_4_Embarazada.setChecked(False)
 			self.checkBox_5_lactante.setChecked(False)
 			self.comboBox_estadocivil.setCurrentIndex(-1)
-			##self.radioButton_rp_si.setCheckable(False)
-			##self.radioButton_rp_si.setAutoExclusive(False)
-			##self.radioButton_rp_no.setCheckable(False)
-			##self.radioButton_rp_no.setAutoExclusive(False)
-			##self.radiobutton_si_inscrito.setCheckable(False)
-			##self.radiobutton_si_inscrito.setAutoExclusive(False)
-			##self.radiobutton_no_inscrito.setCheckable(False)
-			##self.radiobutton_no_inscrito.setAutoExclusive(False)
+			# self.radioButton_rp_si.setCheckable(False)
+			# self.radioButton_rp_si.setAutoExclusive(False)
+			# self.radioButton_rp_no.setCheckable(False)
+			# self.radioButton_rp_no.setAutoExclusive(False)
+			# self.radiobutton_si_inscrito.setCheckable(False)
+			# self.radiobutton_si_inscrito.setAutoExclusive(False)
+			# self.radiobutton_no_inscrito.setCheckable(False)
+			# self.radiobutton_no_inscrito.setAutoExclusive(False)
 			self.lineEdit_correo.clear()
 
-					#Ubicacion geografica			
+					# Ubicacion geografica			
 			self.lineEdit_estado.clear()
 			self.lineEdit_municipio.clear()
 			self.lineEdit_parroquia.clear()
@@ -12612,10 +12642,10 @@ class Window_nv_users(QDialog):
 			self.textEdit_direccion.clear()
 
 
-			#Datos de la vivienda
+			# Datos de la vivienda
 			self.lineEdit_M2.clear()
 			self.textEdit_dcrp_vv.clear()
-			#self.RadioButton_reparacion.setChecked(False)
+			# self.RadioButton_reparacion.setChecked(False)
 			self.checkBox_aguapotable.setChecked(False)
 			self.checkBox_aguasservidas.setChecked(False)
 			self.checkBox_gasdirecto.setChecked(False)
@@ -12624,18 +12654,18 @@ class Window_nv_users(QDialog):
 			self.checkBox_electricidad.setChecked(False)
 			self.checkBox_tlf_fijo.setChecked(False)
 
-			#Proteccion Social
+			# Proteccion Social
 			self.checkBox_hogarespatria.setChecked(False)
 			self.checkBox_amormayor.setChecked(False)
 			self.checkBox_joseGregorio.setChecked(False)
 			self.checkBox_partohumanizado.setChecked(False)
-			#=============
+			# =============
 			self.checkBox_chambajuvenil.setChecked(False)
 			self.checkBox_somosvenezuela.setChecked(False)
 			self.checkBox_FrenteMiranda.setChecked(False)
 			self.checkBox_jpsuv.setChecked(False)
 
-			#Ventana discapacidad
+			# Ventana discapacidad
 
 			self.textEdit_dcrp_discapacidad.clear()
 
@@ -12645,10 +12675,10 @@ class Window_nv_users(QDialog):
 			self.checkBox_23_Dscp_mental.setChecked(False)
 			self.checkBox_24_Dscp_viceral.setChecked(False)
 			self.checkBox_otras.setChecked(False)
-			#self.radioButton_si_medicamentos_dscp.setChecked(False)
-			#self.radioButton_si_medicamentos_dscp.setAutoExclusive(False)
-			#self.radioButton_no_medicamentos_dscp.setChecked(False)
-			#self.radioButton_si_medicamentos_dscp.setAutoExclusive(False)
+			# self.radioButton_si_medicamentos_dscp.setChecked(False)
+			# self.radioButton_si_medicamentos_dscp.setAutoExclusive(False)
+			# self.radioButton_no_medicamentos_dscp.setChecked(False)
+			# self.radioButton_si_medicamentos_dscp.setAutoExclusive(False)
 	
 
 			self.textEdit_medicamento_dscp.clear()
@@ -12658,15 +12688,15 @@ class Window_nv_users(QDialog):
 			self.checkBox_protesis.setChecked(False)
 			self.checkBox_otros.setChecked(False)
 
-			#Ventana de enfermedad
+			# Ventana de enfermedad
 
 			self.textEdit_dcrp_enfermedad.clear()
 			self.textEdit_medicamento_enfer.clear()
 			self.checkBox_27_cancer.setChecked(False)
 			self.radioButton_si_medicamentos_enfer.setChecked(False)
-			#self.radioButton_si_medicamentos_enfer.setAutoExclusive(False)
-			#self.radioButton_no_medicamentos_enfer.setChecked(False)
-			#self.radioButton_no_medicamentos_enfer.setAutoExclusive(False)
+			# self.radioButton_si_medicamentos_enfer.setAutoExclusive(False)
+			# self.radioButton_no_medicamentos_enfer.setChecked(False)
+			# self.radioButton_no_medicamentos_enfer.setAutoExclusive(False)
 
 			self.checkBox_26_diabetes.setChecked(False)
 			self.checkBox_25_hp_arterial.setChecked(False)
@@ -12680,7 +12710,7 @@ class Window_nv_users(QDialog):
 		
 
 
-			#Ventana reparacion de vivienda
+			# Ventana reparacion de vivienda
 
 			self.textEdit_dcrp_reparacionvv.clear()
 
@@ -12700,7 +12730,7 @@ class Window_nv_users(QDialog):
 			self.checkBox_Cocina.setChecked(False)
 			self.checkBox_Aireacondicionado.setChecked(False)
 
-			#Ventana de gas bombona
+			# Ventana de gas bombona
 
 			self.checkBox_27_pdvsa_gas.setChecked(False)
 			self.checkBox_26_tropiven.setChecked(False)
@@ -12709,7 +12739,7 @@ class Window_nv_users(QDialog):
 			self.checkBox_24_autogas.setChecked(False)
 			self.num_bombonas.setValue(0)
 
-			#Ventana estudiante
+			# Ventana estudiante
 
 			self.checkbox_primaria.setChecked(False)
 			self.checkbox_bachillerato.setChecked(False)
@@ -12720,7 +12750,7 @@ class Window_nv_users(QDialog):
 			self.texedit_carrera.clear()
 
 
-			#Ventana visualizador de foto
+			# Ventana visualizador de foto
 			self.label_miniatura_1.clear()
 			self.label_miniatura_1.setText("Click para anexar")
 			self.label_miniatura_1_nombre.clear()
@@ -12754,7 +12784,7 @@ class Window_nv_users(QDialog):
 
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	
-	#funcion de estudiante nivel de estudio =======================================================================================
+	# funcion de estudiante nivel de estudio =======================================================================================
 
 	def nivel_estudio(self):
 
@@ -12770,7 +12800,7 @@ class Window_nv_users(QDialog):
 			return "Especialización"
 		else:
 			return "Ningún"
-	#funcion de estudiante =======================================================================================
+	# funcion de estudiante =======================================================================================
 
 	def Estudiante(self,i):
 
@@ -12779,7 +12809,7 @@ class Window_nv_users(QDialog):
 			else:
 				return "No esta estudiando"
 
-	#opcion de lactante =======================================================================================
+	# opcion de lactante =======================================================================================
 	
 	def opcion_de_lactante(self):
 		if self.checkBox_5_lactante.isChecked():
@@ -12787,7 +12817,7 @@ class Window_nv_users(QDialog):
 		else: 
 	
 			return "No esta en estado de lactancia"
-	#opcion de embarazada =======================================================================================
+	# opcion de embarazada =======================================================================================
 	def opcion_de_embarazada(self):
 
 		if self.checkBox_4_Embarazada.isChecked():
@@ -12797,7 +12827,7 @@ class Window_nv_users(QDialog):
 			return "No esta en estado de embarazo"
 
 
-	#opcion de servicio gas bombona =======================================================================================
+	# opcion de servicio gas bombona =======================================================================================
 	def gas_bombona_servicio(self):
 
 		if self.checkBox_gasbombona.isChecked():
@@ -12805,7 +12835,7 @@ class Window_nv_users(QDialog):
 		else:
 			return "No"
 
-	#opcion pensionado  =======================================================================================c
+	# opcion pensionado  =======================================================================================c
 	def pensionado(self):
 
 		if self.checkBox_1_pensionado.isChecked():
@@ -12813,7 +12843,7 @@ class Window_nv_users(QDialog):
 		else:
 			return "No esta pensionado"
 
-	#Ventana reparacion de vivienda  =======================================================================================
+	# Ventana reparacion de vivienda  =======================================================================================
 
 	def Linea_blanca(self):
 
@@ -12829,7 +12859,7 @@ class Window_nv_users(QDialog):
 		else:
 			return "No necesita linea blanca"
 
-	#TIPOS DE REPARACION
+	# TIPOS DE REPARACION
 
 	def Reparacion_de_Techos(self):
 
@@ -12886,7 +12916,7 @@ class Window_nv_users(QDialog):
 		else:
 			"No necesita este arreglo"
 
-	#Ventana de Enfermedad =======================================================================================
+	# Ventana de Enfermedad =======================================================================================
 
 	def Tipo_Enfer_Cancer(self):	
 		if self.checkBox_27_cancer.isChecked():
@@ -12959,7 +12989,7 @@ class Window_nv_users(QDialog):
 
 
 
-	#Ventana de discapacidad =======================================================================================
+	# Ventana de discapacidad =======================================================================================
 
 	def Necesita_silla_de_rueda(self):
 		if self.checkBox_sillarueda.isChecked():
@@ -12996,7 +13026,7 @@ class Window_nv_users(QDialog):
 			else:
 				return "No necesita medicamento"
 
-	#Tipo de discapacidades		
+	# Tipo de discapacidades		
 
 	def si_posee_discapacidad(self):
 		if self.checkBox_2_discapacidad.isChecked():
@@ -13042,7 +13072,7 @@ class Window_nv_users(QDialog):
 
 
 	###################################### Funciones para los radio button y Checkbox #########################################
-	#Funcion para el RadioButton de si necesita alguna reparacion ==========================================================================================      			
+	# Funcion para el RadioButton de si necesita alguna reparacion ==========================================================================================      			
 	def RadioButton_reparacion(self):
 		
 		if self.radioButton_rp_si.isChecked():
@@ -13055,7 +13085,7 @@ class Window_nv_users(QDialog):
 		else:
 			return "No necesita reparacion"
 
-	#Funcion de si esta inscrito en el REP =============================================================================================
+	# Funcion de si esta inscrito en el REP =============================================================================================
 	def RadioButton_rep(self):
 
 		if self.radiobutton_si_inscrito.isChecked():
@@ -13067,7 +13097,7 @@ class Window_nv_users(QDialog):
 		else:
 			return "No"
 
-	#CheckBox de servicios que posee ==================================================================================================
+	# CheckBox de servicios que posee ==================================================================================================
 	def CheckBox_aguapotable(self):
 		if self.checkBox_aguapotable.isChecked():
 			return "Si"
@@ -13109,7 +13139,7 @@ class Window_nv_users(QDialog):
 		else:
 			return "No"
 
-	#Proteccion Social =======================================================================================
+	# Proteccion Social =======================================================================================
 	def CheckBox_hogaresdelapatria(self):
 
 		if self.checkBox_hogarespatria.isChecked():
@@ -13187,7 +13217,7 @@ class Window_nv_users(QDialog):
 		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
 		msg.setText("¿Estás seguro de que desea cancelar?")
 		msg.setIcon(QMessageBox.Question)
-		#msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
 		msg.setWindowTitle("Cancelar")
 		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
@@ -13387,7 +13417,7 @@ class Window_nv_users(QDialog):
 		def establecerValores():
 			labelConImagen.clear()
 			# Limpiar la barra de estado
-			#self.parent.statusBar.clearMessage()
+			# self.parent.statusBar.clearMessage()
 					
 		# Verificar que QLabel tiene imagen
 		labelConNombre = self.label_miniatura_1_nombre
@@ -13496,15 +13526,15 @@ class Window_nv_users(QDialog):
 					return
 
 			else:	
-				#imagen_6 = QPixmap(nombreImagen)				
+				# imagen_6 = QPixmap(nombreImagen)				
 			
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_5(self.label_miniatura_6, imagen, nombre)
 				self.foto_1(imagen)
-				#self.imagen_6 = imagen
-				#self.Guardar_datos(imagen_6)
-				#self.Guardar_datos(imagen_6)
+				# self.imagen_6 = imagen
+				# self.Guardar_datos(imagen_6)
+				# self.Guardar_datos(imagen_6)
 
 
 		else:
@@ -13549,15 +13579,15 @@ class Window_nv_users(QDialog):
 					return
 
 			else:	
-				##imagen_5 = QPixmap(nombreImagen)				
+				# imagen_5 = QPixmap(nombreImagen)				
 			
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_4(self.label_miniatura_5, imagen, nombre)
 				self.foto_1(imagen)
-				#self.imagen_5 = imagen
-				#self.Guardar_datos(imagen_5)
-				##self.Guardar_datos(imagen_5)
+				# self.imagen_5 = imagen
+				# self.Guardar_datos(imagen_5)
+				# self.Guardar_datos(imagen_5)
 
 
 		else:
@@ -13600,15 +13630,15 @@ class Window_nv_users(QDialog):
 					return
 
 			else:	
-				#imagen_4 = QPixmap(nombreImagen)				
+				# imagen_4 = QPixmap(nombreImagen)				
 			
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_3(self.label_miniatura_4, imagen, nombre)
 				self.foto_1(imagen)
-				#self.imagen_4 = imagen
-				#self.Guardar_datos(imagen_4)
-				#self.Guardar_datos(imagen_4)
+				# self.imagen_4 = imagen
+				# self.Guardar_datos(imagen_4)
+				# self.Guardar_datos(imagen_4)
 
 
 		else:
@@ -13657,15 +13687,15 @@ class Window_nv_users(QDialog):
 					return
 
 			else:	
-				##imagen_3 = QPixmap(nombreImagen)				
+				# imagen_3 = QPixmap(nombreImagen)				
 			
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_2(self.label_miniatura_3, imagen, nombre)
 				self.foto_1(imagen)
-				#self.imagen_3 = imagen
-				#self.Guardar_datos(imagen_3)
-				##self.Guardar_datos(imagen_3)
+				# self.imagen_3 = imagen
+				# self.Guardar_datos(imagen_3)
+				# self.Guardar_datos(imagen_3)
 
 
 		else:
@@ -13710,14 +13740,14 @@ class Window_nv_users(QDialog):
 					return
 
 			else:				
-				#imagen_2 = QPixmap(nombreImagen)				
+				# imagen_2 = QPixmap(nombreImagen)				
 
 				nombre = QFileInfo(nombreImagen).fileName()
 				imagen = QImage(nombreImagen)
 				self.Mostrar_1(self.label_miniatura_2, imagen, nombre)
 				self.foto_1(imagen)
 				self.imagen_2 = imagen
-				#self.Guardar_datos(imagen_2)
+				# self.Guardar_datos(imagen_2)
 
 
 		else:
@@ -13771,7 +13801,7 @@ class Window_nv_users(QDialog):
 				self.foto_1(imagen)
 
 				
-				#self.Guardar_datos(imagen_1)
+				# self.Guardar_datos(imagen_1)
 
 
 		else:
@@ -13793,7 +13823,7 @@ class Window_nv_users(QDialog):
 		label.setPixmap(imagen)
 
 		
-    
+	
 		self.animacionMostar = QPropertyAnimation(label, b"geometry")
 		self.animacionMostar.finished.connect(lambda: (self.label_miniatura_1_nombre.setText(nombre)))
 
@@ -13812,26 +13842,26 @@ class Window_nv_users(QDialog):
 			cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
 			botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
 			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
-	            
+				
 			cerrar.exec_()
-	            
+				
 			if cerrar.clickedButton() == botonSalir:
 				self.close()
 			else:
 				event.ignore()
 
 	def closeEvent(self, event):
-               
+			   
 			cerrar = QMessageBox(self)
 			cerrar.setWindowTitle("¿Salir de VESOR?")
 			cerrar.setIcon(QMessageBox.Question)
 			cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
 			botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
 			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
-            
+			
 			cerrar.exec_()
 
-#/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+ Fin de la Ventana registro de usuario+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+
+# /+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+ Fin de la Ventana registro de usuario+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+
 
 
 
@@ -13855,7 +13885,7 @@ class Ver_fotos(QDialog):
 
 		self.parent = parent
 		self.imagen = imagen
-		#self.nombre = nombre
+		# self.nombre = nombre
 		self.setWindowTitle("Foto")
 		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
 
@@ -13882,7 +13912,7 @@ class Ver_fotos(QDialog):
 		self.labelimagen.setPixmap(pixmap)
 
 
-	#Clase ventana Acerca de
+	# Clase ventana Acerca de
 class Acerca_de(QDialog):
 	def __init__(self, parent = None):
 		super(Acerca_de, self).__init__()
@@ -13901,24 +13931,24 @@ class Acerca_de(QDialog):
 
 
 	def initUi(self):
-#====== Frame principal de fondo ==========================================================================================
+# ====== Frame principal de fondo ==========================================================================================
 		self.frame_contenido = QFrame(self)
 		self.frame_contenido.setGeometry(QRect(10,10,500,650))
 		self.frame_contenido.setStyleSheet("QFrame{background-color:#E5E7EE;\n"
 		"border-radius: 20px;\n"
 		"}")
-#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
+# =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 
-#====== Label con el nombre vesor ==========================================================================================
+# ====== Label con el nombre vesor ==========================================================================================
 
 		self.label_imagen = QLabel(self)
 		self.label_imagen.setGeometry(QRect(-20,-70,361,291))
 		self.label_imagen.setStyleSheet("QLabel{border-image: url(:/Titulo_vesor/Imagenes-iconos/VESOR.png);\n"
 		"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:1 rgba(255, 255, 255, 0));\n"
 		"}")
-#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
+# =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 
-#====== texto de descripcion de vesor ==========================================================================================
+# ====== texto de descripcion de vesor ==========================================================================================
 
 		self.frame_texto = QFrame(self)
 		self.frame_texto.setGeometry(QRect(320,20,181,111))
@@ -13930,18 +13960,18 @@ class Acerca_de(QDialog):
 		self.label_descripcion.setStyleSheet("QLabel{\n"
 		"border-image: url(:/Icono_descipcion/Imagenes-iconos/descripcion.png);\n"
 		"}")
-#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
+# =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 
-#====== Iamgen central ==========================================================================================
+# ====== Iamgen central ==========================================================================================
 
 		self.label_imagen_central = QLabel(self)
 		self.label_imagen_central.setGeometry(QRect(20,140,481,341))
 		self.label_imagen_central.setStyleSheet("QLabel{border-radius:25px;\n"
 		"border-image: url(:/Acerca_de/Imagenes-iconos/Acerca de .png);\n"
 		"}")
-#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
+# =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 
-#====== Parte de datos de diseñadores y desarrolladores ==========================================================================================
+# ====== Parte de datos de diseñadores y desarrolladores ==========================================================================================
 
 		self.frame_disenadores = QFrame(self)
 		self.frame_disenadores.setGeometry(QRect(20,490,481,161))
@@ -14071,9 +14101,9 @@ class Acerca_de(QDialog):
 		"color: #ffffff;\n"
 		"}")
 
-#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
+# =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 
-#== Eventos para abrir enlaces ============================================================================================	
+# == Eventos para abrir enlaces ============================================================================================	
 
 		self.Button_facebook.clicked.connect(self.enlace_facebook_1)
 
@@ -14084,9 +14114,9 @@ class Acerca_de(QDialog):
 		self.Button_github_2.clicked.connect(self.enlace_github_2)
 		
 		self.Button_instagram.clicked.connect(self.enlace_instagram)
-#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
+# =#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 	
-#== Funciones para abrir enlaces ============================================================================================	
+# == Funciones para abrir enlaces ============================================================================================	
 
 	def enlace_facebook_1(self):
 
