@@ -128,10 +128,10 @@ class CustomWindow(QMainWindow):
 
 		if sistema == "Linux":
 			ruta = ('//')
-			print(ruta)
+			#print(ruta)
 		else:
 			ruta = ('C:/Windows/')
-			print(ruta)
+			#print(ruta)
 
 		if os.path.isfile(ruta + 'verification_vesor/Serial.txt'):
 			if os.path.isfile('Users_database.db'):
@@ -149,7 +149,6 @@ class CustomWindow(QMainWindow):
 			self.close()
 
    # Clase del Login
-
 
 class Login_window(QDialog):
 	def __init__(self):
@@ -1036,7 +1035,7 @@ class Interface(QMainWindow):
 		
 		self.acercade = self.menuArchivo.addAction("Acerca de VESOR", self.Abrir_window)
 		
-		self.ayuda = self.menuArchivo.addAction("Ayuda")
+		#self.ayuda = self.menuArchivo.addAction("Ayuda")
 		# ======================================================================================================
 
 		# Menu de opcionesde usuario =====================================================================================================	
@@ -1594,12 +1593,12 @@ class Window_edit_elim_user(QDialog):
 
 		# Buttons aceptar
 
-		self.aceptar = QPushButton(self.frame_menu)
-		self.aceptar.setText("Aceptar")
-		self.aceptar.setGeometry(QRect(0, 150, 121, 31))
-		self.aceptar.setStyleSheet(Style_buttons)
-		self.aceptar.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
-		self.aceptar.setIconSize(QSize(15,15))
+		self.aceptar_edit_user = QPushButton(self.frame_menu)
+		self.aceptar_edit_user.setText("Aceptar")
+		self.aceptar_edit_user.setGeometry(QRect(0, 150, 121, 31))
+		self.aceptar_edit_user.setStyleSheet(Style_buttons)
+		self.aceptar_edit_user.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
+		self.aceptar_edit_user.setIconSize(QSize(15,15))
 		###
 
 		# Buttons eliminar
@@ -1623,12 +1622,12 @@ class Window_edit_elim_user(QDialog):
 		###
 
 		# Buttons cancelar
-		self.cancelar = QPushButton(self.frame_menu)
-		self.cancelar.setText("Cancelar")
-		self.cancelar.setGeometry(QRect(0, 240, 121, 31))
-		self.cancelar.setStyleSheet(Style_buttons)
-		self.cancelar.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
-		self.cancelar.setIconSize(QSize(15,15))
+		self.cancelar_edit_user = QPushButton(self.frame_menu)
+		self.cancelar_edit_user.setText("Cancelar")
+		self.cancelar_edit_user.setGeometry(QRect(0, 240, 121, 31))
+		self.cancelar_edit_user.setStyleSheet(Style_buttons)
+		self.cancelar_edit_user.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
+		self.cancelar_edit_user.setIconSize(QSize(15,15))
 		###
 
 
@@ -1669,19 +1668,50 @@ class Window_edit_elim_user(QDialog):
 		# self.limpiar.clicked.connect(self.Ocultar_todos)
 
 		self.actualizar.clicked.connect(self.mostrar_datos)
-
+		self.cancelar_edit_user.clicked.connect(self.cerrar_edit_user)
 		self.eliminar.clicked.connect(self.eliminar_datos)
-
+		self.aceptar_edit_user.clicked.connect(self.Aceptar_edit_user)
 		self.line_edit_busqueda.returnPressed.connect(self.buscar_datos)
 		self.buscar.clicked.connect(self.buscar_datos)
 		self.opciones_de_busqueda.setMenu(self.menu_buscar)
 
 
-		self.aceptar.clicked.connect(self.Item_click)
+		#self.aceptar.clicked.connect(self.Item_click)
 		self.QTableWidget_contenido.itemDoubleClicked.connect(self.Item_click)
 
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
+	def Aceptar_edit_user(self):
+
+		aceptar_user = QMessageBox(self)
+		aceptar_user.setWindowTitle("Aceptar")
+		aceptar_user.setIcon(QMessageBox.Question)
+		aceptar_user.setText("¿Estás seguro de guardar los datos existentes?")
+		botonaceptar_user = aceptar_user.addButton("Si", QMessageBox.YesRole)
+		botonCancelar_user = aceptar_user.addButton("No", QMessageBox.NoRole)
+
+		aceptar_user.exec_()
+
+		if aceptar_user.clickedButton() == botonaceptar_user:
+			self.close()
+		else:
+			pass
+
+	def cerrar_edit_user(self):
+
+		cerrar_edit = QMessageBox(self)
+		cerrar_edit.setWindowTitle("Cancelar")
+		cerrar_edit.setIcon(QMessageBox.Question)
+		cerrar_edit.setText("¿Estás seguro que desea cancelar?")
+		botonSalir_edit = cerrar_edit.addButton("Si", QMessageBox.YesRole)
+		botonCancelar_edit = cerrar_edit.addButton("No", QMessageBox.NoRole)
+
+		cerrar_edit.exec_()
+
+		if cerrar_edit.clickedButton() == botonSalir_edit:
+			self.close()
+		else:
+			pass		
 
 	def mostrarOcultar(self, accion):
 		columna = accion.data()
@@ -1819,7 +1849,7 @@ class Window_edit_elim_user(QDialog):
 
 					self.QTableWidget_contenido.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
 					ID = self.QTableWidget_contenido.selectedIndexes()[0].data()
-					print(f"has clickeado en {ID}")
+					print("has clickeado en {ID}")
 					
 					# Primera Instancia
 					query = 'DELETE  FROM USUARIO_DT_GNR WHERE ID =?'
@@ -1992,7 +2022,7 @@ class Window_edit_elim_user(QDialog):
 				cur_discapacidad = sqlite3.connect("Base de datos/DB_VESOR_USER_DATOSGENERALES.db")
 				cursor_discapacidad = cur_discapacidad.cursor()
 
-				cursor_discapacidad.execute("SELECT * FROM USUARIO_DT_GNR WHERE DISCAPACIDAD = ''  ORDER BY EDAD")
+				cursor_discapacidad.execute("SELECT * FROM USUARIO_DT_GNR WHERE DESCRIBA_DISCAPACIDAD != '' ORDER BY EDAD")
 				
 
 				datos_Devueltos = cursor_discapacidad.fetchall()
@@ -2438,36 +2468,36 @@ class Window_edit_elim_user(QDialog):
 
 
 
-	def keyPressEvent(self, event):
-		if event.key() == Qt.Key_Return:
-			self.buscar_datos()
+	# def keyPressEvent(self, event):
+	# 	if event.key() == Qt.Key_Return:
+	# 		self.buscar_datos()
 
-		elif event.key() == Qt.Key_Escape:
+	# 	elif event.key() == Qt.Key_Escape:
 
-			cerrar = QMessageBox(self)
-			cerrar.setWindowTitle("¿Salir de VESOR?")
-			cerrar.setIcon(QMessageBox.Question)
-			cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
-			botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
-			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
+	# 		cerrar = QMessageBox(self)
+	# 		cerrar.setWindowTitle("¿Salir de VESOR?")
+	# 		cerrar.setIcon(QMessageBox.Question)
+	# 		cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
+	# 		botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
+	# 		botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
 				
-			cerrar.exec_()
+	# 		cerrar.exec_()
 				
-			if cerrar.clickedButton() == botonSalir:
-				self.close()
-			else:
-				event.ignore()
+	# 		if cerrar.clickedButton() == botonSalir:
+	# 			self.close()
+	# 		else:
+	# 			event.ignore()
 
-	def closeEvent(self, event):
+	# def closeEvent(self, event):
 			   
-			cerrar = QMessageBox(self)
-			cerrar.setWindowTitle("¿Salir de VESOR?")
-			cerrar.setIcon(QMessageBox.Question)
-			cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
-			botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
-			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
+	# 		cerrar = QMessageBox(self)
+	# 		cerrar.setWindowTitle("¿Salir de VESOR?")
+	# 		cerrar.setIcon(QMessageBox.Question)
+	# 		cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
+	# 		botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
+	# 		botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
 			
-			cerrar.exec_()
+	# 		cerrar.exec_()
 
 
 
@@ -4272,17 +4302,6 @@ class Window_visualizar_users(QDialog):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 		#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Ventana de Reparacion vivienda #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#
 		self.frame_principal_rpr_vv = QFrame(self)
 		self.frame_principal_rpr_vv.setGeometry(QRect(190,-200,675,450))
@@ -5293,19 +5312,6 @@ class Window_visualizar_users(QDialog):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 # +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Datos de estudiante #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 
 		self.frame_principal_estudiante = QFrame(self)
@@ -5512,7 +5518,7 @@ class Window_visualizar_users(QDialog):
 
 
 		# Eventos ========================================================================================================	           
-		self.Button_cancel_user.clicked.connect(self.close)
+		self.Button_cancel_user.clicked.connect(self.cancelar_viz_user)
 		
 		self.Button_guardar_user.clicked.connect(self.Actualizar_datos)
 
@@ -8155,42 +8161,21 @@ class Window_visualizar_users(QDialog):
 		self.animacionMostar.setEndValue(QRect(20, 20, 171, 121))
 		self.animacionMostar.start(QAbstractAnimation.DeleteWhenStopped)
 
-	def close(self):
-		
-		msg = QMessageBox()
-		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
-		msg.setText("¿Estás seguro de que desea cancelar?")
-		msg.setIcon(QMessageBox.Question)
-		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
-		msg.setWindowTitle("Cancelar")
-		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+	def cancelar_viz_user(self):
 
-		button_si = msg.button(QMessageBox.Yes)
-		button_si.setText("Si")
-		button_si.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
-		button_si.setIconSize(QSize(13,13))
-		button_si.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
-		"QPushButton{background:#343a40;\n"
-		"}")
+		cancelar_user = QMessageBox(self)
+		cancelar_user.setWindowTitle("Cancelar")
+		cancelar_user.setIcon(QMessageBox.Question)
+		cancelar_user.setText("¿Estás seguro que desea cancelar?")
+		botonSalir_user = cancelar_user.addButton("Si", QMessageBox.YesRole)
+		botonCancelar_user = cancelar_user.addButton("No", QMessageBox.NoRole)
 
+		cancelar_user.exec_()
 
-		button_no = msg.button(QMessageBox.No)
-		button_no.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
-		button_no.setIconSize(QSize(13,13))
-		button_no.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
-		"QPushButton{background:#343a40;}")
-
-		msg.setStyleSheet("\n"
-			"color:#ffffff;\n"
-			"font-size:12px;\n"
-			"background-color:#12191D;")
-
-		if (msg.exec_() == QMessageBox.Yes):
-
+		if cancelar_user.clickedButton() == botonSalir_user:
 			self.close()
-
 		else:
-			pass	
+			pass
 
 
 # /+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+
@@ -8376,21 +8361,21 @@ class Window_status_user(QDialog):
 		###
 
 		# Buttons aceptar
-		self.aceptar = QPushButton(self.frame_menu)
-		self.aceptar.setText("Aceptar")
-		self.aceptar.setGeometry(QRect(0, 150, 121, 31))
-		self.aceptar.setStyleSheet(Style_buttons)
-		self.aceptar.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
-		self.aceptar.setIconSize(QSize(15,15))
+		self.aceptar_status = QPushButton(self.frame_menu)
+		self.aceptar_status.setText("Aceptar")
+		self.aceptar_status.setGeometry(QRect(0, 150, 121, 31))
+		self.aceptar_status.setStyleSheet(Style_buttons)
+		self.aceptar_status.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
+		self.aceptar_status.setIconSize(QSize(15,15))
 		###
 
 		# Buttons cancelar
-		self.cancelar = QPushButton(self.frame_menu)
-		self.cancelar.setText("Cancelar")
-		self.cancelar.setGeometry(QRect(0, 190, 121, 31))
-		self.cancelar.setStyleSheet(Style_buttons)
-		self.cancelar.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
-		self.cancelar.setIconSize(QSize(15,15))
+		self.cancelar_stat = QPushButton(self.frame_menu)
+		self.cancelar_stat.setText("Cancelar")
+		self.cancelar_stat.setGeometry(QRect(0, 190, 121, 31))
+		self.cancelar_stat.setStyleSheet(Style_buttons)
+		self.cancelar_stat.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
+		self.cancelar_stat.setIconSize(QSize(15,15))
 		###
 
 		# QTableWidget ==========================================================================================      		
@@ -8424,9 +8409,25 @@ class Window_status_user(QDialog):
 
 		# EVENTOS ==========================================================================================      		
 		self.actualizar.clicked.connect(self.mostrar_datos)
-	
+		self.cancelar_stat.clicked.connect(self.Cancelar_status)
+		self.aceptar_status.clicked.connect(self.Aceptar_status_user)
 
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
+	def Aceptar_status_user(self):
+
+		aceptar_status = QMessageBox(self)
+		aceptar_status.setWindowTitle("Aceptar")
+		aceptar_status.setIcon(QMessageBox.Question)
+		aceptar_status.setText("¿Estás seguro de guardar los datos existentes?")
+		botonaceptar_status = aceptar_status.addButton("Si", QMessageBox.YesRole)
+		botonCancelar_status = aceptar_status.addButton("No", QMessageBox.NoRole)
+
+		aceptar_status.exec_()
+
+		if aceptar_status.clickedButton() == botonaceptar_status:
+			self.close()
+		else:
+			pass
 	def mostrar_datos(self):
 
 		if QFile.exists("Base de datos/DB_VESOR_USER_DATOSGENERALES.db"):
@@ -8481,25 +8482,42 @@ class Window_status_user(QDialog):
 
 
 
-	def closeEvent(self, event):
+	# def closeEvent(self, event):
 		
-		cerrar = QMessageBox(self)
-		cerrar.setWindowTitle("¿Salir de VESOR?")
-		cerrar.setIcon(QMessageBox.Question)
-		cerrar.setText("¿Estás seguro que desea cerrar esta ventana?")
-		botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
-		botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
+	# 	cerrar = QMessageBox(self)
+	# 	cerrar.setWindowTitle("¿Salir de VESOR?")
+	# 	cerrar.setIcon(QMessageBox.Question)
+	# 	cerrar.setText("¿Estás seguro que desea cerrar esta ventana?")
+	# 	botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
+	# 	botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
 			
-		cerrar.exec_()
+	# 	cerrar.exec_()
 			
-		if cerrar.clickedButton() == botonSalir:
-			event.accept()
-		else:
-			event.ignore()
+	# 	if cerrar.clickedButton() == botonSalir:
+	# 		event.accept()
+	# 	else:
+	# 		event.ignore()
 
-	def keyPressEvent(self, event):
-		if event.key() == Qt.Key_Escape:
+	# def keyPressEvent(self, event):
+	# 	if event.key() == Qt.Key_Escape:
+	# 		self.close()
+
+
+	def Cancelar_status(self):
+		cerrar_status = QMessageBox(self)
+		cerrar_status.setWindowTitle("Cancelar")
+		cerrar_status.setIcon(QMessageBox.Question)
+		cerrar_status.setText("¿Estás seguro que desea cancelar?")
+		botonSalir_status = cerrar_status.addButton("Si", QMessageBox.YesRole)
+		botonCancelar_status = cerrar_status.addButton("No", QMessageBox.NoRole)
+
+		cerrar_status.exec_()
+
+		if cerrar_status.clickedButton() == botonSalir_status:
 			self.close()
+		else:
+			pass
+
 
 	# Clase ventana de usuario nuevo
 class Window_nv_users(QDialog):
@@ -10198,29 +10216,6 @@ class Window_nv_users(QDialog):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ Ventana de ENFERMEDAD #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#
 
 		self.frame_principal_Enfermedad = QFrame(self)
@@ -10341,11 +10336,11 @@ class Window_nv_users(QDialog):
 		"color: #000000;\n"
 		"font-size: 12px}")
 
-		self.checkBox_30_calcu_riñon = QCheckBox(self.groupBox_datos_enfermedad)
-		self.checkBox_30_calcu_riñon.setGeometry(QRect(40, 180, 200, 17))
-		self.checkBox_30_calcu_riñon.setText("Cálculos de riñón")
-		self.checkBox_30_calcu_riñon.setObjectName("checkBox_30_calcu_riñon")
-		self.checkBox_30_calcu_riñon.setStyleSheet("QCheckBox{ background-color:#E5E7EE ;\n"
+		self.checkBox_30_calcu_rinon = QCheckBox(self.groupBox_datos_enfermedad)
+		self.checkBox_30_calcu_rinon.setGeometry(QRect(40, 180, 200, 17))
+		self.checkBox_30_calcu_rinon.setText("Cálculos de riñón")
+		self.checkBox_30_calcu_rinon.setObjectName("checkBox_30_calcu_riñon")
+		self.checkBox_30_calcu_rinon.setStyleSheet("QCheckBox{ background-color:#E5E7EE ;\n"
 		"color: #000000;\n"
 		"font-size: 12px}")
 
@@ -11376,9 +11371,9 @@ class Window_nv_users(QDialog):
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
 		# Boton cancelar ==========================================================================================      		
-		self.Button_cancel_user = QPushButton(self.frame_nv_user)
-		self.Button_cancel_user.setGeometry(QRect(0, 120, 121, 31))
-		self.Button_cancel_user.setStyleSheet("QPushButton{\n"
+		self.Button_cancelar_user = QPushButton(self.frame_nv_user)
+		self.Button_cancelar_user.setGeometry(QRect(0, 120, 121, 31))
+		self.Button_cancelar_user.setStyleSheet("QPushButton{\n"
 		"border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
 		"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));\n"
 		"color:rgb(255, 255, 255);\n"
@@ -11393,10 +11388,10 @@ class Window_nv_users(QDialog):
 		"\n"
 		"\n"
 		"}")
-		self.Button_cancel_user.setObjectName("Button_cancel_user")
-		self.Button_cancel_user.setText("Cancelar")	
-		self.Button_cancel_user.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
-		self.Button_cancel_user.setIconSize(QSize(17,17))	
+		self.Button_cancelar_user.setObjectName("Button_cancelar_user")
+		self.Button_cancelar_user.setText("Cancelar")	
+		self.Button_cancelar_user.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.Button_cancelar_user.setIconSize(QSize(17,17))	
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 # +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ FIN DE BOTONES DE LA VENTANA DE REGISTRO DE USUARIO #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
 
@@ -11415,7 +11410,7 @@ class Window_nv_users(QDialog):
 
 		self.checkBox_gasbombona.clicked.connect(self.Window_gas_bombona)
 
-		self.Button_cancel_user.clicked.connect(self.Estudiante)
+		self.Button_cancelar_user.clicked.connect(self.cerrar_nv_user)
 
 		self.pushButton_aceptar_discapacidad.clicked.connect(self.Aceptar_discapacidad)
 
@@ -11451,7 +11446,22 @@ class Window_nv_users(QDialog):
 #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 	
 # ========================================= #Funciones# ==================================================================
+	
+	def cerrar_nv_user(self):
 
+		cerrar_user = QMessageBox(self)
+		cerrar_user.setWindowTitle("Cancelar")
+		cerrar_user.setIcon(QMessageBox.Question)
+		cerrar_user.setText("¿Estás seguro que desea cancelar?")
+		botonSalir_user = cerrar_user.addButton("Si", QMessageBox.YesRole)
+		botonCancelar_user = cerrar_user.addButton("No", QMessageBox.NoRole)
+
+		cerrar_user.exec_()
+
+		if cerrar_user.clickedButton() == botonSalir_user:
+			self.close()
+		else:
+			pass
 	# Abrir ventana de gas_bobombona ==========================================================================================      			
 
 	def Window_gas_bombona(self):
@@ -11958,7 +11968,7 @@ class Window_nv_users(QDialog):
 			self.checkBox_24_vascular.setChecked(False)
 			self.checkBox_28_gastritis.setChecked(False)		
 			self.checkBox_29_bronquitis.setChecked(False)
-			self.checkBox_30_calcu_riñon.setChecked(False)
+			self.checkBox_30_calcu_rinon.setChecked(False)
 			self.checkBox_31_sinusitis.setChecked(False)
 			self.checkBox_32_otra_enf.setChecked(False)
 
@@ -12704,7 +12714,7 @@ class Window_nv_users(QDialog):
 			self.checkBox_24_vascular.setChecked(False)
 			self.checkBox_28_gastritis.setChecked(False)		
 			self.checkBox_29_bronquitis.setChecked(False)
-			self.checkBox_30_calcu_riñon.setChecked(False)
+			self.checkBox_30_calcu_rinon.setChecked(False)
 			self.checkBox_31_sinusitis.setChecked(False)
 			self.checkBox_32_otra_enf.setChecked(False)
 		
@@ -12955,7 +12965,7 @@ class Window_nv_users(QDialog):
 			return "No posee esta enfermedad"
 
 	def Tipo_Enfer_Calculos_rinon(self):
-		if self.checkBox_30_calcu_riñon.isChecked():
+		if self.checkBox_30_calcu_rinon.isChecked():
 			return "Cálculos de riñón"
 		else:
 			return "No posee esta enfermedad"
@@ -13211,42 +13221,42 @@ class Window_nv_users(QDialog):
 		
 
 
-	def close(self):
+	# def close(self):
 		
-		msg = QMessageBox()
-		msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
-		msg.setText("¿Estás seguro de que desea cancelar?")
-		msg.setIcon(QMessageBox.Question)
-		# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
-		msg.setWindowTitle("Cancelar")
-		msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+	# 	msg = QMessageBox()
+	# 	msg.setWindowIcon(QIcon('Imagenes-iconos/Icono_window.png'))
+	# 	msg.setText("¿Estás seguro de que desea cancelar?")
+	# 	msg.setIcon(QMessageBox.Question)
+	# 	# msg.setInformativeText("¿Estás seguro de que ha colocado las datos correctamente?")
+	# 	msg.setWindowTitle("Cancelar")
+	# 	msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
-		button_si = msg.button(QMessageBox.Yes)
-		button_si.setText("Si")
-		button_si.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
-		button_si.setIconSize(QSize(13,13))
-		button_si.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
-		"QPushButton{background:#343a40;\n"
-		"}")
+	# 	button_si = msg.button(QMessageBox.Yes)
+	# 	button_si.setText("Si")
+	# 	button_si.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+	# 	button_si.setIconSize(QSize(13,13))
+	# 	button_si.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
+	# 	"QPushButton{background:#343a40;\n"
+	# 	"}")
 
 
-		button_no = msg.button(QMessageBox.No)
-		button_no.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
-		button_no.setIconSize(QSize(13,13))
-		button_no.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
-		"QPushButton{background:#343a40;}")
+	# 	button_no = msg.button(QMessageBox.No)
+	# 	button_no.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+	# 	button_no.setIconSize(QSize(13,13))
+	# 	button_no.setStyleSheet("QPushButton:hover{background:rgb(0, 170, 255);}\n"
+	# 	"QPushButton{background:#343a40;}")
 
-		msg.setStyleSheet("\n"
-			"color:#ffffff;\n"
-			"font-size:12px;\n"
-			"background-color:#12191D;")
+	# 	msg.setStyleSheet("\n"
+	# 		"color:#ffffff;\n"
+	# 		"font-size:12px;\n"
+	# 		"background-color:#12191D;")
 
-		if (msg.exec_() == QMessageBox.Yes):
+	# 	if (msg.exec_() == QMessageBox.Yes):
 
-			self.close()
+	# 		self.close()
 
-		else:
-			pass	
+	# 	else:
+	# 		pass	
 
 
 	#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
@@ -13833,33 +13843,33 @@ class Window_nv_users(QDialog):
 		self.animacionMostar.start(QAbstractAnimation.DeleteWhenStopped)
 
 
-	def keyPressEvent(self, event):
-		if event.key() == Qt.Key_Escape:
+	# def keyPressEvent(self, event):
+	# 	if event.key() == Qt.Key_Escape:
 
-			cerrar = QMessageBox(self)
-			cerrar.setWindowTitle("¿Salir de VESOR?")
-			cerrar.setIcon(QMessageBox.Question)
-			cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
-			botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
-			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
+	# 		cerrar = QMessageBox(self)
+	# 		cerrar.setWindowTitle("¿Salir de VESOR?")
+	# 		cerrar.setIcon(QMessageBox.Question)
+	# 		cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
+	# 		botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
+	# 		botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
 				
-			cerrar.exec_()
+	# 		cerrar.exec_()
 				
-			if cerrar.clickedButton() == botonSalir:
-				self.close()
-			else:
-				event.ignore()
+	# 		if cerrar.clickedButton() == botonSalir:
+	# 			self.close()
+	# 		else:
+	# 			event.ignore()
 
-	def closeEvent(self, event):
+	# def closeEvent(self, event):
 			   
-			cerrar = QMessageBox(self)
-			cerrar.setWindowTitle("¿Salir de VESOR?")
-			cerrar.setIcon(QMessageBox.Question)
-			cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
-			botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
-			botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
+	# 		cerrar = QMessageBox(self)
+	# 		cerrar.setWindowTitle("¿Salir de VESOR?")
+	# 		cerrar.setIcon(QMessageBox.Question)
+	# 		cerrar.setText("¿Estás seguro que desea cerrar esta ventana?   ")
+	# 		botonSalir = cerrar.addButton("Salir", QMessageBox.YesRole)
+	# 		botonCancelar = cerrar.addButton("Cancelar", QMessageBox.NoRole)
 			
-			cerrar.exec_()
+	# 		cerrar.exec_()
 
 # /+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+ Fin de la Ventana registro de usuario+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+
 
