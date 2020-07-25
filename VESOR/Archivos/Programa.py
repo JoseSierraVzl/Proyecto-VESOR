@@ -58,7 +58,7 @@ class CustomWindow(QMainWindow):
 		self.label_tres = QtWidgets.QLabel(self)
 		self.label_tres.setGeometry(QRect(420, 290, 341, 251))
 		self.label_tres.setStyleSheet(
-		    "QLabel{border-image: url(:/Titulo_vesor/Imagenes-iconos/VESOR.png);}")
+			"QLabel{border-image: url(:/Titulo_vesor/Imagenes-iconos/VESOR.png);}")
 
 		self.Label_cuatro = QtWidgets.QLabel(self)
 		self.Label_cuatro.setGeometry(QRect(590, 430, 340, 100))
@@ -155,7 +155,7 @@ class Login_window(QDialog):
 		QDialog.__init__(self)
 		uic.loadUi("Login_window.ui", self)
 		self.setWindowTitle("Iniciar sesión")
-		self.setWindowIcon(QtGui.QIcon('Imagenes-iconos/Icono_window.png'))
+		self.setWindowIcon(QtGui.QIcon(':/Logo_vesor/Imagenes-iconos/Icono_window.png'))
 
 		self.shadow = QGraphicsDropShadowEffect()
 		self.shadow.setBlurRadius(16)
@@ -170,7 +170,7 @@ class Login_window(QDialog):
 		self.pushButton_2.setGraphicsEffect(self.shadow)
 
 		self.setWindowFlags(Qt.WindowTitleHint |
-		                    Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
+							Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
 		self.Button_iniciar.clicked.connect(self.login_iniciar)
 
@@ -250,7 +250,7 @@ class Login_window(QDialog):
 		User = str(self.lineEdit.text())
 		Password = str(self.lineEdit_2.text())
 		cursor.execute(
-		    'SELECT * FROM DATA_USERS WHERE USERS = ? and PASSWORD = ?', (User, Password))
+			'SELECT * FROM DATA_USERS WHERE USERS = ? and PASSWORD = ?', (User, Password))
 		data = cursor.fetchone()
 
 		print(data)
@@ -271,9 +271,9 @@ class Start_window(QDialog):
 		QDialog.__init__(self)
 		uic.loadUi("Start_window.ui", self)
 		self.setWindowTitle("Registro")
-		self.setWindowIcon(QtGui.QIcon('Imagenes-iconos/Icono_window.png'))
+		self.setWindowIcon(QtGui.QIcon(':/Logo_vesor/Imagenes-iconos/Icono_window.png'))
 		self.setWindowFlags(Qt.WindowTitleHint |
-		                    Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
+							Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 		self.shadow = QGraphicsDropShadowEffect()
 		self.shadow.setBlurRadius(16)
 		self.frame.setGraphicsEffect(self.shadow)
@@ -310,7 +310,7 @@ class Start_window(QDialog):
 				with sqlite3.connect('Users_database.db') as db:
 					cursor = db.cursor()
 				cursor.execute(
-				    'CREATE TABLE IF NOT EXISTS DATA_USERS( USERS     TEXT   NOT NULL, PASSWORD     TEXT      NOT NULL)')
+					'CREATE TABLE IF NOT EXISTS DATA_USERS( USERS     TEXT   NOT NULL, PASSWORD     TEXT      NOT NULL)')
 				db.commit()
 				cursor.close()
 				db.close()
@@ -339,7 +339,7 @@ class Start_window(QDialog):
 				pass
 
 			QMessageBox.information(
-			    self, "Registro", "Registro exitoso", QMessageBox.Yes)
+				self, "Registro", "Registro exitoso", QMessageBox.Yes)
 
 # ============================================== ###Llamando a la ventana Login### =====================================================
 
@@ -364,14 +364,14 @@ class Start_window(QDialog):
 		if len(User) < 8 or len(User) > 16:
 			self.line_user.setStyleSheet("border: 1px solid red;")
 			self.label_register_status.setText(
-			    "Su usuario tiene que ser mayor a 8 \n y menor a 16 caracteres")
+				"Su usuario tiene que ser mayor a 8 \n y menor a 16 caracteres")
 			return False
 
 		elif not validate:
 
 			self.line_user.setStyleSheet("border: 1px solid red;")
 			self.label_register_status.setText(
-			    "El Usuario tiene que ser alfanumérico \n (Ejemplo: Usuario123)")
+				"El Usuario tiene que ser alfanumérico \n (Ejemplo: Usuario123)")
 			return False
 
 		else:
@@ -384,18 +384,18 @@ class Start_window(QDialog):
 		Password = self.line_password.text()
 
 		validate = re.match(
-		    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$', Password)
+			'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$', Password)
 
 		if len(Password) < 8 or len(Password) > 12:
 			self.line_password.setStyleSheet("border: 1px solid red;")
 			self.label_register_status.setText(
-			    "Su contraseña tiene que ser mayor 8 \n y menor a 12 caracteres")
+				"Su contraseña tiene que ser mayor 8 \n y menor a 12 caracteres")
 			return False
 
 		elif not validate:
 			self.line_password.setStyleSheet("border: 1px solid red;")
 			self.label_register_status.setText(
-			    "Tiene que tener: caracteres en minúscula, \n mayúscula, números y especiales(*+?!)")
+				"Tiene que tener: caracteres en minúscula, \n mayúscula, números y especiales(*+?!)")
 
 			return False
 
@@ -433,10 +433,10 @@ class serial_validation(QDialog):
 
 	def __init__(self, parent=None):
 		super(serial_validation, self).__init__()
-		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
+		self.setWindowIcon(QIcon(":/Logo_vesor/Imagenes-iconos/Icono_window.png"))
 		self.setWindowTitle("Validación de VESOR")
 		self.setWindowFlags(Qt.WindowTitleHint |
-		                    Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
+							Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 		self.setFixedSize(800, 440)
 		self.setStyleSheet("QDialog{\n"
 						   "background-color: qlineargradient(spread:pad, x1:0.063, y1:0.346591, x2:0.982955, y2:0.477, stop:0 rgba(85, 85, 255, 255), stop:1 rgba(0, 170, 255, 255));\n"
@@ -510,7 +510,7 @@ class serial_validation(QDialog):
 							clave = open(ruta + "verification_vesor/clave.key", "rb").read()
 
 							archivo_serial = open(
-							    ruta + "verification_vesor/Serial.txt", "r").read()
+								ruta + "verification_vesor/Serial.txt", "r").read()
 							archivo_serial = archivo_serial.encode()
 
 							clave = RSA.importKey(binascii.unhexlify(clave))
@@ -645,7 +645,7 @@ class serial_validation(QDialog):
 		self.label_encabezado.setStyleSheet(style_label_text_especial)
 		self.label_encabezado.setText("Ingrese el serial para validar")
 		self.label_encabezado.setFont(
-		    QtGui.QFont("Comic Sans", 11, QtGui.QFont.Bold))
+			QtGui.QFont("Comic Sans", 11, QtGui.QFont.Bold))
 		self.label_encabezado.move(30, 50)
 
 		self.text_explicacion = QLabel(self)
@@ -654,7 +654,7 @@ class serial_validation(QDialog):
 		self.text_explicacion.setAlignment(Qt.AlignJustify)
 		self.text_explicacion.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))
 		self.text_explicacion.setText(
-		    " Recibirá el código de parte de X\n y a continuación podrá validar\n VESOR con facilidad para que pueda\n disfrutar de todo lo que el programa\n puede ofrecerle.")
+			" Recibirá el código de parte de X\n y a continuación podrá validar\n VESOR con facilidad para que pueda\n disfrutar de todo lo que el programa\n puede ofrecerle.")
 		self.text_explicacion.move(20, 150)
 
 		self.text_encabezado = QLabel(self)
@@ -662,7 +662,7 @@ class serial_validation(QDialog):
 		self.text_encabezado.setStyleSheet(style_label_text_especial)
 		self.text_encabezado.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))
 		self.text_encabezado.setText(
-		    "El serial es similar a esto:\nSerial:\nXXXXX-XXXXX-XXXXX-XXXXX-XXXXX")
+			"El serial es similar a esto:\nSerial:\nXXXXX-XXXXX-XXXXX-XXXXX-XXXXX")
 		self.text_encabezado.move(20, 190)
 
 		self.label_text = QLabel(self)
@@ -680,7 +680,7 @@ class serial_validation(QDialog):
 		self.lineEdit_serial.setStyleSheet(style_lineEdit_serial)
 		self.lineEdit_serial.setFont(QtGui.QFont("Comic Sans", 9, QtGui.QFont.Bold))
 		self.lineEdit_serial.setToolTip(
-		    "Ingrese el serial para la validación del programa")
+			"Ingrese el serial para la validación del programa")
 		self.lineEdit_serial.move(20, 400)
 
 		self.buttonAceptar = QPushButton(self)
@@ -780,7 +780,7 @@ class serial_validation(QDialog):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_1, b"geometry")
 		self.animacionMostar.finished.connect(
-		    lambda: (self.label_description_1.setText("Vista general de datos")))
+			lambda: (self.label_description_1.setText("Vista general de datos")))
 
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(590, 40, 451, 311))
@@ -791,7 +791,7 @@ class serial_validation(QDialog):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_1, b"geometry")
 		self.animacionMostar.finished.connect(
-		    lambda: (self.label_description_1.setText("")))
+			lambda: (self.label_description_1.setText("")))
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(20, 40, 451, 311))
 		self.animacionMostar.setEndValue(QRect(-590, 40, 451, 311))
@@ -811,7 +811,7 @@ class serial_validation(QDialog):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_2, b"geometry")
 		self.animacionMostar.finished.connect(
-		    lambda: (self.label_description_1.setText("")))
+			lambda: (self.label_description_1.setText("")))
 
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(20, 40, 451, 311))
@@ -832,7 +832,7 @@ class serial_validation(QDialog):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_3, b"geometry")
 		self.animacionMostar.finished.connect(
-		    lambda: (self.label_description_1.setText("")))
+			lambda: (self.label_description_1.setText("")))
 
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(20, 40, 451, 311))
@@ -843,7 +843,7 @@ class serial_validation(QDialog):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_4, b"geometry")
 		self.animacionMostar.finished.connect(lambda: (
-		    self.label_description_1.setText("Opciones de búsqueda especificadas")))
+			self.label_description_1.setText("Opciones de búsqueda especificadas")))
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(590, 40, 451, 311))
 		self.animacionMostar.setEndValue(QRect(20, 40, 451, 311))
@@ -853,7 +853,7 @@ class serial_validation(QDialog):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_4, b"geometry")
 		self.animacionMostar.finished.connect(
-		    lambda: (self.label_description_1.setText("")))
+			lambda: (self.label_description_1.setText("")))
 
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(20, 40, 451, 311))
@@ -874,7 +874,7 @@ class serial_validation(QDialog):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_5, b"geometry")
 		self.animacionMostar.finished.connect(
-		    lambda: (self.label_description_1.setText("")))
+			lambda: (self.label_description_1.setText("")))
 
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(20, 40, 451, 311))
@@ -895,7 +895,7 @@ class serial_validation(QDialog):
 
 		self.animacionMostar = QPropertyAnimation(self.label_Imagen_6, b"geometry")
 		self.animacionMostar.finished.connect(
-		    lambda: (self.label_description_1.setText("")))
+			lambda: (self.label_description_1.setText("")))
 
 		self.animacionMostar.setDuration(500)
 		self.animacionMostar.setStartValue(QRect(20, 40, 451, 311))
@@ -935,11 +935,14 @@ class serial_validation(QDialog):
 			dato_desencriptado = str(dato_desencriptado)
 
 			if dato_desencriptado == serial_line:
-				self.Interface = Interface()
-				self.Interface.show()
-				self.close()
-				print("Funciono, arranco la siguiente ventana")
-
+				if os.path.isfile('Users_database.db'):
+					self.login_window = Login_window()
+					self.login_window.show()
+					self.close()
+				else:
+					self.startwindow = Start_window()
+					self.startwindow.show()
+					self.close()				
 			else:
 				QMessageBox.information(self, "Error", "Serial no válido", QMessageBox.Yes)
 		else:			
@@ -971,7 +974,7 @@ class Interface(QMainWindow):
 		QMainWindow.__init__(self)
 		uic.loadUi("Ventana_inicial_menus.ui", self)
 		self.setWindowTitle("Menu principal")
-		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
+		self.setWindowIcon(QIcon(":/Logo_vesor/Imagenes-iconos/Icono_window.png"))
 		self.shadow  = QGraphicsDropShadowEffect()        
 		self.shadow.setBlurRadius(22)
 		self.frame.setGraphicsEffect(self.shadow)
@@ -981,7 +984,10 @@ class Interface(QMainWindow):
 		self.valor_2_2.setValidator(QRegExpValidator(QRegExp("[0-9]+"),self.valor_2))
 		self._timer = QTimer()
 		self._timer.singleShot(1000, self.mostrar_datos)
-		
+		#Buttons
+		self.buttonNewUser.setIcon(QIcon(":/Icono_usuario/Imagenes-iconos/Usuario_blanco.png"))
+		self.buttonNewUser.setIconSize(QSize(18,18))
+
 		# Interacciones 
 		self.operacion_1.setToolTip("Presione aquí para realizar la operación")
 		self.operacion_2.setToolTip("Presione aquí para realizar la operación")
@@ -1284,7 +1290,7 @@ class Interface(QMainWindow):
 										 QMessageBox.Ok)				
 
 		else:   
-			QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios"
+			QMessageBox.information(self, "Buscar usuario", "No se encontraron usuarios "
 										"información.   ", QMessageBox.Ok)
 
 
@@ -1366,7 +1372,7 @@ class Interface(QMainWindow):
 class Window_edit_elim_user(QDialog):
 	def __init__(self, parent=None):
 		QDialog.__init__(self)
-		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
+		self.setWindowIcon(QIcon(":/Logo_vesor/Imagenes-iconos/Icono_window.png"))
 		self.setWindowTitle("Editar usuario")
 		self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
@@ -1578,6 +1584,7 @@ class Window_edit_elim_user(QDialog):
 		self.actualizar.setGeometry(QRect(50, 120, 23, 21))
 		self.actualizar.setStyleSheet(Style_actulizar_button)
 		self.actualizar.setIcon(QIcon(":/Icono_recargar/Imagenes-iconos/Recargar.png"))
+		self.actualizar.setIconSize(QSize(26,26))
 		self.actualizar.setToolTip("Click para actualizar\nla lista de usuarios")
 		###
 
@@ -2514,7 +2521,7 @@ class Window_visualizar_users(QDialog):
 		self.setWindowTitle("Datos de usuario")
 		self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
-		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
+		self.setWindowIcon(QIcon(":/Logo_vesor/Imagenes-iconos/Icono_window.png"))
 		self.setFixedSize(920, 514)  
 		self.setStyleSheet("QDialog{\n"
 		"background-color: qlineargradient(spread:pad, x1:0.063, y1:0.346591, x2:0.982955, y2:0.477, stop:0 rgba(85, 85, 255, 255), stop:1 rgba(0, 170, 255, 255));\n"
@@ -3752,7 +3759,7 @@ class Window_visualizar_users(QDialog):
 		"\n"
 		"}")
 		self.Button_cancel_user.setText("Cancelar")	
-		self.Button_cancel_user.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.Button_cancel_user.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.Button_cancel_user.setIconSize(QSize(17,17))	
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -4012,7 +4019,7 @@ class Window_visualizar_users(QDialog):
 		"}")
 		self.pushButton_aceptar_discapacidad.setObjectName("pushButton_aceptar")
 		self.pushButton_aceptar_discapacidad.setText("Aceptar")
-		self.pushButton_aceptar_discapacidad.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		self.pushButton_aceptar_discapacidad.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
 		self.pushButton_aceptar_discapacidad.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
@@ -4036,7 +4043,7 @@ class Window_visualizar_users(QDialog):
 		"}")
 		self.pushButton_cancelar_discapacidad.setObjectName("pushButton_cancelar")
 		self.pushButton_cancelar_discapacidad.setText("Cancelar")
-		self.pushButton_cancelar_discapacidad.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.pushButton_cancelar_discapacidad.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.pushButton_cancelar_discapacidad.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -4269,7 +4276,7 @@ class Window_visualizar_users(QDialog):
 		"}")
 		self.pushButton_aceptar_Enfermedad.setObjectName("pushButton_aceptar")
 		self.pushButton_aceptar_Enfermedad.setText("Aceptar")
-		self.pushButton_aceptar_Enfermedad.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		self.pushButton_aceptar_Enfermedad.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
 		self.pushButton_aceptar_Enfermedad.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
@@ -4293,7 +4300,7 @@ class Window_visualizar_users(QDialog):
 		"}")
 		self.pushButton_cancelar_Enfermedad.setObjectName("pushButton_cancelar")
 		self.pushButton_cancelar_Enfermedad.setText("Cancelar")
-		self.pushButton_cancelar_Enfermedad.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.pushButton_cancelar_Enfermedad.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.pushButton_cancelar_Enfermedad.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -4614,7 +4621,7 @@ class Window_visualizar_users(QDialog):
 		"}")
 		self.pushButton_aceptar_rpr_vv.setObjectName("pushButton_aceptar")
 		self.pushButton_aceptar_rpr_vv.setText("Aceptar")
-		self.pushButton_aceptar_rpr_vv.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		self.pushButton_aceptar_rpr_vv.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
 		self.pushButton_aceptar_rpr_vv.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -4639,7 +4646,7 @@ class Window_visualizar_users(QDialog):
 		"}")
 		self.pushButton_cancelar_rpr_vv.setObjectName("pushButton_cancelar")
 		self.pushButton_cancelar_rpr_vv.setText("Cancelar")
-		self.pushButton_cancelar_rpr_vv.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.pushButton_cancelar_rpr_vv.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.pushButton_cancelar_rpr_vv.setIconSize(QSize(15,15))
 		
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
@@ -5065,7 +5072,7 @@ class Window_visualizar_users(QDialog):
 		"\n"
 		"}")
 		self.pushButton_visualizador_aceptar.setText("Guardar")
-		self.pushButton_visualizador_aceptar.setIcon(QIcon("Imagenes-iconos/Guardar_blanco.png"))
+		self.pushButton_visualizador_aceptar.setIcon(QIcon(":/Icono_guardar/Imagenes-iconos/Guardar_blanco.png"))
 		self.pushButton_visualizador_aceptar.setIconSize(QSize(18,18))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -5088,7 +5095,7 @@ class Window_visualizar_users(QDialog):
 		"\n"
 		"}")
 		self.pushButton_visualizador_cancelar.setText("Cancelar")
-		self.pushButton_visualizador_cancelar.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.pushButton_visualizador_cancelar.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.pushButton_visualizador_cancelar.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -5364,7 +5371,7 @@ class Window_visualizar_users(QDialog):
 		"font-size: 12px;\n"
 		"}")
 		self.Button_aceptar_estudiante.setText("Aceptar")
-		self.Button_aceptar_estudiante.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		self.Button_aceptar_estudiante.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
 		self.Button_aceptar_estudiante.setIconSize(QSize(15,15))
 
 		self.Button_cancelar_estudiante = QPushButton(self.frame_menu_estudiante)
@@ -5382,7 +5389,7 @@ class Window_visualizar_users(QDialog):
 		"font-size: 12px;\n"
 		"}")
 		self.Button_cancelar_estudiante.setText("Cancelar")
-		self.Button_cancelar_estudiante.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.Button_cancelar_estudiante.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.Button_cancelar_estudiante.setIconSize(QSize(15,15))
 
 
@@ -8204,7 +8211,7 @@ class Ver_fotos(QDialog):
 		self.imagen = imagen
 		# self.nombre = nombre
 		self.setWindowTitle("Foto")
-		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
+		self.setWindowIcon(QIcon(":/Logo_vesor/Imagenes-iconos/Icono_window.png"))
 
 		#  =========================================================================================           
 		self.setObjectName("Dialog")
@@ -8233,7 +8240,7 @@ class Ver_fotos(QDialog):
 class Window_status_user(QDialog):
 	def __init__(self, parent=None):
 		QDialog.__init__(self)
-		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
+		self.setWindowIcon(QIcon(":/Logo_vesor/Imagenes-iconos/Icono_window.png"))
 		self.setWindowTitle("Editar usuario")
 		self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 		self.setFixedSize(783, 460)
@@ -8345,8 +8352,8 @@ class Window_status_user(QDialog):
 
 		# Label de Título
 		self.Label_titulo = QLabel(self)
-		self.Label_titulo.setText("STATUS \nDE \nUSUARIO")
-		self.Label_titulo.setGeometry(QRect(60,20,60,100))
+		self.Label_titulo.setText("ESTATUS \nDE \nUSUARIO")
+		self.Label_titulo.setGeometry(QRect(60,20,70,100))
 		self.Label_titulo.setStyleSheet(Style_label_menu)
 		self.Label_titulo.setAlignment(QtCore.Qt.AlignCenter)  
 
@@ -8357,6 +8364,7 @@ class Window_status_user(QDialog):
 		self.actualizar.setGeometry(QRect(50, 120, 23, 21))
 		self.actualizar.setStyleSheet(Style_actualizar_button)
 		self.actualizar.setIcon(QIcon(":/Icono_recargar/Imagenes-iconos/Recargar.png"))
+		self.actualizar.setIconSize(QSize(26,26))
 		self.actualizar.setToolTip("Click para actualizar\nla lista de usuarios")
 		###
 
@@ -8524,7 +8532,7 @@ class Window_nv_users(QDialog):
 
 	def __init__(self, parent = None):
 		super(Window_nv_users, self).__init__()
-		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
+		self.setWindowIcon(QIcon(":/Logo_vesor/Imagenes-iconos/Icono_window.png"))
 
 		self.setWindowTitle("Nuevo usuario")
 		self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
@@ -9603,7 +9611,7 @@ class Window_nv_users(QDialog):
 		"font-size: 12px;\n"
 		"}")
 		self.Button_aceptar_estudiante.setText("Aceptar")
-		self.Button_aceptar_estudiante.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		self.Button_aceptar_estudiante.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
 		self.Button_aceptar_estudiante.setIconSize(QSize(15,15))
 
 		self.Button_cancelar_estudiante = QPushButton(self.frame_menu_estudiante)
@@ -9621,7 +9629,7 @@ class Window_nv_users(QDialog):
 		"font-size: 12px;\n"
 		"}")
 		self.Button_cancelar_estudiante.setText("Cancelar")
-		self.Button_cancelar_estudiante.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.Button_cancelar_estudiante.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.Button_cancelar_estudiante.setIconSize(QSize(15,15))
 
 
@@ -9994,7 +10002,7 @@ class Window_nv_users(QDialog):
 		"}")
 		self.pushButton_aceptar_discapacidad.setObjectName("pushButton_aceptar")
 		self.pushButton_aceptar_discapacidad.setText("Aceptar")
-		self.pushButton_aceptar_discapacidad.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		self.pushButton_aceptar_discapacidad.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
 		self.pushButton_aceptar_discapacidad.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
@@ -10018,7 +10026,7 @@ class Window_nv_users(QDialog):
 		"}")
 		self.pushButton_cancelar_discapacidad.setObjectName("pushButton_cancelar")
 		self.pushButton_cancelar_discapacidad.setText("Cancelar")
-		self.pushButton_cancelar_discapacidad.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.pushButton_cancelar_discapacidad.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.pushButton_cancelar_discapacidad.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -10183,7 +10191,7 @@ class Window_nv_users(QDialog):
 		"}")
 		self.pushButton_aceptar_gas_bombona.setObjectName("pushButton_aceptar")
 		self.pushButton_aceptar_gas_bombona.setText("Aceptar")
-		self.pushButton_aceptar_gas_bombona.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		self.pushButton_aceptar_gas_bombona.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
 		self.pushButton_aceptar_gas_bombona.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
@@ -10207,7 +10215,7 @@ class Window_nv_users(QDialog):
 		"}")
 		self.pushButton_cancelar_gas_bombona.setObjectName("pushButton_cancelar")
 		self.pushButton_cancelar_gas_bombona.setText("Cancelar")
-		self.pushButton_cancelar_gas_bombona.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.pushButton_cancelar_gas_bombona.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.pushButton_cancelar_gas_bombona.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -10442,7 +10450,7 @@ class Window_nv_users(QDialog):
 		"}")
 		self.pushButton_aceptar_Enfermedad.setObjectName("pushButton_aceptar")
 		self.pushButton_aceptar_Enfermedad.setText("Aceptar")
-		self.pushButton_aceptar_Enfermedad.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		self.pushButton_aceptar_Enfermedad.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
 		self.pushButton_aceptar_Enfermedad.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 		
@@ -10466,7 +10474,7 @@ class Window_nv_users(QDialog):
 		"}")
 		self.pushButton_cancelar_Enfermedad.setObjectName("pushButton_cancelar")
 		self.pushButton_cancelar_Enfermedad.setText("Cancelar")
-		self.pushButton_cancelar_Enfermedad.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.pushButton_cancelar_Enfermedad.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.pushButton_cancelar_Enfermedad.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -10719,7 +10727,7 @@ class Window_nv_users(QDialog):
 		"}")
 		self.pushButton_aceptar_rpr_vv.setObjectName("pushButton_aceptar")
 		self.pushButton_aceptar_rpr_vv.setText("Aceptar")
-		self.pushButton_aceptar_rpr_vv.setIcon(QIcon("Imagenes-iconos/Check_blanco.png"))
+		self.pushButton_aceptar_rpr_vv.setIcon(QIcon(":/Icono_aceptar/Imagenes-iconos/Check_blanco.png"))
 		self.pushButton_aceptar_rpr_vv.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -10744,7 +10752,7 @@ class Window_nv_users(QDialog):
 		"}")
 		self.pushButton_cancelar_rpr_vv.setObjectName("pushButton_cancelar")
 		self.pushButton_cancelar_rpr_vv.setText("Cancelar")
-		self.pushButton_cancelar_rpr_vv.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.pushButton_cancelar_rpr_vv.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.pushButton_cancelar_rpr_vv.setIconSize(QSize(15,15))
 		
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
@@ -11156,7 +11164,7 @@ class Window_nv_users(QDialog):
 		"\n"
 		"}")
 		self.pushButton_visualizador_aceptar.setText("Guardar")
-		self.pushButton_visualizador_aceptar.setIcon(QIcon("Imagenes-iconos/Guardar_blanco.png"))
+		self.pushButton_visualizador_aceptar.setIcon(QIcon(":/Icono_guardar/Imagenes-iconos/Guardar_blanco.png"))
 		self.pushButton_visualizador_aceptar.setIconSize(QSize(18,18))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -11179,7 +11187,7 @@ class Window_nv_users(QDialog):
 		"\n"
 		"}")
 		self.pushButton_visualizador_cancelar.setText("Cancelar")
-		self.pushButton_visualizador_cancelar.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.pushButton_visualizador_cancelar.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.pushButton_visualizador_cancelar.setIconSize(QSize(15,15))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -11366,7 +11374,7 @@ class Window_nv_users(QDialog):
 		"}")
 		self.Button_register_user.setObjectName("Button_register_user")
 		self.Button_register_user.setText("Registrar")
-		self.Button_register_user.setIcon(QIcon("Imagenes-iconos/Registrar.png"))
+		self.Button_register_user.setIcon(QIcon(":/Icono_registrar/Imagenes-iconos/Registrar.png"))
 		self.Button_register_user.setIconSize(QSize(20,20))
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 
@@ -11390,7 +11398,7 @@ class Window_nv_users(QDialog):
 		"}")
 		self.Button_cancelar_user.setObjectName("Button_cancelar_user")
 		self.Button_cancelar_user.setText("Cancelar")	
-		self.Button_cancelar_user.setIcon(QIcon("Imagenes-iconos/Cancelar_blanco.png"))
+		self.Button_cancelar_user.setIcon(QIcon(":/Icono_cancelar/Imagenes-iconos/Cancelar_blanco.png"))
 		self.Button_cancelar_user.setIconSize(QSize(17,17))	
 		#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
 # +#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+ FIN DE BOTONES DE LA VENTANA DE REGISTRO DE USUARIO #+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+
@@ -13897,7 +13905,7 @@ class Ver_fotos(QDialog):
 		self.imagen = imagen
 		# self.nombre = nombre
 		self.setWindowTitle("Foto")
-		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
+		self.setWindowIcon(QIcon(":/Logo_vesor/Imagenes-iconos/Icono_window.png"))
 
 		
 		#  =========================================================================================           
@@ -13929,7 +13937,7 @@ class Acerca_de(QDialog):
 
 
 		self.setWindowTitle("Acerca de VESOR")
-		self.setWindowIcon(QIcon("Imagenes-iconos/Icono_window.png"))
+		self.setWindowIcon(QIcon(":/Logo_vesor/Imagenes-iconos/Icono_window.png"))
 		self.setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 		self.setObjectName("Dialog")
 		self.resize(519,671)
@@ -14004,7 +14012,7 @@ class Acerca_de(QDialog):
 		"font:11pt;\n"
 		"}"	)
 		self.Button_facebook.setText("Jose Alejandro")
-		self.Button_facebook.setIcon(QIcon("Imagenes-iconos/Facebook.png"))
+		self.Button_facebook.setIcon(QIcon(":/Icono_facebook/Imagenes-iconos/Facebook.png"))
 		self.Button_facebook.setIconSize(QSize(30,30))
 		self.Button_facebook.setToolTip("Click para ir al perfil")
 
@@ -14017,7 +14025,7 @@ class Acerca_de(QDialog):
 		"font:10pt Arial;"
 		"}"	)
 		self.Button_gmail.setText("sierramendezjosealejandro@gmail.com")
-		self.Button_gmail.setIcon(QIcon("Imagenes-iconos/gmail.png"))
+		self.Button_gmail.setIcon(QIcon(":/Icono_gmail/Imagenes-iconos/gmail.png"))
 		self.Button_gmail.setIconSize(QSize(30,30))
 
 
@@ -14031,7 +14039,7 @@ class Acerca_de(QDialog):
 		"font:11pt;\n"
 		"}"	)
 		self.Button_github.setText("JoseSierraVzl")
-		self.Button_github.setIcon(QIcon("Imagenes-iconos/Githup.png"))
+		self.Button_github.setIcon(QIcon(":/Icono_github/Imagenes-iconos/Githup.png"))
 		self.Button_github.setIconSize(QSize(30,30))
 		self.Button_github.setToolTip("Click para ir al perfil")
 
@@ -14050,7 +14058,7 @@ class Acerca_de(QDialog):
 		"font:11pt;\n"
 		"}"	)
 		self.Button_facebook_2.setText("Cristian Cala")
-		self.Button_facebook_2.setIcon(QIcon("Imagenes-iconos/Facebook.png"))
+		self.Button_facebook_2.setIcon(QIcon(":/Icono_facebook/Imagenes-iconos/Facebook.png"))
 		self.Button_facebook_2.setIconSize(QSize(30,30))
 		self.Button_facebook_2.setToolTip("Click para ir al perfil")
 
@@ -14062,7 +14070,7 @@ class Acerca_de(QDialog):
 		"font:10pt Arial;"
 		"}")
 		self.Button_gmail_2.setText("cristiancala@protonmail.com")
-		self.Button_gmail_2.setIcon(QIcon("Imagenes-iconos/gmail.png"))
+		self.Button_gmail_2.setIcon(QIcon(":/Icono_gmail/Imagenes-iconos/gmail.png"))
 		self.Button_gmail_2.setIconSize(QSize(30,30))
 
 
@@ -14077,7 +14085,7 @@ class Acerca_de(QDialog):
 		"}"	)
 
 		self.Button_github_2.setText("CristianCala")
-		self.Button_github_2.setIcon(QIcon("Imagenes-iconos/Githup.png"))
+		self.Button_github_2.setIcon(QIcon(":/Icono_github/Imagenes-iconos/Githup.png"))
 		self.Button_github_2.setIconSize(QSize(30,30))
 		self.Button_github_2.setToolTip("Click para ir al perfil")
 
@@ -14099,7 +14107,7 @@ class Acerca_de(QDialog):
 		"font:11pt Arial;\n"
 		"}"	)
 		self.Button_instagram.setText("@_codeloid")
-		self.Button_instagram.setIcon(QIcon("Imagenes-iconos/Instagram.png"))
+		self.Button_instagram.setIcon(QIcon(":/Icono_instagram/Imagenes-iconos/Instagram.png"))
 		self.Button_instagram.setToolTip("Click para ir al perfil")
 
 		self.texto_instagram_2 = QTextBrowser(self.frame_disenadores)
