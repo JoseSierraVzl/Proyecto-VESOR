@@ -41,10 +41,10 @@ background-color: qlineargradient(spread:pad, x1:0.063, y1:0.346591, x2:0.982955
   <widget class="QFrame" name="Frame_start_window">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>-10</x>
      <y>0</y>
      <width>400</width>
-     <height>100</height>
+     <height>81</height>
     </rect>
    </property>
    <property name="maximumSize">
@@ -54,7 +54,10 @@ background-color: qlineargradient(spread:pad, x1:0.063, y1:0.346591, x2:0.982955
     </size>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color:qlineargradient(spread:pad, x1:0.505682, y1:0.011, x2:0.494, y2:0.994318, stop:0.3125 rgba(96, 49, 174, 189), stop:1 rgba(71, 77, 255, 0))</string>
+    <string notr="true">QFrame{
+background-color: transparent;
+border: solid 1px transparent;
+}</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -101,9 +104,9 @@ color:qlineargradient(spread:pad, x1:0.075, y1:0.977, x2:0.835, y2:0.170455, sto
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>100</x>
       <y>55</y>
-      <width>191</width>
+      <width>261</width>
       <height>41</height>
      </rect>
     </property>
@@ -122,7 +125,7 @@ font: 75 11pt &quot;MS Shell Dlg 2&quot;;
 color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>Una sociedad organizada </string>
+     <string>UNA SOCIEDAD ORGANIZADA</string>
     </property>
    </widget>
   </widget>
@@ -154,23 +157,23 @@ border: 1px solid rgb(255, 255, 255)
    <widget class="QLabel" name="label_subtitle">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>50</x>
       <y>20</y>
       <width>201</width>
       <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QFrame{
-background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
+     <string notr="true">QLabel{
+background-color: transparent;
 border-radius: 5px;
-font-size: 14px;
+font-size: 15px;
 color:rgb(255, 255, 255);
-border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0))
+border: transparent;
 }</string>
     </property>
     <property name="text">
-     <string>Registra un usuario</string>
+     <string>REGISTRO DE USUARIO</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -181,18 +184,18 @@ border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 
      <rect>
       <x>20</x>
       <y>70</y>
-      <width>61</width>
+      <width>91</width>
       <height>16</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
+     <string notr="true">background-color: transparent;
 color:rgb(255, 255, 255);
 font-size: 14px;
-border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0))</string>
+border: transparent;</string>
     </property>
     <property name="text">
-     <string>Usuario:</string>
+     <string>USUARIO:</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="line_user">
@@ -259,14 +262,14 @@ border: 1px solid rgb(85, 0, 127);
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
+     <string notr="true">background-color: transparent;
 color:rgb(255, 255, 255);
 font-size: 14px;
-border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0))
+border: transparent;
 </string>
     </property>
     <property name="text">
-     <string>Contraseña:</string>
+     <string>CONTRASEÑA:</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="line_password">
@@ -308,18 +311,18 @@ border: 1px solid rgb(85, 0, 127);
      <rect>
       <x>20</x>
       <y>190</y>
-      <width>231</width>
+      <width>281</width>
       <height>16</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
+     <string notr="true">background-color: transparent;
 color:rgb(255, 255, 255);
-font-size: 14px;
-border:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0))</string>
+font-size: 13px;
+border: transparent;</string>
     </property>
     <property name="text">
-     <string>Ingresa la contraseña nuevamente:</string>
+     <string>INGRESE NUEVAMENTE  LA CONTRASEÑA:</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="line_password2">
@@ -364,17 +367,15 @@ border: 1px solid rgb(85, 0, 127);
     </property>
     <property name="styleSheet">
      <string notr="true">QLabel{
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0));
-color:rgb(255, 255, 255);
-font-size: 12px;
-border: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0, 0), stop:1 rgba(255, 255, 255, 0))
+background-color: transparent;
+border-radius: 5px;
+font-size: 14px;
+color:#109AFF;
+border: transparent;
 }</string>
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -393,9 +394,9 @@ border: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 0, 0,
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>410</y>
-     <width>81</width>
-     <height>21</height>
+     <y>400</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -414,16 +415,16 @@ border-radius: 5px;
 }</string>
    </property>
    <property name="text">
-    <string>Registrar</string>
+    <string>REGISTRAR</string>
    </property>
   </widget>
   <widget class="QPushButton" name="Button_cancelar">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>410</y>
-     <width>81</width>
-     <height>21</height>
+     <x>220</x>
+     <y>400</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -442,7 +443,7 @@ border-radius: 5px;
 }</string>
    </property>
    <property name="text">
-    <string>Cancelar</string>
+    <string>CANCELAR</string>
    </property>
   </widget>
  </widget>
