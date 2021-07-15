@@ -1,7 +1,6 @@
 # PROYECTO VESOR 📄📄📄
 
 Programa para gestión comunitaria hecho en Python, PyQt5 y Sqlite3.
-<img src="https://github.com/JoseSierraVzl/Proyecto-VESOR/blob/master/img/VESOR2.png" widht="50" height="50"></img>
 ![imagen1](https://github.com/JoseSierraVzl/Proyecto-VESOR/blob/master/img/VESOR2.png)
 ![imagen2](https://github.com/JoseSierraVzl/Proyecto-VESOR/blob/master/img/VESOR1.png)
 ![imagen3](https://github.com/JoseSierraVzl/Proyecto-VESOR/blob/master/img/VESOR3.png)
